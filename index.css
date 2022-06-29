@@ -1,0 +1,7 @@
+.flex-wrap {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: lightpink;
+    padding: 3px;
+}
