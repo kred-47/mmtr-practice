@@ -1,12 +1,19 @@
 const gulp = require('gulp'),
     sass = require('gulp-sass')(require('sass')),
-    livereload = require('gulp-livereload');
+    csso = require('gulp-csso'),
+    include = require('gulp-file-include'),
+    htmlmin = require('gulp-htmlmin'),
+    del = require('del'),
+    concat = require('gulp-concat'),
+    sync = require('browser-sync')
 
-gulp.task('sass', function() {
-    gulp.src('./sass/**/*.scss')
-        .pipe(sass().on('error', sass.logError))
-        .pipe(gulp.dest('./dist/css'))
-        .pipe(livereload());
+gulp.task('scss', function(done) {
+    gulp.src('src/scss/**.scss')
+        .pipe(sass())
+        .pipe(csso())
+        .pipe(concat('index.css'))
+        .pipe(gulp.dest('dist'));
+    done()
 });
 
 gulp.task('watch', function() {
@@ -14,4 +21,4 @@ gulp.task('watch', function() {
     gulp.watch('./sass/**/*.scss', ['sass']);
 });
 
-exports.default
+exports.scss = 'scss'
