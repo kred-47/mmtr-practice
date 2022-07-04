@@ -17,7 +17,7 @@ const gulp = require('gulp'),
 const paths = {
     html: {
         src: 'src/*.html',
-        dest: 'dist/css/'
+        dest: 'dist/'
     },
     styles: {
         src: 'src/styles/**/*.scss',
@@ -35,14 +35,14 @@ const paths = {
 
 // задача для очистки
 function clean() {
-    return del(['dist/*, !dist/img'])
+    return del(['dist/*', '!dist/img']);
 }
 
 function html() {
     return gulp.src(paths.html.src)
         .pipe(htmlmin({ collapseWhitespace: true}))
         .pipe(gulp.dest(paths.html.dest))
-        .pipe(browserSync.stream())
+        .pipe(browserSync.stream());
 }
 
 // задача для обработки стилей
@@ -62,7 +62,7 @@ function styles() {
         }))
         .pipe(sourcemaps.write('.'))
         .pipe(gulp.dest(paths.styles.dest))
-        .pipe(browserSync.stream())
+        .pipe(browserSync.stream());
 }
 
 // задача для обработки скриптов
@@ -76,7 +76,7 @@ function scripts() {
        .pipe(concat('main.min.js'))
        .pipe(sourcemaps.write('.'))
        .pipe(gulp.dest(paths.scripts.dest))
-       .pipe(browserSync.stream())
+       .pipe(browserSync.stream());
 }
 
 function img() {
@@ -85,27 +85,27 @@ function img() {
         .pipe(imagemin({
             progressive: true
         }))
-        .pipe(gulp.dest(paths.images.dest))
+        .pipe(gulp.dest(paths.images.dest));
 }
 
 function watch() {
     browserSync.init({
         server: {
-            baseDir: "./src/"
+            baseDir: "./dist/"
         }
-    })
-    gulp.watch(paths.html.src).on('change', browserSync.reload)
-    gulp.watch(paths.styles.src, styles)
-    gulp.watch(paths.scripts.src, scripts)
+    });
+    gulp.watch(paths.html.src).on('change', browserSync.reload);
+    gulp.watch(paths.styles.src, styles);
+    gulp.watch(paths.scripts.src, scripts);
 }
 
-const build = gulp.series(clean, html, gulp.parallel(styles, scripts, img), watch)
+const build = gulp.series(clean, html, gulp.parallel(styles, scripts, img), watch);
 
-exports.clean = clean
-exports.img = img
-exports.html = html
-exports.styles = styles
-exports.scripts = scripts
-exports.watch = watch
-exports.build = build
-exports.default = build
+exports.clean = clean;
+exports.img = img;
+exports.html = html;
+exports.styles = styles;
+exports.scripts = scripts;
+exports.watch = watch;
+exports.build = build;
+exports.default = build;
