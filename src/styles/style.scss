@@ -2,7 +2,7 @@
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   grid-gap: 10px;
-  grid-auto-rows: 450px;
+  grid-auto-rows: 400px;
   grid-template-areas:
     ". a a ."
     ". a a .";
@@ -20,7 +20,12 @@
   font-size: 50px;
 }
 
-body {
-  color: chartreuse;
+.area-for-text {
+  display: flex;
+  flex-direction: column;
+  text-decoration: rebeccapurple;
+}
 
+textarea {
+  height: 100px;
 }

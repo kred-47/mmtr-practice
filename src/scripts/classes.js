@@ -1,15 +1,18 @@
-class Task {
+const textAreaData = document.getElementById('text');
+const lengthData = document.getElementById("length");
+const wordsData = document.getElementById('number_of_words');
+const withoutSpacesData = document.getElementById('without_spaces')
+
+class TextArea {
     constructor() {
-        console.log('Создан экземпляр task!');
-    };
+        textAreaData.addEventListener("keypress", this.onKeyPress);
+    }
 
-    showId() {
-        console.log(23);
-    };
+    onKeyPress() {
+        lengthData.value = textAreaData.value.length;
+        wordsData.value = textAreaData.value.split(' ').length;
+        withoutSpacesData.value = textAreaData.value.split(' ').join('').length;
+    }
 
-    static loadAll() {
-        console.log('Загружаем все tasks...');
-    };
+
 }
-
-//export default Task;
