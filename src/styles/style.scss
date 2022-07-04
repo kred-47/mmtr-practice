@@ -1,4 +1,4 @@
-block {
+.block {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   grid-gap: 10px;
@@ -8,7 +8,7 @@ block {
     ". a a .";
 }
 
-text {
+.text {
   grid-area: a;
   align-self: center;
   justify-self: center;
