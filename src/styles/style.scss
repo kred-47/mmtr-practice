@@ -24,6 +24,8 @@
   display: flex;
   flex-direction: column;
   text-decoration: rebeccapurple;
+  font-size: large;
+  font-style: italic;
 }
 
 textarea {
@@ -32,11 +34,14 @@ textarea {
 
 table {
   border-collapse: collapse;
+  width: 200px;
 
   td {
+    background-color: aquamarine;
     border: 1px solid black;
     padding: 3px;
     text-align: center;
+    font-weight: normal;
   }
 
   tr {
@@ -44,4 +49,8 @@ table {
     padding: 3px;
     text-align: center;
   }
+}
+
+.stat {
+  font-size: large;
 }

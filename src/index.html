@@ -18,20 +18,10 @@
     <div class="area-for-text">
         <p><textarea cols="50" id="text">text is here</textarea></p>
 <!--        <p><input id="text-input">input text</input></p>-->
-        <p>слов в тексте:<output id="number_of_words" name="words">0</output></p>
-        <p>символов в тексте:<output id="length" name="symbols">0</output></p>
-        <p>символов без пробелов в тексте:<output id="without_spaces" name="words_without_spaces">0</output></p>
-        <table id="table-percent">
-            <colgroup>
-                <col style="background-color: aquamarine">
-                <col span="2">
-            </colgroup>
-            <tr>
-                <th>symbol</th>
-                <th>percent</th>
-            </tr>
-
-        </table>
+        <p>слов в тексте:<output class="stat" id="number_of_words" name="words">0</output></p>
+        <p>символов в тексте:<output class="stat" id="length" name="symbols">0</output></p>
+        <p>символов без пробелов в тексте:<output class="stat" id="without_spaces" name="words_without_spaces">0</output></p>
+        <table id="table-percent"></table>
     </div>
  </div>
 <script src="./js/main.min.js"></script>
