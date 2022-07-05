@@ -2,7 +2,7 @@
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   grid-gap: 10px;
-  grid-auto-rows: 400px;
+  grid-auto-rows: 250px;
   grid-template-areas:
     ". a a ."
     ". a a .";
@@ -15,7 +15,7 @@
   cursor: pointer;
   background: lightpink;
   border: 1px solid rebeccapurple;
-  border-radius: 37px;
+  border-radius: 15px;
   padding: 5px;
   font-size: 50px;
 }
@@ -28,4 +28,20 @@
 
 textarea {
   height: 100px;
+}
+
+table {
+  border-collapse: collapse;
+
+  td {
+    border: 1px solid black;
+    padding: 3px;
+    text-align: center;
+  }
+
+  tr {
+    border: 1px solid black;
+    padding: 3px;
+    text-align: center;
+  }
 }

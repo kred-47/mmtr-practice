@@ -2,7 +2,7 @@ const textAreaData = document.getElementById('text');
 const lengthData = document.getElementById("length");
 const wordsData = document.getElementById('number_of_words');
 const withoutSpacesData = document.getElementById('without_spaces')
-const tableData = document.getElementById('table')
+const tableData = document.getElementById('table-percent')
 
 class TextArea {
     constructor() {
@@ -10,12 +10,31 @@ class TextArea {
     }
 
     onKeyUp() {
-        console.log(textAreaData.value)
+        console.log(textAreaData.value);
+        console.log(textAreaData.value.length);
         lengthData.value = textAreaData.value.length;
-        wordsData.value = textAreaData.value.trim().split(' ').length;
+        wordsData.value = textAreaData.value === '' ? 0 : textAreaData.value.trim().split(' ').length;
         withoutSpacesData.value = textAreaData.value.trim().split(' ').join('').length;
-        tableData.value = [...textAreaData.value].reduce((a, e) => {
+        const tableDataObj = [...textAreaData.value].reduce((a, e) => {
             a[e] = a[e] ? a[e] + 1 : 1;
             return a }, {});
+
+        const arrForTable = Object.entries(tableDataObj);
+        console.log(arrForTable);
+
+        fillTable(tableData, arrForTable)
+
+        function fillTable(table, arr) {
+            for (let i = 0; i < arr.length; i++) {
+                const tr = document.createElement('tr');
+
+                for (let j = 0; j < arr[i].length; j++) {
+                    const td =document.createElement('td');
+                    td.innerHTML = arr[i][j];
+                    tr.appendChild(td)
+                }
+                table.appendChild(tr)
+            }
+        }
     }
 }
