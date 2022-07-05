@@ -22,7 +22,7 @@ class TextArea {
 
         const arrForTable = Object.entries(tableDataObj);
         const array = arrForTable.map(el => {
-            const p = [...el[0], el[1] = Math.round(el[1] / lengthData.value * 100)];
+            const p = [...el[0], el[1] = Math.round(el[1] / lengthData.value * 100) + '%'];
             console.log(p);
         })
         const arrWithHeaders = [['Символ', 'Процент'], ...arrForTable]
