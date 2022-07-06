@@ -32,6 +32,15 @@
 .screen-keyboard {
 
   background-color: black;
+  position: relative;
+
+  &__exit {
+    position: absolute;
+    right: 3px;
+    width: 35px;
+    height: 20px;
+
+  }
 
   &__panel {
     background-color: whitesmoke;
@@ -112,3 +121,4 @@
   font-size: 12px;
   text-transform: capitalize;
 }
+
