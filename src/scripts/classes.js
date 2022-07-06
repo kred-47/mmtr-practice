@@ -1,5 +1,5 @@
 
-class TextArea {
+module.exports.TextArea = class TextArea {
     constructor() {
         this.textAreaData = document.getElementById('text-area');
         this.lengthData = document.getElementById("length");
@@ -15,17 +15,20 @@ class TextArea {
         this.wordsData.value = this.textAreaData.value === '' ? 0 : this.textAreaData.value.trim().split(' ').length;
         this.withoutSpacesData.value = this.textAreaData.value.trim().split(' ').join('').length;
 
-        while (this.tableOccurences.firstChild && this.tableOccurences.removeChild(this.tableOccurences.firstChild));
+        while (this.tableOccurences.firstChild) {
+            this.tableOccurences.removeChild(this.tableOccurences.firstChild)
+        }
 
-        const tableDataObj = [...this.textAreaData.value].reduce((a, e) => {
-            a[e] = a[e] ? a[e] + 1 : 1;
-            return a}, {});
+        const tableDataObj = [...this.textAreaData.value].reduce((accumulator, element) => {
+            accumulator[element] = accumulator[element] ? accumulator[element] + 1 : 1;
+            return accumulator;
+            }, {});
 
         const arrForTable = Object.entries(tableDataObj);
-        const arrayWithPercents = arrForTable.map(el => {
-            const p = [...el[0], el[1] = Math.round(el[1] / this.lengthData.value * 100) + '%'];
-            console.log(p);
-            return p;
+        const arrayWithPercents = arrForTable.map(element => {
+            const percent = [...element[0], element[1] = Math.round(element[1] / this.lengthData.value * 100) + '%'];
+            console.log(percent);
+            return percent;
         })
         console.log(arrayWithPercents);
 
@@ -51,4 +54,4 @@ class TextArea {
     }
 }
 
-// export default TextArea;
+export default TextArea;

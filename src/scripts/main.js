@@ -1,5 +1,5 @@
-// import TextArea from "./classes";
+const { TextArea } = require('./classes')
 
-const textArea = new TextArea();
+new TextArea();
 
 // textArea.onKeyUp();
