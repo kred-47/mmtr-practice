@@ -1,2 +1,5 @@
-let textArea = new TextArea();
-textArea.onKeyUp();
+// import TextArea from "./classes";
+
+const textArea = new TextArea();
+
+// textArea.onKeyUp();

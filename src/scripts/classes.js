@@ -1,46 +1,54 @@
-const textAreaData = document.getElementById('text');
-const lengthData = document.getElementById("length");
-const wordsData = document.getElementById('number_of_words');
-const withoutSpacesData = document.getElementById('without_spaces')
-const tableData = document.getElementById('table-percent')
 
 class TextArea {
     constructor() {
-        textAreaData.addEventListener("keyup", this.onKeyUp);
+        this.textAreaData = document.getElementById('text-area');
+        this.lengthData = document.getElementById("length");
+        this.wordsData = document.getElementById('number_of_words');
+        this.withoutSpacesData = document.getElementById('without_spaces');
+        this.tableOccurences = document.getElementById('table-percent');
+
+        this.textAreaData.addEventListener("keyup", this.onKeyUp);
     }
 
     onKeyUp() {
-        lengthData.value = textAreaData.value.length;
-        wordsData.value = textAreaData.value === '' ? 0 : textAreaData.value.trim().split(' ').length;
-        withoutSpacesData.value = textAreaData.value.trim().split(' ').join('').length;
+        this.lengthData.value = this.textAreaData.value.length;
+        this.wordsData.value = this.textAreaData.value === '' ? 0 : this.textAreaData.value.trim().split(' ').length;
+        this.withoutSpacesData.value = this.textAreaData.value.trim().split(' ').join('').length;
 
-        while (tableData.firstChild && tableData.removeChild(tableData.firstChild));
+        while (this.tableOccurences.firstChild && this.tableOccurences.removeChild(this.tableOccurences.firstChild));
 
-        const tableDataObj = [...textAreaData.value].reduce((a, e) => {
+        const tableDataObj = [...this.textAreaData.value].reduce((a, e) => {
             a[e] = a[e] ? a[e] + 1 : 1;
             return a}, {});
 
         const arrForTable = Object.entries(tableDataObj);
-        const array = arrForTable.map(el => {
-            const p = [...el[0], el[1] = Math.round(el[1] / lengthData.value * 100) + '%'];
+        const arrayWithPercents = arrForTable.map(el => {
+            const p = [...el[0], el[1] = Math.round(el[1] / this.lengthData.value * 100) + '%'];
             console.log(p);
+            return p;
         })
-        const arrWithHeaders = [['Символ', 'Процент'], ...arrForTable]
+        console.log(arrayWithPercents);
 
-        fillTable(tableData, arrWithHeaders)
+        const arrWithHeaders = [['Символ', 'Процент'], ...arrayWithPercents];
+        console.log(arrWithHeaders)
 
-        function fillTable(table, arr) {
-            for (let i = 0; i < arr.length; i++) {
-                const tr = document.createElement('tr');
+        this.fillTable(this.tableOccurences, arrWithHeaders);
 
-                for (let j = 0; j < arr[i].length; j++) {
-                    const td =document.createElement('td');
-                    td.innerHTML = arr[i][j];
+    }
 
-                    tr.appendChild(td)
-                }
-                table.appendChild(tr)
+    fillTable(table, arr) {
+        for (let i = 0; i < arr.length; i++) {
+            const tr = document.createElement('tr');
+
+            for (let j = 0; j < arr[i].length; j++) {
+                const td = document.createElement('td');
+                td.innerHTML = arr[i][j];
+
+                tr.appendChild(td);
             }
+            table.appendChild(tr);
         }
     }
 }
+
+// export default TextArea;
