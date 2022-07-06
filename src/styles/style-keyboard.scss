@@ -1,0 +1,114 @@
+.task2 {
+
+  &__turn-on-keyboard {
+    margin: 5px;
+    width: 50px;
+    height: 50px;
+    background-color: cornflowerblue;
+    border: 1px solid darkcyan;
+    border-radius: 50%;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+  }
+
+  &__screen-keyboard {
+    width: 1040px;
+    height: 345px;
+    border: 1px solid slategray;
+    padding-top: 0px;
+    position: relative;
+  }
+
+  &__img-keyboard {
+    position: absolute;
+    width: 35px;
+    height: auto;
+  }
+}
+
+.screen-keyboard {
+
+  background-color: black;
+
+  &__panel {
+    background-color: whitesmoke;
+    width: 1034px;
+    height: 20px;
+    padding: 3px;
+
+  }
+
+  &__line {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+  }
+
+  &__line-button {
+    background-color: dimgrey;
+    width: 40px;
+    height: 40px;
+    border: 1px solid slategrey;
+    border-radius: 4px;
+    margin: 3px;
+    padding: 4px;
+    text-align: center;
+    text-transform: uppercase;
+  }
+
+  &__line-button:hover {
+    color: whitesmoke;
+    background: slategrey;
+    cursor: pointer;
+  }
+}
+
+.first-line {
+  padding-top: 35px;
+}
+
+.backspace {
+  width: 72px;
+}
+
+.tab {
+  width: 72px;
+}
+
+.caps {
+  width: 104px;
+}
+
+.enter {
+  width: 120px;
+}
+
+.lshift {
+  width: 129px;
+}
+
+.rshift {
+  width: 95px;
+}
+
+.button-win {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.img-win {
+  width: 70%;
+}
+
+.space {
+  width: 298px;
+}
+
+.letter-button {
+  font-size: 12px;
+  text-transform: capitalize;
+}

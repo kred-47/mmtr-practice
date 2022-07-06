@@ -11,7 +11,7 @@ const gulp = require('gulp'),
     imagemin = require('gulp-imagemin'),
     htmlmin = require('gulp-htmlmin'),
     newer = require('gulp-newer'),
-    browserSync = require('browser-sync').create()
+    browserSync = require('browser-sync').create();
 
 // пути
 const paths = {
@@ -28,7 +28,7 @@ const paths = {
         dest: 'dist/js/'
     },
     images: {
-        src: 'src/img/*',
+        src: 'src/img/**',
         dest: 'dist/img'
     }
 }
@@ -56,10 +56,11 @@ function styles() {
         .pipe(cleanCSS({
             level: 2
         }))
-        .pipe(rename({
-            basename: 'main',
-            suffix: '.min'
-        }))
+        // .pipe(rename({
+        //     basename: 'main',
+        //     suffix: '.min'
+        // }))
+        .pipe(concat('main.min.css'))
         .pipe(sourcemaps.write('.'))
         .pipe(gulp.dest(paths.styles.dest))
         .pipe(browserSync.stream());
