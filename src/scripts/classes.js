@@ -1,13 +1,13 @@
 class TextArea {
     constructor() {
-        this.textAreaData = document.getElementById('text-area');
+        this.textAreaField = document.getElementById('text-area');
         this.numberOfSymbols = document.getElementById('length');
         this.numberOfWords = document.getElementById('number_of_words');
         this.withoutSpacesNumberOfSymbols = document.getElementById('without_spaces');
         this.tableOccurences = document.getElementById('table-percent');
 
         this.statisticFunction();
-        this.textAreaData.addEventListener( 'keyup', this.onKeyUp.bind(this));
+        this.textAreaField.addEventListener( 'keyup', this.onKeyUp.bind(this));
     }
 
     onKeyUp() {
@@ -15,15 +15,15 @@ class TextArea {
     }
 
     calcNumberOfWords() {
-        this.numberOfWords.value = this.textAreaData.value.split(' ').filter(element => !!element).length;
+        this.numberOfWords.value = this.textAreaField.value.split(' ').filter(element => !!element).length;
     }
 
     calcNumberOfSymbols() {
-        this.numberOfSymbols.value = this.textAreaData.value.length;
+        this.numberOfSymbols.value = this.textAreaField.value.length;
     }
 
     calcSymbolsWithoutSpaces() {
-        this.withoutSpacesNumberOfSymbols.value = this.textAreaData.value.trim().split(' ').join('').length;
+        this.withoutSpacesNumberOfSymbols.value = this.textAreaField.value.trim().split(' ').join('').length;
     }
 
     createToTableOccurences() {
@@ -31,7 +31,7 @@ class TextArea {
             this.tableOccurences.removeChild(this.tableOccurences.firstChild);
         }
 
-        const tableDataObj = [...this.textAreaData.value].reduce((accumulator, element) => {
+        const tableDataObj = [...this.textAreaField.value].reduce((accumulator, element) => {
             accumulator[element] = accumulator[element] ? accumulator[element] + 1 : 1;
             return accumulator;
         }, {});
