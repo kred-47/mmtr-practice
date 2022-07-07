@@ -1,19 +1,18 @@
-
-module.exports.TextArea = class TextArea {
+class TextArea {
     constructor() {
         this.textAreaData = document.getElementById('text-area');
-        this.lengthData = document.getElementById("length");
-        this.wordsData = document.getElementById('number_of_words');
-        this.withoutSpacesData = document.getElementById('without_spaces');
+        this.numberOfSymbols = document.getElementById("length");
+        this.numberOfWords = document.getElementById('number_of_words');
+        this.withoutSpacesNumberOfSymbols = document.getElementById('without_spaces');
         this.tableOccurences = document.getElementById('table-percent');
 
-        this.textAreaData.addEventListener("keyup", this.onKeyUp);
+        this.textAreaData.addEventListener( "keyup", this.onKeyUp.bind(this));
     }
 
     onKeyUp() {
-        this.lengthData.value = this.textAreaData.value.length;
-        this.wordsData.value = this.textAreaData.value === '' ? 0 : this.textAreaData.value.trim().split(' ').length;
-        this.withoutSpacesData.value = this.textAreaData.value.trim().split(' ').join('').length;
+        this.numberOfWords.value = this.textAreaData.value === '' ? 0 : this.textAreaData.value.trim().split(' ').length;
+        this.numberOfSymbols.value = this.textAreaData.value.length;
+        this.withoutSpacesNumberOfSymbols.value = this.textAreaData.value.trim().split(' ').join('').length;
 
         while (this.tableOccurences.firstChild) {
             this.tableOccurences.removeChild(this.tableOccurences.firstChild)
@@ -24,34 +23,43 @@ module.exports.TextArea = class TextArea {
             return accumulator;
             }, {});
 
-        const arrForTable = Object.entries(tableDataObj);
-        const arrayWithPercents = arrForTable.map(element => {
-            const percent = [...element[0], element[1] = Math.round(element[1] / this.lengthData.value * 100) + '%'];
-            console.log(percent);
-            return percent;
-        })
-        console.log(arrayWithPercents);
+        const arrForTable = Object.entries(tableDataObj).map(element => {
+            return [...element[0], element[1] = Math.round(element[1] / this.numberOfSymbols.value * 100) + '%'];
+        });
 
-        const arrWithHeaders = [['Символ', 'Процент'], ...arrayWithPercents];
+        const arrWithHeaders = [['Символ', 'Процент'], ...arrForTable];
         console.log(arrWithHeaders)
 
-        this.fillTable(this.tableOccurences, arrWithHeaders);
+        // this.fillTable(this.tableOccurences, arrWithHeaders);
 
-    }
-
-    fillTable(table, arr) {
-        for (let i = 0; i < arr.length; i++) {
+        arrWithHeaders.forEach(key => {
             const tr = document.createElement('tr');
 
-            for (let j = 0; j < arr[i].length; j++) {
+            key.forEach(keyValue => {
                 const td = document.createElement('td');
-                td.innerHTML = arr[i][j];
-
+                td.innerHTML = arrWithHeaders[keyValue]; //keyValue
                 tr.appendChild(td);
-            }
-            table.appendChild(tr);
-        }
+            })
+            this.tableOccurences.appendChild(tr);
+        })
+
+        console.log(arrWithHeaders);
     }
+
+    // fillTable(table, arr) {
+    //     for (let i = 0; i < arr.length; i++) {
+    //         const tr = document.createElement('tr');
+    //
+    //         for (let j = 0; j < arr[i].length; j++) {
+    //             const td = document.createElement('td');
+    //
+    //             td.innerHTML = arr[i][j];
+    //             tr.appendChild(td);
+    //         }
+    //         table.appendChild(tr);
+    //     }
+    // }
+
 }
 
-export default TextArea;
+// export default TextArea;

@@ -1,5 +1,7 @@
-const { TextArea } = require('./classes')
+// const { TextArea } = require('./classes')
 
-new TextArea();
+document.addEventListener('DOMContentLoaded', () => {
+    const textArea = new TextArea();
 
-// textArea.onKeyUp();
+    textArea.onKeyUp();
+});
