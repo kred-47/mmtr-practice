@@ -10,7 +10,8 @@ class TextArea {
     }
 
     onKeyUp() {
-        this.numberOfWords.value = this.textAreaData.value === '' ? 0 : this.textAreaData.value.replace(/[\s]+/gim, ' ').trim().split(' ').length;
+        this.numberOfWords.value = this.textAreaData.value.split(' ').filter(element => !!element).length;
+        //this.numberOfWords.value = this.textAreaData.value === '' ? 0 : this.textAreaData.value.replace(/[\s]+/gim, ' ').trim().split(' ').length; // если 1 пробел и больше: 1 слово
         this.numberOfSymbols.value = this.textAreaData.value.length;
         this.withoutSpacesNumberOfSymbols.value = this.textAreaData.value.trim().split(' ').join('').length;
 
@@ -42,7 +43,7 @@ class TextArea {
             this.tableOccurences.appendChild(tr);
         })
 
-        console.log(arrWithHeaders);
+        // console.log(arrWithHeaders);
     }
 
     // fillTable(table, arr) {
