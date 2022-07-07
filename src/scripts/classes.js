@@ -10,7 +10,7 @@ class TextArea {
     }
 
     onKeyUp() {
-        this.numberOfWords.value = this.textAreaData.value === '' ? 0 : this.textAreaData.value.trim().split(' ').length;
+        this.numberOfWords.value = this.textAreaData.value === '' ? 0 : this.textAreaData.value.replace(/[\s]+/gim, ' ').trim().split(' ').length;
         this.numberOfSymbols.value = this.textAreaData.value.length;
         this.withoutSpacesNumberOfSymbols.value = this.textAreaData.value.trim().split(' ').join('').length;
 
@@ -28,7 +28,6 @@ class TextArea {
         });
 
         const arrWithHeaders = [['Символ', 'Процент'], ...arrForTable];
-        console.log(arrWithHeaders)
 
         // this.fillTable(this.tableOccurences, arrWithHeaders);
 
@@ -37,7 +36,7 @@ class TextArea {
 
             key.forEach(keyValue => {
                 const td = document.createElement('td');
-                td.innerHTML = arrWithHeaders[keyValue]; //keyValue
+                td.innerHTML = keyValue; // keyValue
                 tr.appendChild(td);
             })
             this.tableOccurences.appendChild(tr);
