@@ -1,2 +1,6 @@
-let textArea = new TextArea();
-textArea.onKeyUp();
+// const { TextArea } = require('./classes')
+
+document.addEventListener('DOMContentLoaded', () => {
+    new TextArea();
+    new CallOfKeyboard();
+});

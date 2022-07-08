@@ -29,10 +29,15 @@
   }
 }
 
+.hidden-screen-keyboard {
+  display: none;
+}
+
 .screen-keyboard {
 
   background-color: black;
-  position: relative;
+  position: absolute;
+  right: 50px;
 
   &__exit {
     position: absolute;
