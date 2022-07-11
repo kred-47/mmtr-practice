@@ -2,6 +2,5 @@
 
 document.addEventListener('DOMContentLoaded', () => {
     new TextArea();
-    new CallOfKeyboard();
     new ScreenKeyboard();
 });
