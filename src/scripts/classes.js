@@ -1,4 +1,4 @@
-const textAreaData = document.getElementById('text');
+const textAreaData = document.getElementById('text-area');
 const lengthData = document.getElementById("length");
 const wordsData = document.getElementById('number_of_words');
 const withoutSpacesData = document.getElementById('without_spaces')

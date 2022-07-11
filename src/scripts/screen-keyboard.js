@@ -34,26 +34,9 @@ class ScreenKeyboard {
     constructor() {
         this.screenKeyboard = document.getElementById('the-keyboard');
         this.textAreaField = document.getElementById('text-area');
-        new Button([
-            {
-                name: 'keyB',
-                func: false,
-                lang: { en: 'b', ru: 'и' },
-                width: 'normal'
-            },
-            {
-                name: 'key7',
-                func: false,
-                lang: { en: '7', ru: '7'},
-                width: 'normal'
-            },
-            {
-                name: 'keyShift',
-                func: true,
-                lang: { en: 'Shift', ru: 'Shift'},
-                width: 'extra-wide'
-            }]
-        );
+        configKeyboard.forEach(element => {
+            new Button(element)
+        })
 
         this.screenKeyboard.addEventListener('click', this.onClick.bind(this));
     }
@@ -61,18 +44,45 @@ class ScreenKeyboard {
     onClick() {
 
     }
-
 }
 
 class Button {
     constructor(props) {
-        this.name = props.map(element => element.name);
-        this.functional = props.map(element => element.func);
-        this.language = props.map(element => element.lang);
-        this.width = props.map(element => element.width);
+        this.name = props?.name;
+        this.functional = props?.func;
+        this.language = props?.lang;
+        this.wide = props?.wide;
+        this.lineKeyboard = document.getElementsByClassName('screen-keyboard__line')[0];
+        console.log(this.lineKeyboard);
 
-        console.log(this);
+        this.formLayout(props);
     }
 
+    formLayout() {
+        const keyElement = document.createElement('div');
+        keyElement.setAttribute('id', name);
+        keyElement.setAttribute('type', 'div');
+
+    }
 
 }
+
+const configKeyboard = [
+    {
+        name: 'keyB',
+        func: false,
+        lang: { en: 'b', ru: 'и' },
+        wide: 'normal'
+    },
+    {
+        name: 'key7',
+        func: false,
+        lang: { en: '7', ru: '7'},
+        wide: 'normal'
+    },
+    {
+        name: 'leftShift',
+        func: true,
+        lang: { en: 'Shift', ru: 'Shift'},
+        wide: 'extra-wide'
+    }]
