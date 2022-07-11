@@ -5,14 +5,23 @@ class ScreenKeyboard {
         this.callOfKeyboard = document.getElementById('call-keyboard');
         this.textAreaField = document.getElementById('text-area');
         configKeyboard.forEach(element => {
-            new Button(element)
+            new Button({
+                ...element,
+                onclick: () => {
+
+                }
+            })
         })
 
-        this.callOfKeyboard.addEventListener('click', this.onClick.bind(this));
+        this.callOfKeyboard.addEventListener('click', this.showOrHideKeyboard.bind(this));
         this.screenKeyboard.addEventListener('click', this.onClick.bind(this));
     }
 
     onClick() {
+
+    }
+
+    showOrHideKeyboard() {
         this.showKeyboard();
         this.changeCallButton();
     }
@@ -56,7 +65,6 @@ class Button {
 
         return this.lineKeyboard.appendChild(keyElement);
     }
-
 }
 
 const configKeyboard = [

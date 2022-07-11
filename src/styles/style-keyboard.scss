@@ -37,7 +37,7 @@
 
   background-color: black;
   position: absolute;
-  right: 50px;
+  right: 20px;
 
   &__exit {
     position: absolute;
@@ -130,6 +130,17 @@
 .base {
   height: 40px;
   width: 40px;
+  background-color: aqua;
+  border: 1px solid white;
+  cursor: pointer;
+}
+
+.left-shift {
+  height: 40px;
+  width: 129px;
+  background-color: cornflowerblue;
+  border: 1px solid white;
+  cursor: pointer;
 }
 
 
