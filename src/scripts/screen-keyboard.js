@@ -4,10 +4,15 @@ class ScreenKeyboard {
         this.screenKeyboard = document.getElementById('the-keyboard');
         this.callOfKeyboard = document.getElementById('call-keyboard');
         this.textAreaField = document.getElementById('text-area');
+        this.userLanguage = window.navigator.language;
+        this.activeFuncButtons = [];
+
         configKeyboard.forEach(element => {
             new Button({
                 ...element,
-                onClick: this.onClick.bind(this)
+                onClick: this.onClick.bind(this),
+                currentLanguage: this.userLanguage,
+                onToggle: this.toggleActive.bind(this)
             })
         })
 
@@ -15,21 +20,48 @@ class ScreenKeyboard {
     }
 
     onClick(data) {
-        switch (data.content) {
-            case 'Shift': {
-                data.active = !data.active
-                console.log(`SHIFT, ${data.name}, ${data.active}`)
-                break;
-            }
-            case 'Alt': {
-                data.active = !data.active
-                console.log(`ALT, ${data.name}, ${data.active}`)
-                break;
-            }
+        console.log(`data.content - ${data.content}`);
+        if (data.func) {
+            switch (data.content) {
+                case 'Shift': {
+                    data.active = !data.active
+                    console.log(`SHIFT, ${data.name}, ${data.active}`)
+                    break;
+                }
+                case 'Alt': {
+                    data.active = !data.active
+                    console.log(`ALT, ${data.name}, ${data.active}`)
+                    break;
+                }
 
-            default:
-                console.log('undefined button')
+                default:
+                    console.log('undefined button')
+            }
+            this.toggleActive(data.content);
+        } else {
+            console.log(`${data.content} is not 'func'`)
         }
+    }
+
+    changeLayoutKeyboard() {
+        if (this.activeFuncButtons.includes('Shift') && this.activeFuncButtons.includes('Alt')) {
+
+        }
+    }
+
+    toggleActive(content) {
+        console.log('content', content)
+
+        const isIncludes = this.activeFuncButtons.includes(content);
+
+        if (!isIncludes) {
+            this.activeFuncButtons.push(content);
+        } else {
+            const filters = this.activeFuncButtons.filter(i => i !== content)
+            this.activeFuncButtons = filters;
+        }
+
+        console.log('activeFuncButtons', this.activeFuncButtons)
     }
 
     showOrHideKeyboard() {
@@ -59,25 +91,18 @@ class ScreenKeyboard {
 class Button {
     constructor(props) {
         this.onClick = props?.onClick;
+        this.onToggle = props?.onToggle;
         this.screenKeyboard = document.getElementById('the-keyboard');
         this.name = props?.name;
         this.functional = props?.func;
-        this.language = props?.lang;
+        this.localeData = props?.localeData;
         this.type = props?.type;
         this.lineKeyboard = document.getElementsByClassName('screen-keyboard__line')[0];
         this.content = props?.content;
         this.activity = props?.active;
-        this.currentLanguage = window.navigator.language;
+        this.currentLanguage = props?.currentLanguage;
 
-        console.log(this.language.en);
         this.formLayout(props);
-
-        document.addEventListener('keydown', () => {
-            if ((this.content === 'Shift' && this.activity) && (this.content === 'Alt' && this.activity)) {
-                this.changeLanguage();
-            }
-        })
-
     }
 
     handleClick = () => {
@@ -85,46 +110,34 @@ class Button {
             this.onClick({
                 name: this.name,
                 func: this.functional,
-                lang: this.language,
+                localeData: this.localeData,
                 type: this.type,
                 content: this.content,
                 active: this.activity
             });
-        } else {
-            console.log('onClick IS NOT A FUNCTION');
+        }
+        if (this.functional) {
+            this.activity = !this.activity
         }
     };
 
-    activePassiveButton() {
-
-    }
-
     changeLanguage() {
-
         if (this.currentLanguage === 'ru-RU') {
-            this.currentLanguage = 'en-US'
+            this.currentLanguage = 'en-US';
         } else if (this.currentLanguage === 'en-US') {
-            this.currentLanguage = 'ru-RU'
+            this.currentLanguage = 'ru-RU';
         }
     }
 
     formLayout() {
         const keyElement = document.createElement('div');
-        const userLanguage = window.navigator.language;
-        // console.log(userLanguage);
 
         keyElement.setAttribute('id', name);
         keyElement.classList.add(this.type);
-
-        if (userLanguage === 'ru-RU') {
-            keyElement.innerHTML = this.language.ru
-        } else if (userLanguage === 'en-US') {
-            keyElement.innerHTML = this.language.en
-        }
-
-
+        keyElement.innerHTML = this.localeData[this.currentLanguage];
         keyElement.addEventListener('click', this.handleClick.bind(this));
 
+        console.log(`${this.currentLanguage} - this.currentLanguage`)
         return this.lineKeyboard.appendChild(keyElement);
     }
 }
@@ -133,7 +146,7 @@ const configKeyboard = [
     {
         name: 'keyB',
         func: false,
-        lang: { en: 'b', ru: 'и' },
+        localeData: { 'en-US': 'b', 'ru-RU': 'и' },
         type: 'base',
         content: 'b',
         active: false
@@ -141,7 +154,7 @@ const configKeyboard = [
     {
         name: 'key7',
         func: false,
-        lang: { en: '7', ru: '7'},
+        localeData: { 'en-US': '7', 'ru-RU': '7'},
         type: 'base',
         content: '7',
         active: false
@@ -149,7 +162,7 @@ const configKeyboard = [
     {
         name: 'leftShift',
         func: true,
-        lang: { en: 'Shift', ru: 'Shift'},
+        localeData: { 'en-US': 'Shift', 'ru-RU': 'Shift'},
         type: 'l-shift',
         content: 'Shift',
         active: false
@@ -157,7 +170,7 @@ const configKeyboard = [
     {
         name: 'leftAlt',
         func: true,
-        lang: { en: 'Alt', ru: 'Alt'},
+        localeData: { 'en-US': 'Alt', 'ru-RU': 'Alt'},
         type: 'base',
         content: 'Alt',
         active: false
