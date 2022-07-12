@@ -15,11 +15,15 @@ class ScreenKeyboard {
     }
 
     onClick(data) {
-        switch (data.type) {
-            case 'l-shift':
-            case 'r-shift': {
-
-                console.log('SHIFT', data.name);
+        switch (data.content) {
+            case 'Shift': {
+                data.active = !data.active
+                console.log(`SHIFT, ${data.name}, ${data.active}`)
+                break;
+            }
+            case 'Alt': {
+                data.active = !data.active
+                console.log(`ALT, ${data.name}, ${data.active}`)
                 break;
             }
 
@@ -62,16 +66,18 @@ class Button {
         this.type = props?.type;
         this.lineKeyboard = document.getElementsByClassName('screen-keyboard__line')[0];
         this.content = props?.content;
+        this.activity = props?.active;
         this.currentLanguage = window.navigator.language;
 
         console.log(this.language.en);
         this.formLayout(props);
 
         document.addEventListener('keydown', () => {
-            if (this.content === 'Shift' && this.content === 'Alt') {
+            if ((this.content === 'Shift' && this.activity) && (this.content === 'Alt' && this.activity)) {
                 this.changeLanguage();
             }
         })
+
     }
 
     handleClick = () => {
@@ -81,7 +87,8 @@ class Button {
                 func: this.functional,
                 lang: this.language,
                 type: this.type,
-                content: this.content
+                content: this.content,
+                active: this.activity
             });
         } else {
             console.log('onClick IS NOT A FUNCTION');
@@ -104,7 +111,7 @@ class Button {
     formLayout() {
         const keyElement = document.createElement('div');
         const userLanguage = window.navigator.language;
-        console.log(userLanguage);
+        // console.log(userLanguage);
 
         keyElement.setAttribute('id', name);
         keyElement.classList.add(this.type);
@@ -128,26 +135,30 @@ const configKeyboard = [
         func: false,
         lang: { en: 'b', ru: 'и' },
         type: 'base',
-        content: 'b'
+        content: 'b',
+        active: false
     },
     {
         name: 'key7',
         func: false,
         lang: { en: '7', ru: '7'},
         type: 'base',
-        content: '7'
+        content: '7',
+        active: false
     },
     {
         name: 'leftShift',
         func: true,
         lang: { en: 'Shift', ru: 'Shift'},
         type: 'l-shift',
-        content: 'Shift'
+        content: 'Shift',
+        active: false
     },
     {
         name: 'leftAlt',
         func: true,
         lang: { en: 'Alt', ru: 'Alt'},
         type: 'base',
-        content: 'Alt'
+        content: 'Alt',
+        active: false
     }]
