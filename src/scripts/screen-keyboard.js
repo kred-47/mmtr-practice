@@ -12,16 +12,17 @@ class ScreenKeyboard {
         })
 
         this.callOfKeyboard.addEventListener('click', this.showOrHideKeyboard.bind(this));
-        this.screenKeyboard.addEventListener('click', this.onClick.bind(this));
     }
 
     onClick(data) {
         switch (data.type) {
             case 'l-shift':
             case 'r-shift': {
+
                 console.log('SHIFT', data.name);
                 break;
             }
+
             default:
                 console.log('undefined button')
         }
@@ -61,8 +62,16 @@ class Button {
         this.type = props?.type;
         this.lineKeyboard = document.getElementsByClassName('screen-keyboard__line')[0];
         this.content = props?.content;
+        this.currentLanguage = window.navigator.language;
 
+        console.log(this.language.en);
         this.formLayout(props);
+
+        document.addEventListener('keydown', () => {
+            if (this.content === 'Shift' && this.content === 'Alt') {
+                this.changeLanguage();
+            }
+        })
     }
 
     handleClick = () => {
@@ -79,11 +88,33 @@ class Button {
         }
     };
 
+    activePassiveButton() {
+
+    }
+
+    changeLanguage() {
+
+        if (this.currentLanguage === 'ru-RU') {
+            this.currentLanguage = 'en-US'
+        } else if (this.currentLanguage === 'en-US') {
+            this.currentLanguage = 'ru-RU'
+        }
+    }
 
     formLayout() {
         const keyElement = document.createElement('div');
+        const userLanguage = window.navigator.language;
+        console.log(userLanguage);
+
         keyElement.setAttribute('id', name);
         keyElement.classList.add(this.type);
+
+        if (userLanguage === 'ru-RU') {
+            keyElement.innerHTML = this.language.ru
+        } else if (userLanguage === 'en-US') {
+            keyElement.innerHTML = this.language.en
+        }
+
 
         keyElement.addEventListener('click', this.handleClick.bind(this));
 
@@ -112,4 +143,11 @@ const configKeyboard = [
         lang: { en: 'Shift', ru: 'Shift'},
         type: 'l-shift',
         content: 'Shift'
+    },
+    {
+        name: 'leftAlt',
+        func: true,
+        lang: { en: 'Alt', ru: 'Alt'},
+        type: 'base',
+        content: 'Alt'
     }]
