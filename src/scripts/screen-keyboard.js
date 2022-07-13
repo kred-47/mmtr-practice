@@ -44,6 +44,7 @@ class ScreenKeyboard {
             ...element,
             onClick: this.onClick.bind(this),
             currentLanguage: this.userLanguage,
+            activeFuncButtons: this.activeFuncButtons
         }))
 
         console.log(this.buttons);
@@ -139,6 +140,7 @@ class Button {
         this.activity = props?.active;
         this.currentLanguage = props?.currentLanguage;
         this.changeLayout = this.onChangeLanguage;
+        this.arrayActiveFuncButtons = props?.activeFuncButtons;
 
         this.formLayout(props);
     }
@@ -169,8 +171,12 @@ class Button {
             this.currentLanguage = 'ru';
         }
         // console.log('+++', this.currentLanguage)
-        return this.lineKeyboard.replaceChild(this.keyElement, this.keyElement);
-
+        this.keyElement.innerHTML = this.localeData[this.currentLanguage];
+        this.lineKeyboard.replaceChild(this.keyElement, this.keyElement);
+        console.log(`${this.arrayActiveFuncButtons} - active functional buttons in onChangeLanguage`);
+        this.arrayActiveFuncButtons.filter(item => item !== 'Alt' && item !== 'Shift')
+        // нужно делать у шифта и альта active: false
+        // (this.arrayActiveFuncButtons.includes('Shift' && 'Alt')
     }
 
     formLayout() {
