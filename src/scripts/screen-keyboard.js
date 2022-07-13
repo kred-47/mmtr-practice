@@ -7,14 +7,18 @@ class ScreenKeyboard {
         this.userLanguage = window.navigator.language;
         this.activeFuncButtons = [];
 
+        this.buttonInstances = []
+
         configKeyboard.forEach(element => {
-            new Button({
+            this.buttonInstances.push(new Button({
                 ...element,
                 onClick: this.onClick.bind(this),
                 currentLanguage: this.userLanguage,
                 onToggle: this.toggleActive.bind(this)
-            })
+            }))
         })
+
+        console.log(this.buttonInstances);
 
         this.callOfKeyboard.addEventListener('click', this.showOrHideKeyboard.bind(this));
     }
@@ -38,6 +42,7 @@ class ScreenKeyboard {
                     console.log('undefined button')
             }
             this.toggleActive(data.content);
+            this.changeLayoutKeyboard()
         } else {
             console.log(`${data.content} is not 'func'`)
         }
@@ -45,7 +50,10 @@ class ScreenKeyboard {
 
     changeLayoutKeyboard() {
         if (this.activeFuncButtons.includes('Shift') && this.activeFuncButtons.includes('Alt')) {
-
+            console.log('change')
+            this.buttonInstances.forEach(item => {
+                item.changeLayout();
+            })
         }
     }
 
@@ -101,6 +109,7 @@ class Button {
         this.content = props?.content;
         this.activity = props?.active;
         this.currentLanguage = props?.currentLanguage;
+        this.changeLayout = this.changeLanguage;
 
         this.formLayout(props);
     }
@@ -122,11 +131,14 @@ class Button {
     };
 
     changeLanguage() {
+
         if (this.currentLanguage === 'ru-RU') {
             this.currentLanguage = 'en-US';
         } else if (this.currentLanguage === 'en-US') {
             this.currentLanguage = 'ru-RU';
         }
+        console.log('+++', this.currentLanguage)
+        this.formLayout();
     }
 
     formLayout() {
@@ -138,7 +150,7 @@ class Button {
         keyElement.addEventListener('click', this.handleClick.bind(this));
 
         console.log(`${this.currentLanguage} - this.currentLanguage`)
-        return this.lineKeyboard.appendChild(keyElement);
+            return this.lineKeyboard.appendChild(keyElement);
     }
 }
 
