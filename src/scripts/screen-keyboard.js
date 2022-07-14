@@ -5,16 +5,16 @@ class ScreenKeyboard {
         this.toggleKeyboard = document.getElementById('toggle-keyboard');
         this.textAreaField = document.getElementById('text-area');
         this.userLanguage = window.navigator.language.split('-')[0];
-        this.activeFuncButtons = [];
+        this.activeFuncButtons = ['TEST ELEMENT'];
         this.configKeyboard = [
-            // {
-            //     name: 'keyB',
-            //     isFunc: false,
-            //     localeData: { en: 'b', ru: 'и' },
-            //     type: 'base',
-            //     content: 'b',
-            //     active: false
-            // },
+            {
+                name: 'keyB',
+                isFunc: false,
+                localeData: { en: 'b', ru: 'и' },
+                type: 'base',
+                content: 'b',
+                active: false
+            },
             // {
             //     name: 'key7',
             //     isFunc: false,
@@ -81,6 +81,7 @@ class ScreenKeyboard {
 
     onResetActivityOfButton() {
         console.log(`${this.activeFuncButtons} - active array`)
+        // а эта консоль показывает, что массив содержит шифт и альт. ???
         if (!this.activeFuncButtons.includes('Alt') && !this.activeFuncButtons.includes('Shift')) {
             console.log(`RESET`)
             this.buttons.forEach(item => item.content === 'Shift' || item.content === 'Alt' ? item.active = false : item.active
@@ -88,9 +89,11 @@ class ScreenKeyboard {
         }
     }
 
+
     onChangeLayoutKeyboard() {
         if (this.activeFuncButtons.includes('Shift') && this.activeFuncButtons.includes('Alt')) {
-            // console.log('change')
+
+            // здесь в переборе выполняется наш onChangeLayout
             this.buttons.forEach(item => {
                 item.changeLayout();
             })
@@ -182,18 +185,19 @@ class Button {
         // console.log('+++', this.currentLanguage)
         this.keyElement.innerHTML = this.localeData[this.currentLanguage];
         this.lineKeyboard.replaceChild(this.keyElement, this.keyElement);
-        console.log(`${this.arrayActiveFuncButtons} - active functional buttons in onChangeLanguage`);
+
+        // далее фильтрация массива от шифт и альт
+        console.log(`${this.arrayActiveFuncButtons} - active array in onChangeLanguage`);
         const filteredArray = this.arrayActiveFuncButtons.filter(item => item !== 'Alt' && item !== 'Shift');
         this.arrayActiveFuncButtons = filteredArray;
-        console.log(`${this.arrayActiveFuncButtons} - active functional buttons in onChangeLanguage after filter`);
+        console.log(`${this.arrayActiveFuncButtons} - active array in onChangeLanguage after filter`);
+        return filteredArray;
+        //консоль показывает, что массив отфильтрован от шифт и альт
 
-        // нужно делать у шифта и альта active: false
-        // (this.arrayActiveFuncButtons.includes('Shift' && 'Alt')
     }
 
     formLayout() {
         // const keyElement = document.createElement('div');
-
         this.keyElement.setAttribute('id', name);
         this.keyElement.classList.add(this.type);
         this.keyElement.innerHTML = this.localeData[this.currentLanguage];
