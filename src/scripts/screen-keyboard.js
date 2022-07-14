@@ -7,22 +7,22 @@ class ScreenKeyboard {
         this.userLanguage = window.navigator.language.split('-')[0];
         this.activeFuncButtons = [];
         this.configKeyboard = [
-            {
-                name: 'keyB',
-                isFunc: false,
-                localeData: { en: 'b', ru: 'и' },
-                type: 'base',
-                content: 'b',
-                active: false
-            },
-            {
-                name: 'key7',
-                isFunc: false,
-                localeData: { en: '7', ru: '7'},
-                type: 'base',
-                content: '7',
-                active: false
-            },
+            // {
+            //     name: 'keyB',
+            //     isFunc: false,
+            //     localeData: { en: 'b', ru: 'и' },
+            //     type: 'base',
+            //     content: 'b',
+            //     active: false
+            // },
+            // {
+            //     name: 'key7',
+            //     isFunc: false,
+            //     localeData: { en: '7', ru: '7'},
+            //     type: 'base',
+            //     content: '7',
+            //     active: false
+            // },
             {
                 name: 'leftShift',
                 isFunc: true,
@@ -47,10 +47,10 @@ class ScreenKeyboard {
             activeFuncButtons: this.activeFuncButtons
         }))
 
-        console.log(this.buttons);
-        console.log(this.userLanguage);
+        //console.log(this.buttons);
+        // console.log(this.userLanguage);
 
-        console.log(this.toggleKeyboard)
+        //console.log(this.toggleKeyboard)
         this.toggleKeyboard.addEventListener('click', this.handleToggleKeyboard.bind(this));
     }
 
@@ -72,9 +72,19 @@ class ScreenKeyboard {
                     console.log('undefined button')
             }
             this.onToggleActive(data.content);
-            this.onChangeLayoutKeyboard()
+            this.onChangeLayoutKeyboard();
+            this.onResetActivityOfButton();
         } else {
             console.log(`${data.content} is not 'func'`)
+        }
+    }
+
+    onResetActivityOfButton() {
+        console.log(`${this.activeFuncButtons} - active array`)
+        if (!this.activeFuncButtons.includes('Alt') && !this.activeFuncButtons.includes('Shift')) {
+            console.log(`RESET`)
+            this.buttons.forEach(item => item.content === 'Shift' || item.content === 'Alt' ? item.active = false : item.active
+            )
         }
     }
 
@@ -89,7 +99,6 @@ class ScreenKeyboard {
 
     onToggleActive(content) {
         // console.log('content', content)
-
         const isIncludes = this.activeFuncButtons.includes(content);
 
         if (!isIncludes) {
@@ -104,10 +113,10 @@ class ScreenKeyboard {
 
     handleToggleKeyboard() {
         this.onShowKeyboard();
-        this.onChangeCallButton();
+        this.onChangeToggleKeyboard();
     }
 
-    onChangeCallButton() {
+    onChangeToggleKeyboard() {
         if (this.toggleKeyboard.innerHTML.includes('Go print')) {
             this.toggleKeyboard.innerHTML = 'Hide keyboard';
         } else if (this.toggleKeyboard.innerHTML.includes('Hide keyboard')) {
@@ -139,7 +148,7 @@ class Button {
         this.content = props?.content;
         this.activity = props?.active;
         this.currentLanguage = props?.currentLanguage;
-        this.changeLayout = this.onChangeLanguage;
+        this.changeLayout = this.onChangeLayout;
         this.arrayActiveFuncButtons = props?.activeFuncButtons;
 
         this.formLayout(props);
@@ -159,11 +168,11 @@ class Button {
         if (this.functional) {
             this.activity = !this.activity
         }
-    };
+    }
 
     keyElement = document.createElement('div');
 
-    onChangeLanguage() {
+    onChangeLayout() {
 
         if (this.currentLanguage === 'ru') {
             this.currentLanguage = 'en';
@@ -174,7 +183,10 @@ class Button {
         this.keyElement.innerHTML = this.localeData[this.currentLanguage];
         this.lineKeyboard.replaceChild(this.keyElement, this.keyElement);
         console.log(`${this.arrayActiveFuncButtons} - active functional buttons in onChangeLanguage`);
-        this.arrayActiveFuncButtons.filter(item => item !== 'Alt' && item !== 'Shift')
+        const filteredArray = this.arrayActiveFuncButtons.filter(item => item !== 'Alt' && item !== 'Shift');
+        this.arrayActiveFuncButtons = filteredArray;
+        console.log(`${this.arrayActiveFuncButtons} - active functional buttons in onChangeLanguage after filter`);
+
         // нужно делать у шифта и альта active: false
         // (this.arrayActiveFuncButtons.includes('Shift' && 'Alt')
     }
@@ -187,7 +199,7 @@ class Button {
         this.keyElement.innerHTML = this.localeData[this.currentLanguage];
         this.keyElement.addEventListener('click', this.handleClick.bind(this));
 
-        console.log(`${this.currentLanguage} - this.currentLanguage`)
+        // console.log(`${this.currentLanguage} - this.currentLanguage`)
             return this.lineKeyboard.appendChild(this.keyElement);
     }
 }
