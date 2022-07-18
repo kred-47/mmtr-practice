@@ -1,7 +1,7 @@
 
 class ScreenKeyboard {
     constructor() {
-        this.screenKeyboard = document.getElementById('the-keyboard');
+        this.myScreenKeyboard = document.getElementById('js-keyboard');
         this.toggleKeyboard = document.getElementById('toggle-keyboard');
         this.textAreaField = document.getElementById('text-area');
         this.userLanguage = window.navigator.language.split('-')[0];
@@ -84,6 +84,8 @@ class ScreenKeyboard {
         }
     }
 
+    lineElement = document.createElement('div');
+
     // filterActiveButtons() {
     //     console.group('filterActiveButtons')
     //     // фильтрация массива от шифт и альт
@@ -153,8 +155,10 @@ class ScreenKeyboard {
     // }
 
     handleToggleKeyboard() {
+        console.group('handleToggle')
         this.onShowKeyboard();
         this.onChangeToggleKeyboard();
+        console.groupEnd()
     }
 
     onChangeToggleKeyboard() {
@@ -166,12 +170,12 @@ class ScreenKeyboard {
     }
 
     onShowKeyboard() {
-        if (this.screenKeyboard.classList.value === 'task2__screen-keyboard hidden-screen-keyboard') {
-            this.screenKeyboard.classList.remove('hidden-screen-keyboard');
-            this.screenKeyboard.classList.add('screen-keyboard');
-        } else if (this.screenKeyboard.classList.value === 'task2__screen-keyboard screen-keyboard') {
-            this.screenKeyboard.classList.remove('screen-keyboard');
-            this.screenKeyboard.classList.add('hidden-screen-keyboard');
+        if (this.myScreenKeyboard.classList.value === 'my-screen-keyboard hidden-screen-keyboard') {
+            this.myScreenKeyboard.classList.remove('hidden-screen-keyboard');
+            this.myScreenKeyboard.classList.add('screen-keyboard');
+        } else if (this.myScreenKeyboard.classList.value === 'my-screen-keyboard screen-keyboard') {
+            this.myScreenKeyboard.classList.remove('screen-keyboard');
+            this.myScreenKeyboard.classList.add('hidden-screen-keyboard');
         }
     }
 }
@@ -184,29 +188,29 @@ class Button {
         this.functional = props?.isFunc;
         this.localeData = props?.localeData;
         this.type = props?.type;
-        this.lineKeyboard = document.getElementsByClassName('screen-keyboard__line')[0];
+        // this.lineKeyboard = document.getElementsByClassName('screen-keyboard__line')[0];
+        this.myKeyboard = document.getElementById('js-keyboard')
         // this.content = props?.content;
-        this.activity = props?.active;
+        this.active = props?.active;
         this.currentLanguage = props?.currentLanguage;
-        this.activeFuncButtons = props?.activeFuncButtons || [];
-
-        this.formLayout(props);
+        // this.activeFuncButtons = props?.activeFuncButtons || [];
+        console.log(this.myKeyboard)
+        // console.log(this.lineKeyboard)
+        this.createButton(props);
     }
 
     handleClick = () => {
         console.group('handleClick')
         if (typeof this.onClick === 'function') {
-
             this.onClick({
                 name: this.name,
                 isFunc: this.functional,
                 localeData: this.localeData,
                 type: this.type,
                 // content: this.content,
-                active: this.activity
+                active: this.active
             });
         }
-
         console.groupEnd()
     }
 
@@ -215,28 +219,37 @@ class Button {
     changeKeyLanguage(locale) {
         console.group('changeKeyLanguage')
         this.keyElement.innerHTML = this.localeData[locale];
-        this.lineKeyboard.replaceChild(this.keyElement, this.keyElement);
+        this.myKeyboard.replaceChild(this.keyElement, this.keyElement);
         console.groupEnd()
     }
 
     setActive() {
         console.group('setActive')
         if (this.localeData[this.currentLanguage] === 'Shift' || this.localeData[this.currentLanguage] === 'Alt') {
-            this.activity = !this.activity
-            console.log(`THIS ACTIVE IS ${this.activity}`)
+            this.active = !this.active
+            console.log(`THIS ACTIVE IS ${this.active}`)
+        }
+        if (this.active === true) {
+            this.keyElement.classList.add('_active')
+        } else {
+            this.keyElement.classList.remove('_active')
         }
         console.groupEnd()
     }
 
-    formLayout() {
-        console.group('formLayout')
-        // const keyElement = document.createElement('div');
+    createButton() {
+        console.group('formLayout started')
         this.keyElement.setAttribute('id', name);
-        this.keyElement.classList.add(this.type);
+        console.log('formLayout step1')
+        this.keyElement.classList.add(`${this.type}`);
+        console.log('formLayout step2')
         this.keyElement.innerHTML = this.localeData[this.currentLanguage];
+        console.log('formLayout step3')
         this.keyElement.addEventListener('click', this.handleClick.bind(this));
-        console.groupEnd()
+        console.log('formLayout step4')
         // console.log(`${this.currentLanguage} - this.currentLanguage`)
-        return this.lineKeyboard.appendChild(this.keyElement);
+        this.myKeyboard.appendChild(this.keyElement);
+        console.log('formLayout step5')
+        console.groupEnd()
     }
 }

@@ -19,7 +19,9 @@
     height: 345px;
     border: 1px solid slategray;
     padding-top: 0px;
-    position: relative;
+    background-color: black;
+    position: absolute;
+    right: 100px;
   }
 
   &__img-keyboard {
@@ -29,15 +31,11 @@
   }
 }
 
-.hidden-screen-keyboard {
-  display: none;
-}
-
 .screen-keyboard {
 
-  background-color: black;
-  position: absolute;
-  right: 20px;
+  //background-color: black;
+  //position: absolute;
+  //right: 200px;
 
   &__exit {
     position: absolute;
@@ -78,6 +76,26 @@
     background: slategrey;
     cursor: pointer;
   }
+}
+
+.my-screen-keyboard {
+  width: 1040px;
+  height: 345px;
+  border: 1px solid slategray;
+  padding-top: 0px;
+  background-color: black;
+  position: absolute;
+  left: 100px;
+
+  &__line {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+  }
+}
+
+.hidden-screen-keyboard {
+  display: none;
 }
 
 .first-line {
@@ -130,7 +148,7 @@
 .base {
   height: 40px;
   width: 40px;
-  background-color: aqua;
+  background-color: dimgrey;
   border: 1px solid white;
   cursor: pointer;
 }
@@ -138,8 +156,18 @@
 .l-shift {
   height: 40px;
   width: 129px;
-  background-color: cornflowerblue;
+  background-color: dimgrey;
   border: 1px solid white;
+  cursor: pointer;
+}
+
+._active {
+  background-color: cornflowerblue;
+}
+
+.button:hover {
+  color: whitesmoke;
+  background: slategrey;
   cursor: pointer;
 }
 
