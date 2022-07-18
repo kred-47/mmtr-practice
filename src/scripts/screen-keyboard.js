@@ -5,14 +5,14 @@ class ScreenKeyboard {
         this.toggleKeyboard = document.getElementById('toggle-keyboard');
         this.textAreaField = document.getElementById('text-area');
         this.userLanguage = window.navigator.language.split('-')[0];
-        this.activeFuncButtons = [];
+        //this.activeFuncButtons = [];
         this.configKeyboard = [
             {
                 name: 'keyB',
                 isFunc: false,
                 localeData: { en: 'b', ru: 'и' },
                 type: 'base',
-                content: 'b',
+                //content: 'b',
                 active: false
             },
             // {
@@ -20,7 +20,7 @@ class ScreenKeyboard {
             //     isFunc: false,
             //     localeData: { en: '7', ru: '7'},
             //     type: 'base',
-            //     content: '7',
+            //     // content: '7',
             //     active: false
             // },
             {
@@ -28,7 +28,7 @@ class ScreenKeyboard {
                 isFunc: true,
                 localeData: { en: 'Shift', ru: 'Shift'},
                 type: 'l-shift',
-                content: 'Shift',
+                // content: 'Shift',
                 active: false
             },
             {
@@ -36,7 +36,7 @@ class ScreenKeyboard {
                 isFunc: true,
                 localeData: { en: 'Alt', ru: 'Alt'},
                 type: 'base',
-                content: 'Alt',
+                // content: 'Alt',
                 active: false
             }]
 
@@ -44,7 +44,7 @@ class ScreenKeyboard {
             ...element,
             onClick: this.onClick.bind(this),
             currentLanguage: this.userLanguage,
-            activeFuncButtons: this.activeFuncButtons,
+            //activeFuncButtons: this.activeFuncButtons,
         }))
 
         //console.log(this.buttons);
@@ -57,68 +57,70 @@ class ScreenKeyboard {
     onClick(data) {
         if (data.isFunc) {
             console.group('onClick')
-            switch (data.content) {
+            switch (data.localeData[this.userLanguage]) {
                 case 'Shift': {
                     // data.active = !data.active
-                    this.buttons.find(item => item.content === data.content).setActive(data.active)
-                    console.log(`${data.name}, ${data.active}`)
+                    const button = this.buttons.find(item => item.localeData[this.userLanguage] === data.localeData[this.userLanguage]);
+                    button.setActive();
+                    console.log(button)
                     break;
                 }
                 case 'Alt': {
                     // data.active = !data.active
-                    this.buttons.find(item => item.content === data.content).setActive(data.active)
-                    console.log(`${data.name}, ${data.active}`)
+                    const button = this.buttons.find(item => item.localeData[this.userLanguage] === data.localeData[this.userLanguage]);
+                    button.setActive();
+                    console.log(button)
                     break;
                 }
 
                 default:
                     console.log('undefined button')
             }
-            this.onToggleActive(data.content);
+            // this.onToggleActive(data.localeData[this.userLanguage]);
             this.onChangeLayoutKeyboard();
             console.groupEnd()
         } else {
-            console.log(`${data.content} is not 'func'`)
+            console.log(`${data.name} is not 'func'`)
         }
     }
 
-    filterActiveButtons() {
-        console.group('filterActiveButtons')
-        // фильтрация массива от шифт и альт
-        console.log(`${this.activeFuncButtons} - active array in onChangeLanguage`);
-        const filteredArray = this.activeFuncButtons.filter(item => !['Shift', 'Alt'].includes(item)); //   // item !== 'Alt' && item !== 'Shift'
-        this.activeFuncButtons = filteredArray;
-        console.log(`${this.activeFuncButtons} - active array in onChangeLanguage after filter`);
-        //консоль показывает, что массив отфильтрован от шифт и альт
-        console.groupEnd()
-    }
+    // filterActiveButtons() {
+    //     console.group('filterActiveButtons')
+    //     // фильтрация массива от шифт и альт
+    //     console.log(`${this.activeFuncButtons} - active array in onChangeLanguage`);
+    //     const filteredArray = this.activeFuncButtons.filter(item => !['Shift', 'Alt'].includes(item)); //   // item !== 'Alt' && item !== 'Shift'
+    //     this.activeFuncButtons = filteredArray;
+    //     console.log(`${this.activeFuncButtons} - active array in onChangeLanguage after filter`);
+    //     //консоль показывает, что массив отфильтрован от шифт и альт
+    //     console.groupEnd()
+    // }
 
-    onResetActivityOfButton() {
-        console.group('onResetActivityOfButton')
-        // переключение на active: false у шифта и альта при смене языка
-        console.log(`${this.activeFuncButtons} - active array`)
-        // а эта консоль показывает, что массив содержит шифт и альт. ???
-        if (!this.activeFuncButtons.includes('Alt') && !this.activeFuncButtons.includes('Shift')) {
-            console.log(`RESET`)
-            this.buttons.forEach(item => ['Shift', 'Alt'].includes(item.content) ? item.active = false : item.active = true
-            )
-        }
-        console.groupEnd()
-    }
+    // onResetActivityOfButton() {
+    //     console.group('onResetActivityOfButton')
+    //     // переключение на active: false у шифта и альта при смене языка
+    //     console.log(`${this.activeFuncButtons} - active array`)
+    //     // а эта консоль показывает, что массив содержит шифт и альт. ???
+    //     if (!this.activeFuncButtons.includes('Alt') && !this.activeFuncButtons.includes('Shift')) {
+    //         console.log(`RESET`)
+    //         this.buttons.forEach(item => ['Shift', 'Alt'].includes(item.content) ? item.active = false : item.active = true
+    //         )
+    //     }
+    //     console.groupEnd()
+    // }
 
     onChangeLayoutKeyboard() {
         console.group('onChangeLayoutKeyboard')
         // если в массиве активных кнопок есть шифт и альт
-        if (this.activeFuncButtons.includes('Shift') && this.activeFuncButtons.includes('Alt')) {
+        if (this.buttons.find(item => item.localeData[this.userLanguage] === 'Shift') && this.buttons.find(item => item.localeData[this.userLanguage] === 'Alt' && this.configKeyboard.active === true)) {
             this.changeLanguage();
             // здесь в переборе выполняется наш changeLanguage
             this.buttons.forEach(item => {
                 item.changeKeyLanguage(this.userLanguage);
             })
             // тогда фильтруем массив активных от шифт и альт
-            this.filterActiveButtons();
-             // и переводим их active в false
-            this.onResetActivityOfButton();
+            // this.filterActiveButtons();
+            // и переводим их active в false
+            // this.onResetActivityOfButton();
         }
         console.groupEnd()
     }
@@ -130,25 +132,25 @@ class ScreenKeyboard {
         } else if (this.userLanguage === 'en') {
             this.userLanguage = 'ru';
         }
-        console.log('+++', this.userLanguage)
+        // console.log('+++', this.userLanguage)
         console.groupEnd()
     }
 
-    onToggleActive(content) {
-        console.group('onToggleActive')
-        // ф-я, которая устанавливает при клике active: true
-        const isIncludes = this.activeFuncButtons.includes(content);
-        console.log(isIncludes, this.activeFuncButtons)
-        if (isIncludes === false) {
-            this.activeFuncButtons.push(content);
-        } else {
-            const filters = this.activeFuncButtons.filter(i => i !== content)
-            this.activeFuncButtons = filters;
-        }
-        console.log(this.activeFuncButtons)
-        console.groupEnd()
-        // console.log('activeFuncButtons', this.activeFuncButtons)
-    }
+    // onToggleActive(content) {
+    //     console.group('onToggleActive')
+    //     // ф-я, которая устанавливает при клике active: true
+    //     const isIncludes = this.activeFuncButtons.includes(content);
+    //     console.log(isIncludes, this.activeFuncButtons)
+    //     if (isIncludes === false) {
+    //         this.activeFuncButtons.push(content);
+    //     } else {
+    //         const filters = this.activeFuncButtons.filter(i => i !== content)
+    //         this.activeFuncButtons = filters;
+    //     }
+    //     console.log(this.activeFuncButtons)
+    //     console.groupEnd()
+    //     // console.log('activeFuncButtons', this.activeFuncButtons)
+    // }
 
     handleToggleKeyboard() {
         this.onShowKeyboard();
@@ -178,13 +180,12 @@ class Button {
     constructor(props) {
         this.onClick = props?.onClick;
         this.onToggle = props?.onToggle;
-        this.screenKeyboard = document.getElementById('the-keyboard');
         this.name = props?.name;
         this.functional = props?.isFunc;
         this.localeData = props?.localeData;
         this.type = props?.type;
         this.lineKeyboard = document.getElementsByClassName('screen-keyboard__line')[0];
-        this.content = props?.content;
+        // this.content = props?.content;
         this.activity = props?.active;
         this.currentLanguage = props?.currentLanguage;
         this.activeFuncButtons = props?.activeFuncButtons || [];
@@ -195,18 +196,17 @@ class Button {
     handleClick = () => {
         console.group('handleClick')
         if (typeof this.onClick === 'function') {
+
             this.onClick({
                 name: this.name,
                 isFunc: this.functional,
                 localeData: this.localeData,
                 type: this.type,
-                content: this.content,
+                // content: this.content,
                 active: this.activity
             });
         }
-        if (this.functional) {
-            this.activity = !this.activity
-        }
+
         console.groupEnd()
     }
 
@@ -219,10 +219,11 @@ class Button {
         console.groupEnd()
     }
 
-    setActive(active) {
+    setActive() {
         console.group('setActive')
-        if (this.content === 'Shift' || this.content === 'Alt') {
-            return !active;
+        if (this.localeData[this.currentLanguage] === 'Shift' || this.localeData[this.currentLanguage] === 'Alt') {
+            this.activity = !this.activity
+            console.log(`THIS ACTIVE IS ${this.activity}`)
         }
         console.groupEnd()
     }
