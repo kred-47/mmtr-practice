@@ -5,7 +5,6 @@ class ScreenKeyboard {
         this.toggleKeyboard = document.getElementById('toggle-keyboard');
         this.textAreaField = document.getElementById('text-area');
         this.userLanguage = window.navigator.language.split('-')[0];
-        //this.activeFuncButtons = [];
         this.configKeyboard = [
             {
                 name: 'keyB',
@@ -15,14 +14,14 @@ class ScreenKeyboard {
                 //content: 'b',
                 active: false
             },
-            // {
-            //     name: 'key7',
-            //     isFunc: false,
-            //     localeData: { en: '7', ru: '7'},
-            //     type: 'base',
-            //     // content: '7',
-            //     active: false
-            // },
+            {
+                name: 'key7',
+                isFunc: false,
+                localeData: { en: '7', ru: '7'},
+                type: 'base',
+                // content: '7',
+                active: false
+            },
             {
                 name: 'leftShift',
                 isFunc: true,
@@ -44,32 +43,24 @@ class ScreenKeyboard {
             ...element,
             onClick: this.onClick.bind(this),
             currentLanguage: this.userLanguage,
-            //activeFuncButtons: this.activeFuncButtons,
         }))
-
-        //console.log(this.buttons);
-        // console.log(this.userLanguage);
-
-        //console.log(this.toggleKeyboard)
         this.toggleKeyboard.addEventListener('click', this.handleToggleKeyboard.bind(this));
     }
 
     onClick(data) {
         if (data.isFunc) {
+
+            const button = this.buttons.find(item => item.localeData[this.userLanguage] === data.localeData[this.userLanguage]);
+
             console.group('onClick')
             switch (data.localeData[this.userLanguage]) {
                 case 'Shift': {
-                    // data.active = !data.active
-                    const button = this.buttons.find(item => item.localeData[this.userLanguage] === data.localeData[this.userLanguage]);
-                    button.setActive();
-                    console.log(button)
+                    button.toggleActive();
                     break;
                 }
                 case 'Alt': {
                     // data.active = !data.active
-                    const button = this.buttons.find(item => item.localeData[this.userLanguage] === data.localeData[this.userLanguage]);
-                    button.setActive();
-                    console.log(button)
+                    button.toggleActive();
                     break;
                 }
 
@@ -86,30 +77,6 @@ class ScreenKeyboard {
 
     lineElement = document.createElement('div');
 
-    // filterActiveButtons() {
-    //     console.group('filterActiveButtons')
-    //     // фильтрация массива от шифт и альт
-    //     console.log(`${this.activeFuncButtons} - active array in onChangeLanguage`);
-    //     const filteredArray = this.activeFuncButtons.filter(item => !['Shift', 'Alt'].includes(item)); //   // item !== 'Alt' && item !== 'Shift'
-    //     this.activeFuncButtons = filteredArray;
-    //     console.log(`${this.activeFuncButtons} - active array in onChangeLanguage after filter`);
-    //     //консоль показывает, что массив отфильтрован от шифт и альт
-    //     console.groupEnd()
-    // }
-
-    // onResetActivityOfButton() {
-    //     console.group('onResetActivityOfButton')
-    //     // переключение на active: false у шифта и альта при смене языка
-    //     console.log(`${this.activeFuncButtons} - active array`)
-    //     // а эта консоль показывает, что массив содержит шифт и альт. ???
-    //     if (!this.activeFuncButtons.includes('Alt') && !this.activeFuncButtons.includes('Shift')) {
-    //         console.log(`RESET`)
-    //         this.buttons.forEach(item => ['Shift', 'Alt'].includes(item.content) ? item.active = false : item.active = true
-    //         )
-    //     }
-    //     console.groupEnd()
-    // }
-
     onChangeLayoutKeyboard() {
         console.group('onChangeLayoutKeyboard')
         // если в массиве активных кнопок есть шифт и альт
@@ -119,10 +86,6 @@ class ScreenKeyboard {
             this.buttons.forEach(item => {
                 item.changeKeyLanguage(this.userLanguage);
             })
-            // тогда фильтруем массив активных от шифт и альт
-            // this.filterActiveButtons();
-            // и переводим их active в false
-            // this.onResetActivityOfButton();
         }
         console.groupEnd()
     }
@@ -134,25 +97,8 @@ class ScreenKeyboard {
         } else if (this.userLanguage === 'en') {
             this.userLanguage = 'ru';
         }
-        // console.log('+++', this.userLanguage)
         console.groupEnd()
     }
-
-    // onToggleActive(content) {
-    //     console.group('onToggleActive')
-    //     // ф-я, которая устанавливает при клике active: true
-    //     const isIncludes = this.activeFuncButtons.includes(content);
-    //     console.log(isIncludes, this.activeFuncButtons)
-    //     if (isIncludes === false) {
-    //         this.activeFuncButtons.push(content);
-    //     } else {
-    //         const filters = this.activeFuncButtons.filter(i => i !== content)
-    //         this.activeFuncButtons = filters;
-    //     }
-    //     console.log(this.activeFuncButtons)
-    //     console.groupEnd()
-    //     // console.log('activeFuncButtons', this.activeFuncButtons)
-    // }
 
     handleToggleKeyboard() {
         console.group('handleToggle')
@@ -172,9 +118,9 @@ class ScreenKeyboard {
     onShowKeyboard() {
         if (this.myScreenKeyboard.classList.value === 'my-screen-keyboard hidden-screen-keyboard') {
             this.myScreenKeyboard.classList.remove('hidden-screen-keyboard');
-            this.myScreenKeyboard.classList.add('screen-keyboard');
+            this.myScreenKeyboard.classList.add('my-screen-keyboard');
         } else if (this.myScreenKeyboard.classList.value === 'my-screen-keyboard screen-keyboard') {
-            this.myScreenKeyboard.classList.remove('screen-keyboard');
+            this.myScreenKeyboard.classList.remove('my-screen-keyboard');
             this.myScreenKeyboard.classList.add('hidden-screen-keyboard');
         }
     }
@@ -188,14 +134,9 @@ class Button {
         this.functional = props?.isFunc;
         this.localeData = props?.localeData;
         this.type = props?.type;
-        // this.lineKeyboard = document.getElementsByClassName('screen-keyboard__line')[0];
         this.myKeyboard = document.getElementById('js-keyboard')
-        // this.content = props?.content;
         this.active = props?.active;
         this.currentLanguage = props?.currentLanguage;
-        // this.activeFuncButtons = props?.activeFuncButtons || [];
-        console.log(this.myKeyboard)
-        // console.log(this.lineKeyboard)
         this.createButton(props);
     }
 
@@ -207,7 +148,6 @@ class Button {
                 isFunc: this.functional,
                 localeData: this.localeData,
                 type: this.type,
-                // content: this.content,
                 active: this.active
             });
         }
@@ -223,7 +163,7 @@ class Button {
         console.groupEnd()
     }
 
-    setActive() {
+    toggleActive() {
         console.group('setActive')
         if (this.localeData[this.currentLanguage] === 'Shift' || this.localeData[this.currentLanguage] === 'Alt') {
             this.active = !this.active
@@ -238,18 +178,13 @@ class Button {
     }
 
     createButton() {
-        console.group('formLayout started')
+
         this.keyElement.setAttribute('id', name);
-        console.log('formLayout step1')
         this.keyElement.classList.add(`${this.type}`);
-        console.log('formLayout step2')
         this.keyElement.innerHTML = this.localeData[this.currentLanguage];
-        console.log('formLayout step3')
         this.keyElement.addEventListener('click', this.handleClick.bind(this));
-        console.log('formLayout step4')
-        // console.log(`${this.currentLanguage} - this.currentLanguage`)
         this.myKeyboard.appendChild(this.keyElement);
-        console.log('formLayout step5')
+
         console.groupEnd()
     }
 }
