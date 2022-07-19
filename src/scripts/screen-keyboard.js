@@ -1,33 +1,34 @@
 class ScreenKeyboard {
     constructor() {
-        this.myScreenKeyboard = document.getElementById('js-keyboard');
-        this.toggleKeyboard = document.getElementById('toggle-keyboard');
-        this.textAreaField = document.getElementById('text-area');
-        this.userLanguage = window.navigator.language.split('-')[0];
+        this.screenKeyboardElement = document.getElementById('js-keyboard');
+        this.toggleKeyboardElement = document.getElementById('toggle-keyboard');
+        this.textAreaElement = document.getElementById('text-area');
+        this.language = window.navigator.language.split('-')[0];
+
         this.configKeyboard = [
             {
-                id: 'keyB',
+                id: generateId(),
                 isFunc: false,
                 localeData: {en: 'b', ru: 'и'},
                 type: 'base',
                 active: false
             },
             {
-                id: 'key7',
+                id: generateId(),
                 isFunc: false,
                 localeData: {en: '7', ru: '7'},
                 type: 'base',
                 active: false
             },
             {
-                id: 'leftShift',
+                id: generateId(),
                 isFunc: true,
                 localeData: {en: 'Shift', ru: 'Shift'},
                 type: 'l-shift',
                 active: false
             },
             {
-                id: 'leftAlt',
+                id: generateId(),
                 isFunc: true,
                 localeData: {en: 'Alt', ru: 'Alt'},
                 type: 'base',
@@ -37,18 +38,25 @@ class ScreenKeyboard {
         this.buttons = this.configKeyboard.map(element => new Button({
             ...element,
             onClick: this.onClick.bind(this),
-            currentLanguage: this.userLanguage,
-            myScreenKeyboard: this.myScreenKeyboard
+            currentLanguage: this.language,
         }));
+        this.toggleKeyboardElement.addEventListener('click', this.handleToggleKeyboard.bind(this));
+        this.init()
+    }
 
-        this.toggleKeyboard.addEventListener('click', this.handleToggleKeyboard.bind(this));
+    init() {
+        this.buttons.forEach(item => {
+            const element = item.render();
+
+            this.screenKeyboardElement.appendChild(element);
+        })
     }
 
     onClick(id) {
         const button = this.buttons.find(item => item.id === id);
 
-        if (button?.functional) {
-            switch (button.localeData[this.userLanguage]) {
+        if (button?.isFunc) {
+            switch (button.localeData[this.language]) {
                 case 'Shift':
                 case 'Alt': {
                     button.toggleActive();
@@ -62,30 +70,36 @@ class ScreenKeyboard {
             return;
         }
 
-        console.log(`${button.id} is not 'func'`);
+        console.log(`${button.localeData[this.language]} is not 'func'`);
     }
 
     onChangeLayoutKeyboard() {
         if (
-            this.buttons.find(item => item.localeData[this.userLanguage] === 'Shift' && item.active) &&
-            this.buttons.find(item => item.localeData[this.userLanguage] === 'Alt' && item.active)
+            this.buttons.find(item => item.localeData[this.language] === 'Shift' && item.active) &&
+            this.buttons.find(item => item.localeData[this.language] === 'Alt' && item.active)
         ) {
 
             this.changeLanguage();
             this.buttons.forEach(item => {
-                item.changeLanguage(this.userLanguage);
-                item.toggleActive();
+                if (['Shift', 'Alt'].includes(item.localeData[this.language])) {
+                    item.toggleActive();
+                }
+                item.changeLanguage(this.language);
+
+                const element = item.render();
+
+                this.screenKeyboardElement.replaceChild(element, element);
             });
         }
     }
 
     changeLanguage() {
-        if (this.userLanguage === 'ru') {
-            this.userLanguage = 'en';
+        if (this.language === 'ru') {
+            this.language = 'en';
             return;
         }
-        if (this.userLanguage === 'en') {
-            this.userLanguage = 'ru';
+        if (this.language === 'en') {
+            this.language = 'ru';
         }
     }
 
@@ -95,74 +109,71 @@ class ScreenKeyboard {
     }
 
     onChangeToggleKeyboard() {
-        if (this.toggleKeyboard.innerHTML.includes('Go print')) {
-            this.toggleKeyboard.innerHTML = 'Hide keyboard';
+        if (this.toggleKeyboardElement.innerHTML.includes('Go print')) {
+            this.toggleKeyboardElement.innerHTML = 'Hide keyboard';
             return;
         }
-        if (this.toggleKeyboard.innerHTML.includes('Hide keyboard')) {
-            this.toggleKeyboard.innerHTML = 'Go print';
+        if (this.toggleKeyboardElement.innerHTML.includes('Hide keyboard')) {
+            this.toggleKeyboardElement.innerHTML = 'Go print';
         }
     }
 
     onShowKeyboard() {
-        if (this.myScreenKeyboard.classList.value === 'my-screen-keyboard hidden-screen-keyboard') {
-            this.myScreenKeyboard.classList.remove('hidden-screen-keyboard');
+        if (this.screenKeyboardElement.classList.value === 'my-screen-keyboard hidden-screen-keyboard') {
+            this.screenKeyboardElement.classList.remove('hidden-screen-keyboard');
             return;
         }
-        if (this.myScreenKeyboard.classList.value === 'my-screen-keyboard') {
-            this.myScreenKeyboard.classList.add('hidden-screen-keyboard');
+        if (this.screenKeyboardElement.classList.value === 'my-screen-keyboard') {
+            this.screenKeyboardElement.classList.add('hidden-screen-keyboard');
         }
     }
 }
 
 class Button {
     constructor(props) {
-        this.myKeyboard = props?.myScreenKeyboard;
-        this.onClick = props?.onClick;
-        this.onToggle = props?.onToggle;
         this.id = props?.id;
-        this.functional = props?.isFunc;
+        this.isFunc = props?.isFunc;
         this.localeData = props?.localeData;
         this.type = props?.type;
         this.active = props?.active;
+        this.onClick = props?.onClick;
+        this.onToggle = props?.onToggle;
         this.currentLanguage = props?.currentLanguage;
+
         this.createButton(props);
     }
 
     handleClick = () => {
         if (typeof this.onClick === 'function') {
-            this.onClick(this.id)
+            this.onClick(this.id);
         }
     }
-
-    keyElement = document.createElement('div');
 
     changeLanguage(locale) {
         this.keyElement.innerHTML = this.localeData[locale];
-        this.myKeyboard.replaceChild(this.keyElement, this.keyElement);
     }
 
     toggleActive() {
-        if (this.localeData[this.currentLanguage] === 'Shift' || this.localeData[this.currentLanguage] === 'Alt') {
-            this.active = !this.active
-            console.log(`THIS ACTIVE IS ${this.active}`)
-        }
-        this.toggleColorBtn();
-    }
+        this.active = !this.active
+        console.log(`THIS ACTIVE IS ${this.active}`)
 
-    toggleColorBtn() {
         if (this.active) {
             this.keyElement.classList.add('_active')
+            console.log(this.keyElement)
             return;
         }
         this.keyElement.classList.remove('_active')
     }
 
     createButton() {
-        this.keyElement.setAttribute('id', name);
+        this.keyElement = document.createElement('div');
+        this.keyElement.setAttribute('id', this.id);
         this.keyElement.classList.add(`${this.type}`);
         this.keyElement.innerHTML = this.localeData[this.currentLanguage];
         this.keyElement.addEventListener('click', this.handleClick.bind(this));
-        this.myKeyboard.appendChild(this.keyElement);
+    }
+
+    render() {
+        return this.keyElement;
     }
 }
