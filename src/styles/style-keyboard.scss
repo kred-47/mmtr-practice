@@ -87,16 +87,26 @@
   display: flex;
   flex-wrap: wrap;
   flex-direction: row;
-  width: 1040px;
+  width: 1041px;
   height: 345px;
   border: 1px solid slategray;
-  padding-top: 0px;
+  padding-top: 40px;
   background-color: black;
   position: absolute;
   top: 60px;
   left: 8px;
 
-  &__line {}
+  &__key {
+    background-color: dimgrey;
+    width: 40px;
+    height: 40px;
+    border: 1px solid slategrey;
+    margin: 3px;
+    padding: 4px;
+    text-align: center;
+    text-transform: uppercase;
+    cursor: pointer;
+  }
 }
 
 .hidden-screen-keyboard {
@@ -124,11 +134,11 @@
 }
 
 .l-shift {
-  width: 129px;
+  width: 128px;
 }
 
 .r-shift {
-  width: 95px;
+  width: 96px;
 }
 
 .button-win {
@@ -142,7 +152,7 @@
 //}
 
 .space {
-  width: 298px;
+  width: 296px;
 }
 
 .letter-button {
@@ -155,11 +165,7 @@
   width: 40px;
   background-color: dimgrey;
   //border: 1px solid white;
-  cursor: pointer;
-}
 
-.l-shift {
-  width: 129px;
 }
 
 ._active {
@@ -173,15 +179,7 @@
 }
 
 .key {
-  background-color: dimgrey;
-  width: 40px;
-  height: 40px;
-  border: 1px solid slategrey;
-  border-radius: 0px;
-  margin: 3px;
-  padding: 4px;
-  text-align: center;
-  text-transform: uppercase;
+
 }
 
 
