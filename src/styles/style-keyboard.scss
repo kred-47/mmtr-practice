@@ -84,6 +84,9 @@
 }
 
 .my-screen-keyboard {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
   width: 1040px;
   height: 345px;
   border: 1px solid slategray;
@@ -93,11 +96,7 @@
   top: 60px;
   left: 8px;
 
-  &__line {
-    display: flex;
-    flex-direction: row;
-    width: 100%;
-  }
+  &__line {}
 }
 
 .hidden-screen-keyboard {
@@ -124,11 +123,11 @@
   width: 120px;
 }
 
-.lshift {
+.l-shift {
   width: 129px;
 }
 
-.rshift {
+.r-shift {
   width: 95px;
 }
 
@@ -155,16 +154,12 @@
   height: 40px;
   width: 40px;
   background-color: dimgrey;
-  border: 1px solid white;
+  //border: 1px solid white;
   cursor: pointer;
 }
 
 .l-shift {
-  height: 40px;
   width: 129px;
-  background-color: dimgrey;
-  border: 1px solid white;
-  cursor: pointer;
 }
 
 ._active {
@@ -175,6 +170,18 @@
   color: whitesmoke;
   background: slategrey;
   cursor: pointer;
+}
+
+.key {
+  background-color: dimgrey;
+  width: 40px;
+  height: 40px;
+  border: 1px solid slategrey;
+  border-radius: 0px;
+  margin: 3px;
+  padding: 4px;
+  text-align: center;
+  text-transform: uppercase;
 }
 
 

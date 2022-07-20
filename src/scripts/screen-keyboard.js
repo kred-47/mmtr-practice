@@ -1,34 +1,321 @@
 class ScreenKeyboard {
     constructor() {
-        this.screenKeyboardElement = document.getElementById('js-keyboard');
+        this.screenKeyboardBlock = document.getElementById('js-keyboard-block');
+        console.log(this.screenKeyboardBlock)
         this.toggleKeyboardElement = document.getElementById('toggle-keyboard');
         this.textAreaElement = document.getElementById('text-area');
         this.language = window.navigator.language.split('-')[0];
 
         this.configKeyboard = [
             {
-                id: generateId(),
-                isFunc: false,
-                localeData: {en: 'b', ru: 'и'},
+                isFunc: true,
+                localeData: {en: 'Esc', ru: 'Esc'},
                 type: 'base',
                 active: false
             },
             {
-                id: generateId(),
+                isFunc: false,
+                localeData: {en: '`', ru: 'ё'},
+                type: 'base',
+                active: false
+            },
+            {
+                isFunc: false,
+                localeData: {en: '1', ru: '1'},
+                type: 'base',
+                active: false
+            },
+            {
+                isFunc: false,
+                localeData: {en: '2', ru: '2'},
+                type: 'base',
+                active: false
+            },
+            {
+                isFunc: false,
+                localeData: {en: '3', ru: '3'},
+                type: 'base',
+                active: false
+            },
+            {
+                isFunc: false,
+                localeData: {en: '4', ru: '4'},
+                type: 'base',
+                active: false
+            },
+            {
+                isFunc: false,
+                localeData: {en: '5', ru: '5'},
+                type: 'base',
+                active: false
+            },
+            {
+                isFunc: false,
+                localeData: {en: '6', ru: '6'},
+                type: 'base',
+                active: false
+            },
+            {
                 isFunc: false,
                 localeData: {en: '7', ru: '7'},
                 type: 'base',
                 active: false
             },
             {
-                id: generateId(),
+                isFunc: false,
+                localeData: {en: '8', ru: '8'},
+                type: 'base',
+                active: false
+            },
+            {
+                isFunc: false,
+                localeData: {en: '9', ru: '9'},
+                type: 'base',
+                active: false
+            },
+            {
+                isFunc: false,
+                localeData: {en: '0', ru: '0'},
+                type: 'base',
+                active: false
+            },
+            {
+                isFunc: false,
+                localeData: {en: '-', ru: '-'},
+                type: 'base',
+                active: false
+            },
+            {
+                isFunc: false,
+                localeData: {en: '=', ru: '='},
+                type: 'base',
+                active: false
+            },
+            {
+                isFunc: true,
+                localeData: {en: 'Backspace', ru: 'Backspace'},
+                type: 'backspace',
+                active: false
+            },
+            {
+                isFunc: true,
+                localeData: {en: 'Home', ru: 'Home'},
+                type: 'base',
+                active: false
+            },
+            {
+                isFunc: true,
+                localeData: {en: 'PgUp', ru: 'PgUp'},
+                type: 'base',
+                active: false
+            },
+            {
+                isFunc: true,
+                localeData: {en: 'Nav', ru: 'Перейти'},
+                type: 'base',
+                active: false
+            },
+            {
+                isFunc: true,
+                localeData: {en: 'Tab', ru: 'Tab'},
+                type: 'tab',
+                active: false
+            },
+            {
+                isFunc: false,
+                localeData: {en: 'q', ru: 'й'},
+                type: 'base',
+                active: false
+            },
+            {
+                isFunc: false,
+                localeData: {en: 'w', ru: 'ц'},
+                type: 'base',
+                active: false
+            },
+            {
+                isFunc: false,
+                localeData: {en: 'e', ru: 'у'},
+                type: 'base',
+                active: false
+            },
+            {
+                isFunc: false,
+                localeData: {en: 'r', ru: 'к'},
+                type: 'base',
+                active: false
+            },
+            {
+                isFunc: false,
+                localeData: {en: 't', ru: 'е'},
+                type: 'base',
+                active: false
+            },
+            {
+                isFunc: false,
+                localeData: {en: 'y', ru: 'н'},
+                type: 'base',
+                active: false
+            },
+            {
+                isFunc: false,
+                localeData: {en: 'u', ru: 'г'},
+                type: 'base',
+                active: false
+            },
+            {
+                isFunc: false,
+                localeData: {en: 'i', ru: 'ш'},
+                type: 'base',
+                active: false
+            },
+            {
+                isFunc: false,
+                localeData: {en: 'o', ru: 'щ'},
+                type: 'base',
+                active: false
+            },
+            {
+                isFunc: false,
+                localeData: {en: 'p', ru: 'з'},
+                type: 'base',
+                active: false
+            },
+            {
+                isFunc: false,
+                localeData: {en: '[', ru: 'х'},
+                type: 'base',
+                active: false
+            },
+            {
+                isFunc: false,
+                localeData: {en: ']', ru: 'ъ'},
+                type: 'base',
+                active: false
+            },
+            {
+                isFunc: false,
+                localeData: {en: '\\', ru: '\\'},
+                type: 'base',
+                active: false
+            },
+            {
+                isFunc: true,
+                localeData: {en: 'Del', ru: 'Del'},
+                type: 'base',
+                active: false
+            },
+            {
+                isFunc: true,
+                localeData: {en: 'End', ru: 'End'},
+                type: 'base',
+                active: false
+            },
+            {
+                isFunc: true,
+                localeData: {en: 'PdDn', ru: 'PgDn'},
+                type: 'base',
+                active: false
+            },
+            {
+                isFunc: true,
+                localeData: {en: 'Mv Up', ru: 'Вверх'},
+                type: 'base',
+                active: false
+            },
+            {
+                isFunc: true,
+                localeData: {en: 'Caps', ru: 'Caps'},
+                type: 'caps',
+                active: false
+            },
+            {
+                isFunc: false,
+                localeData: {en: 'a', ru: 'ф'},
+                type: 'base',
+                active: false
+            },
+            {
+                isFunc: false,
+                localeData: {en: 's', ru: 'ы'},
+                type: 'base',
+                active: false
+            },
+            {
+                isFunc: false,
+                localeData: {en: 'd', ru: 'в'},
+                type: 'base',
+                active: false
+            },
+            {
+                isFunc: false,
+                localeData: {en: 'f', ru: 'а'},
+                type: 'base',
+                active: false
+            },
+            {
+                isFunc: false,
+                localeData: {en: 'g', ru: 'п'},
+                type: 'base',
+                active: false
+            },
+            {
+                isFunc: false,
+                localeData: {en: 'h', ru: 'р'},
+                type: 'base',
+                active: false
+            },
+            {
+                isFunc: false,
+                localeData: {en: 'j', ru: 'о'},
+                type: 'base',
+                active: false
+            },
+            {
+                isFunc: false,
+                localeData: {en: 'k', ru: 'л'},
+                type: 'base',
+                active: false
+            },
+            {
+                isFunc: false,
+                localeData: {en: 'l', ru: 'д'},
+                type: 'base',
+                active: false
+            },
+            {
+                isFunc: false,
+                localeData: {en: ';', ru: 'ж'},
+                type: 'base',
+                active: false
+            },
+            {
+                isFunc: false,
+                localeData: {en: "'", ru: 'э'},
+                type: 'base',
+                active: false
+            },
+            {
+                isFunc: true,
+                localeData: {en: 'Enter', ru: 'Enter'},
+                type: 'enter',
+                active: false
+            },
+
+
+            {
+                isFunc: false,
+                localeData: {en: 'b', ru: 'и'},
+                type: 'base',
+                active: false
+            },
+            {
                 isFunc: true,
                 localeData: {en: 'Shift', ru: 'Shift'},
                 type: 'l-shift',
                 active: false
             },
             {
-                id: generateId(),
                 isFunc: true,
                 localeData: {en: 'Alt', ru: 'Alt'},
                 type: 'base',
@@ -40,15 +327,22 @@ class ScreenKeyboard {
             onClick: this.onClick.bind(this),
             currentLanguage: this.language,
         }));
+        this.init();
         this.toggleKeyboardElement.addEventListener('click', this.handleToggleKeyboard.bind(this));
-        this.init()
+
     }
 
     init() {
+        const element = this.createKeyboard()
+        console.log(`${element} BLOCK`)
+
+        this.screenKeyboardBlock?.appendChild(element)
+
         this.buttons.forEach(item => {
             const element = item.render();
+            console.log(`${element} ELEMENT`)
 
-            this.screenKeyboardElement.appendChild(element);
+            this.screenKeyboardElement?.appendChild(element);
         })
     }
 
@@ -72,6 +366,15 @@ class ScreenKeyboard {
 
         console.log(`${button.localeData[this.language]} is not 'func'`);
     }
+
+    createKeyboard() {
+        this.screenKeyboardElement = document.createElement('div');
+        this.screenKeyboardElement.setAttribute('id', 'js-keyboard');
+        this.screenKeyboardElement.classList.add('my-screen-keyboard', 'hidden-screen-keyboard');
+        console.log(this.screenKeyboardElement)
+        return this.screenKeyboardElement;
+    }
+
 
     onChangeLayoutKeyboard() {
         if (
@@ -131,7 +434,7 @@ class ScreenKeyboard {
 
 class Button {
     constructor(props) {
-        this.id = props?.id;
+        this.id = generateId();
         this.isFunc = props?.isFunc;
         this.localeData = props?.localeData;
         this.type = props?.type;
@@ -168,7 +471,7 @@ class Button {
     createButton() {
         this.keyElement = document.createElement('div');
         this.keyElement.setAttribute('id', this.id);
-        this.keyElement.classList.add(`${this.type}`);
+        this.keyElement.classList.add('key', `${this.type}`);
         this.keyElement.innerHTML = this.localeData[this.currentLanguage];
         this.keyElement.addEventListener('click', this.handleClick.bind(this));
     }
