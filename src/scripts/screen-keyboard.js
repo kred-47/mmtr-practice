@@ -574,7 +574,7 @@ class ScreenKeyboard {
         console.log('RENDER LINE')
         if (config.buttons) {
             console.log('POINT 2')
-            const button = config.buttons.map(item => renderButtons(item))
+            const button = config.buttons.map(item => this.renderButtons(item))
 
             return `
                 <div>
@@ -621,7 +621,7 @@ class ScreenKeyboard {
 
     }
 
-    renderLineButton(config) {
+    renderButtons(config) {
         console.log('RENDER BUTTON')
         if (config.buttons) {
             const button = config.map(item => {
