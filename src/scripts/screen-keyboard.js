@@ -553,79 +553,96 @@ class ScreenKeyboard {
             ]
         }
 
-
-
-        this.buttons = this.configKeyboard.map(element => new Button({
-            ...element,
-            onClick: this.onClick.bind(this),
-            currentLanguage: this.language,
-        }));
-        this.init();
+        // this.buttons = this.configKeyboard.lines.map(element => new Button({
+        //     ...element,
+        //     onClick: this.onClick.bind(this),
+        //     currentLanguage: this.language,
+        // }));
+        // this.init();
         this.toggleKeyboardElement.addEventListener('click', this.handleToggleKeyboard.bind(this));
         this.render();
     }
 
     render() {
-        const result = this.configKeyboard.map(item => this.renderLine(item));
-        console.log(result)
+        console.log('RENDER')
+        this.configKeyboard.lines.map(item => this.renderLine(item));
 
-        this.screenKeyboardBlock.innerHTML = result;
+        this.screenKeyboardElement.appendChild(result);
     }
 
     renderLine(config) {
+        console.log('RENDER LINE')
+        if (config.buttons) {
+            console.log('POINT 2')
+            const button = config.buttons.map(item => renderButtons(item))
+
+            return `
+                <div>
+                    ${button}
+                </div>
+            `
+        }
+
         const columns = Array.isArray(config)
             ? config.map(item => this.renderColumn(item))
             : this.renderColumn(config);
 
-        console.log(columns)
-        // return `
-        //     <div>
-        //         ${columns}
-        //     </div>>
-        // `
+        return `
+            <div>
+                ${columns}
+            </div>
+        `
     }
 
     renderColumn(config) {
+        console.log('RENDER COLUMN')
         if (config.lines) {
             return this.renderLine(config.lines)
         }
+        console.log('POINT')
+        if (config.columns) {
+            const lines = config.columns.map(item => this.renderLine(item))
 
-        const buttons = Array.isArray(config)
-            ? config.map(item => this.renderButton(item))
-            : this.renderButton(config);
+            // console.log()
+            return `
+                <div>
+                    ${lines}
+                </div>>
+        `
+        }
 
-        console.log(buttons)
-        // return `
-        //     <div>
-        //         ${buttons}
-        //     </div>>
-        // `
+        const lines = config.buttons.map(item => this.renderLine(item))
+
+        return `
+            <div>
+                ${lines}
+            </div>>
+        `
+
     }
 
-    renderButton(config) {
-        const button = config.map(item => {
-            item.render()
-        })
+    renderLineButton(config) {
+        console.log('RENDER BUTTON')
+        if (config.buttons) {
+            const button = config.map(item => {
+                item.render()
+            })
 
-        console.log(button)
-        // return `
-        //     <div>
-        //         ${button}
-        //     </div>
-        // `
+            return button;
+        }
     }
 
-    init() {
-        const element = this.createKeyboard()
-
-        this.screenKeyboardBlock?.appendChild(element)
-
-        this.buttons.forEach(item => {
-            const element = item.render();
-
-            this.screenKeyboardElement?.appendChild(element);
-        })
-    }
+    // init() {
+    //     const element = this.createKeyboard()
+    //
+    //     this.screenKeyboardBlock?.appendChild(element)
+    //
+    //     this.buttons.forEach(item => {
+    //         const element = item.render();
+    //
+    //         this.screenKeyboardElement?.appendChild(element);
+    //     })
+    // }
 
     onClick(id) {
         const button = this.buttons.find(item => item.id === id);
@@ -656,7 +673,7 @@ class ScreenKeyboard {
         this.screenKeyboardElement = document.createElement('div');
         this.screenKeyboardElement.setAttribute('id', 'js-keyboard');
         this.screenKeyboardElement.classList.add('my-screen-keyboard', 'hidden-screen-keyboard');
-        console.log(this.screenKeyboardElement)
+        // console.log(this.screenKeyboardElement)
         return this.screenKeyboardElement;
     }
 
