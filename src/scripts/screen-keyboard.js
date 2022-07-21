@@ -553,96 +553,107 @@ class ScreenKeyboard {
             ]
         }
 
+        this.buttons = [];
+
         // this.buttons = this.configKeyboard.lines.map(element => new Button({
         //     ...element,
         //     onClick: this.onClick.bind(this),
         //     currentLanguage: this.language,
         // }));
-        // this.init();
         this.toggleKeyboardElement.addEventListener('click', this.handleToggleKeyboard.bind(this));
+        this.createKeyboard();
         this.render();
+
     }
 
     render() {
         console.log('RENDER')
-        this.configKeyboard.lines.map(item => this.renderLine(item));
-
-        this.screenKeyboardElement.appendChild(result);
+        const result = this.configKeyboard.lines.map(item => this.renderLine(item));
+        console.log(`result is ${result}`)
+        console.log(this.lineElement)
+        console.log("this.screenKeyboardElement: ", this.screenKeyboardElement)
+        this.screenKeyboardElement.appendChild(this.lineElement);
+        this.screenKeyboardBlock.append(this.screenKeyboardElement);
     }
 
     renderLine(config) {
-        console.log('RENDER LINE')
-        if (config.buttons) {
-            console.log('POINT 2')
-            const button = config.buttons.map(item => this.renderButtons(item))
+        console.log('LINE')
+        this.lineElement = document.createElement('div');
+        this.lineElement.classList.add('line-element');
+        console.log(config)
+        if (Array.isArray(config)) {
+            console.log('hhhhhh')
 
-            return `
-                <div>
-                    ${button}
-                </div>
-            `
+            config.forEach(item => {
+                const {buttons} = item;
+
+                const _buttons = buttons.map(item => {
+                    return this.renderButton(item)
+                });
+
+                _buttons.forEach(item => {
+                    this.lineElement.appendChild(item);
+                })
+            })
+
         }
 
-        const columns = Array.isArray(config)
-            ? config.map(item => this.renderColumn(item))
-            : this.renderColumn(config);
+        if (Array.isArray(config.buttons)) {
+            console.log('config buttons')
 
-        return `
-            <div>
-                ${columns}
-            </div>
-        `
+            const buttons = config.buttons.map(item => {
+                return this.renderButton(item)
+            });
+
+
+            buttons.forEach(item => {
+                this.lineElement.appendChild(item);
+            })
+        }
+
+        if (Array.isArray(config.columns)) {
+            console.log('config columns')
+            const columns = config.columns.map(item =>
+                // {lines: [{}]}
+                this.renderColumn(item)
+            );
+
+            console.log(columns)
+
+            console.log(`columns is ${columns}`)
+
+            columns.forEach(item => {
+                if (!item) {
+                    return;
+                }
+                this.lineElement.appendChild(item);
+            })
+        }
+
+        //return this.lineElement;
     }
 
     renderColumn(config) {
-        console.log('RENDER COLUMN')
+        console.log('COLUMN');
+        this.columnElement = document.createElement('div');
+        this.columnElement.classList.add('column-element');
+
         if (config.lines) {
-            return this.renderLine(config.lines)
-        }
-        console.log('POINT')
-        if (config.columns) {
-            const lines = config.columns.map(item => this.renderLine(item))
-
-            // console.log()
-            return `
-                <div>
-                    ${lines}
-                </div>>
-        `
+            console.log('config lines')
+            return this.renderLine(config.lines);
         }
 
-        const lines = config.buttons.map(item => this.renderLine(item))
-
-        return `
-            <div>
-                ${lines}
-            </div>>
-        `
-
+        return this.columnElement;
     }
 
-    renderButtons(config) {
-        console.log('RENDER BUTTON')
-        if (config.buttons) {
-            const button = config.map(item => {
-                item.render()
-            })
+    renderButton(config) {
+        const button = new Button(config);
 
-            return button;
-        }
+        this.buttons.push(button);
+
+        return button.render();
+
     }
-
-    // init() {
-    //     const element = this.createKeyboard()
-    //
-    //     this.screenKeyboardBlock?.appendChild(element)
-    //
-    //     this.buttons.forEach(item => {
-    //         const element = item.render();
-    //
-    //         this.screenKeyboardElement?.appendChild(element);
-    //     })
-    // }
 
     onClick(id) {
         const button = this.buttons.find(item => item.id === id);
@@ -782,6 +793,7 @@ class Button {
     }
 
     render() {
+        console.log(this.keyElement)
         return this.keyElement;
     }
 }
