@@ -560,27 +560,38 @@ class ScreenKeyboard {
         //     onClick: this.onClick.bind(this),
         //     currentLanguage: this.language,
         // }));
+        this.init()
         this.toggleKeyboardElement.addEventListener('click', this.handleToggleKeyboard.bind(this));
-        this.createKeyboard();
+        // this.createKeyboard();
         this.render();
 
+    }
+
+    init() {
+        const element = this.createKeyboard();
+
+        this.screenKeyboardBlock?.appendChild(element);
     }
 
     render() {
         console.log('RENDER')
         const result = this.configKeyboard.lines.map(item => this.renderLine(item));
         console.log(`result is ${result}`)
-        console.log(this.lineElement)
-        console.log("this.screenKeyboardElement: ", this.screenKeyboardElement)
-        this.screenKeyboardElement.appendChild(this.lineElement);
+        // console.log(this.lineElement)
+        // console.log("this.screenKeyboardElement: ", this.screenKeyboardElement)
+        // result.forEach(item => {
+        //     console.log(item)
+        //     this.screenKeyboardElement.appendChild(item)
+        // })
+        this.screenKeyboardElement.append(...result);
         this.screenKeyboardBlock.append(this.screenKeyboardElement);
     }
 
     renderLine(config) {
         console.log('LINE')
-        this.lineElement = document.createElement('div');
-        this.lineElement.classList.add('line-element');
-        console.log(config)
+        const lineElement = document.createElement('div');
+        lineElement.classList.add('line-element');
+        // console.log(config)
         if (Array.isArray(config)) {
             console.log('hhhhhh')
 
@@ -592,7 +603,7 @@ class ScreenKeyboard {
                 });
 
                 _buttons.forEach(item => {
-                    this.lineElement.appendChild(item);
+                    lineElement.appendChild(item);
                 })
             })
 
@@ -607,16 +618,13 @@ class ScreenKeyboard {
 
 
             buttons.forEach(item => {
-                this.lineElement.appendChild(item);
+                lineElement.appendChild(item);
             })
         }
 
         if (Array.isArray(config.columns)) {
             console.log('config columns')
-            const columns = config.columns.map(item =>
-                // {lines: [{}]}
-                this.renderColumn(item)
-            );
+            const columns = config.columns.map(item => this.renderColumn(item));
 
             console.log(columns)
 
@@ -626,24 +634,23 @@ class ScreenKeyboard {
                 if (!item) {
                     return;
                 }
-                this.lineElement.appendChild(item);
+                lineElement.appendChild(item);
             })
         }
-
-        //return this.lineElement;
+        return lineElement;
     }
 
     renderColumn(config) {
         console.log('COLUMN');
-        this.columnElement = document.createElement('div');
-        this.columnElement.classList.add('column-element');
+        const columnElement = document.createElement('div');
+        columnElement.classList.add('column-element');
 
         if (config.lines) {
             console.log('config lines')
             return this.renderLine(config.lines);
         }
 
-        return this.columnElement;
+        return columnElement;
     }
 
     renderButton(config) {
@@ -793,7 +800,6 @@ class Button {
     }
 
     render() {
-        console.log(this.keyElement)
         return this.keyElement;
     }
 }
