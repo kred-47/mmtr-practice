@@ -10,6 +10,7 @@ class ScreenKeyboard {
                 {
                     columns: [ // разделена на колонки, в которых могут быть линии
                         {
+                            width: '80%',
                             lines: [ // в линиях могут быть кнопки или новые колонки
                                 {
                                     buttons: [ // кнопки могут быть только в линии
@@ -434,7 +435,9 @@ class ScreenKeyboard {
                                     ]
                                 }
                             ]
-                        }, {
+                        },
+                        {
+                            width: '20%',
                             lines: [
                                 {
                                     buttons: [
@@ -555,14 +558,8 @@ class ScreenKeyboard {
 
         this.buttons = [];
 
-        // this.buttons = this.configKeyboard.lines.map(element => new Button({
-        //     ...element,
-        //     onClick: this.onClick.bind(this),
-        //     currentLanguage: this.language,
-        // }));
         this.init()
         this.toggleKeyboardElement.addEventListener('click', this.handleToggleKeyboard.bind(this));
-        // this.createKeyboard();
         this.render();
 
     }
@@ -574,92 +571,92 @@ class ScreenKeyboard {
     }
 
     render() {
-        console.log('RENDER')
+        // console.log('RENDER');
+
         const result = this.configKeyboard.lines.map(item => this.renderLine(item));
-        console.log(`result is ${result}`)
-        // console.log(this.lineElement)
-        // console.log("this.screenKeyboardElement: ", this.screenKeyboardElement)
-        // result.forEach(item => {
-        //     console.log(item)
-        //     this.screenKeyboardElement.appendChild(item)
-        // })
+
         this.screenKeyboardElement.append(...result);
         this.screenKeyboardBlock.append(this.screenKeyboardElement);
     }
 
     renderLine(config) {
-        console.log('LINE')
+        // console.log('LINE');
+
         const lineElement = document.createElement('div');
-        lineElement.classList.add('line-element');
-        // console.log(config)
-        if (Array.isArray(config)) {
-            console.log('hhhhhh')
 
-            config.forEach(item => {
-                const {buttons} = item;
-
-                const _buttons = buttons.map(item => {
-                    return this.renderButton(item)
-                });
-
-                _buttons.forEach(item => {
-                    lineElement.appendChild(item);
-                })
-            })
-
-        }
+        lineElement.classList.add('my-screen-keyboard__line-element');
 
         if (Array.isArray(config.buttons)) {
-            console.log('config buttons')
+            // console.log('config buttons');
 
             const buttons = config.buttons.map(item => {
-                return this.renderButton(item)
+                return this.renderButton(item);
             });
 
-
-            buttons.forEach(item => {
-                lineElement.appendChild(item);
-            })
+            // buttons.forEach(item => {
+            //     lineElement.appendChild(item);
+            // })
+            lineElement.append(...buttons);
         }
 
         if (Array.isArray(config.columns)) {
-            console.log('config columns')
-            const columns = config.columns.map(item => this.renderColumn(item));
+            // console.log('config columns');
 
-            console.log(columns)
+            const columns = config.columns.map(item => {
+                return this.renderColumn(item);
+            });
 
-            console.log(`columns is ${columns}`)
-
-            columns.forEach(item => {
-                if (!item) {
-                    return;
-                }
-                lineElement.appendChild(item);
-            })
+            // columns.forEach(item => {
+            //     console.log('1', lineElement, item);
+            //
+            //     lineElement.appendChild(item);
+            // })
+            lineElement.append(...columns);
         }
+
         return lineElement;
     }
 
     renderColumn(config) {
-        console.log('COLUMN');
+        // console.log('COLUMN');
+
         const columnElement = document.createElement('div');
-        columnElement.classList.add('column-element');
 
-        if (config.lines) {
-            console.log('config lines')
-            return this.renderLine(config.lines);
+        columnElement.classList.add('my-screen-keyboard__column-element');
+        columnElement.style.width = config.width;
+
+        if (Array.isArray(config.lines)) {
+            // console.log('config lines');
+
+            const lines = config.lines.map(item => {
+                return this.renderLine(item);
+            });
+
+            // lines.forEach(item => {
+            //
+            //     console.log('2', columnElement, item);
+            //
+            //     columnElement.appendChild(item);
+            // })
+            columnElement.append(...lines);
         }
-
         return columnElement;
     }
 
     renderButton(config) {
-        const button = new Button(config);
+        // console.log('BUTTON');
+
+        const button = new Button({
+            ...config,
+            onClick: this.onClick.bind(this),
+            currentLanguage: this.language,
+        });
+        // console.log('button is', button)
 
         this.buttons.push(button);
+        // console.log('this.buttons are', this.buttons)
 
         return button.render();
-
     }
 
     onClick(id) {
@@ -668,12 +665,11 @@ class ScreenKeyboard {
         if (button?.isFunc) {
             switch (button.localeData[this.language]) {
                 case 'Shift': {
-                    this.buttons.find(item => item.localeData[this.language] === 'Shift').toggleActive()
+                    this.buttons.filter(item => item.localeData[this.language] === 'Shift').forEach(item => item.toggleActive());
                     break;
                 }
                 case 'Alt': {
-                    this.buttons.find(item => item.localeData[this.language] === 'Alt').toggleActive()
-                    // button.toggleActive();
+                    this.buttons.filter(item => item.localeData[this.language] === 'Alt').forEach(item => item.toggleActive());
                     break;
                 }
                 default:
@@ -683,7 +679,6 @@ class ScreenKeyboard {
             this.onChangeLayoutKeyboard();
             return;
         }
-
         console.log(`${button.localeData[this.language]} is not 'func'`);
     }
 
@@ -691,7 +686,6 @@ class ScreenKeyboard {
         this.screenKeyboardElement = document.createElement('div');
         this.screenKeyboardElement.setAttribute('id', 'js-keyboard');
         this.screenKeyboardElement.classList.add('my-screen-keyboard', 'hidden-screen-keyboard');
-        // console.log(this.screenKeyboardElement)
         return this.screenKeyboardElement;
     }
 
@@ -708,10 +702,6 @@ class ScreenKeyboard {
                     item.toggleActive();
                 }
                 item.changeLanguage(this.language);
-
-                const element = item.render();
-
-                this.screenKeyboardElement.replaceChild(element, element);
             });
         }
     }
@@ -777,22 +767,22 @@ class Button {
     }
 
     toggleActive() {
-        this.active = !this.active
-        console.log(`THIS ACTIVE IS ${this.active}`)
+        this.active = !this.active;
+        console.log(`THIS ACTIVE IS ${this.active}`);
 
         if (this.active) {
-            this.keyElement.classList.add('_active')
-            console.log(this.keyElement)
+            this.keyElement.classList.add('_active');
+            // console.log(this.keyElement)
             return;
         }
-        this.keyElement.classList.remove('_active')
+        this.keyElement.classList.remove('_active');
     }
 
     createButton() {
         this.keyElement = document.createElement('div');
         this.keyElement.setAttribute('id', this.id);
         this.keyElement.innerHTML = this.localeData[this.currentLanguage];
-        this.keyElement.classList.add('my-screen-keyboard__key', `${this.type}`);
+        this.keyElement.classList.add('my-screen-keyboard__key', `${this.type}`, `${(this.isFunc ? 'letter-button' : null)}` );
         // if (this.keyElement.innerHTML.length >= 1) {
         //     this.keyElement.classList.add('letter-button');
         // }
