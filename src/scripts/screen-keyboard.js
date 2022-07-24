@@ -10,9 +10,11 @@ class ScreenKeyboard {
                 {
                     columns: [ // разделена на колонки, в которых могут быть линии
                         {
-                            width: '80%',
+                            justifyContent: 'end',
+                            width: '83%',
                             lines: [ // в линиях могут быть кнопки или новые колонки
                                 {
+                                    justifyContent: 'start',
                                     buttons: [ // кнопки могут быть только в линии
                                         {
                                             isFunc: true,
@@ -107,6 +109,7 @@ class ScreenKeyboard {
                                     ]
                                 },
                                 {
+                                    justifyContent: 'start',
                                     buttons: [
                                         {
                                             isFunc: true,
@@ -201,6 +204,7 @@ class ScreenKeyboard {
                                     ]
                                 },
                                 {
+                                    justifyContent: 'start',
                                     buttons: [
                                         {
                                             isFunc: true,
@@ -283,6 +287,7 @@ class ScreenKeyboard {
                                     ]
                                 },
                                 {
+                                    justifyContent: 'start',
                                     buttons: [
                                         {
                                             isFunc: true,
@@ -365,6 +370,7 @@ class ScreenKeyboard {
                                     ]
                                 },
                                 {
+                                    justifyContent: 'start',
                                     buttons: [
                                         {
                                             isFunc: true,
@@ -437,9 +443,11 @@ class ScreenKeyboard {
                             ]
                         },
                         {
-                            width: '20%',
+                            justifyContent: 'end',
+                            width: '17%',
                             lines: [
                                 {
+                                    justifyContent: 'end',
                                     buttons: [
                                         {
                                             isFunc: true,
@@ -462,6 +470,7 @@ class ScreenKeyboard {
                                     ]
                                 },
                                 {
+                                    justifyContent: 'end',
                                     buttons: [
                                         {
                                             isFunc: true,
@@ -484,6 +493,7 @@ class ScreenKeyboard {
                                     ]
                                 },
                                 {
+                                    justifyContent: 'end',
                                     buttons: [
                                         {
                                             isFunc: true,
@@ -506,6 +516,7 @@ class ScreenKeyboard {
                                     ]
                                 },
                                 {
+                                    justifyContent: 'end',
                                     buttons: [
                                         {
                                             isFunc: true,
@@ -528,6 +539,7 @@ class ScreenKeyboard {
                                     ]
                                 },
                                 {
+                                    justifyContent: 'end',
                                     buttons: [
                                         {
                                             isFunc: true,
@@ -560,6 +572,7 @@ class ScreenKeyboard {
 
         this.init()
         this.toggleKeyboardElement.addEventListener('click', this.handleToggleKeyboard.bind(this));
+        this.closeKeyboard.addEventListener('click', this.handleToggleKeyboard.bind(this));
         this.render();
 
     }
@@ -585,6 +598,7 @@ class ScreenKeyboard {
         const lineElement = document.createElement('div');
 
         lineElement.classList.add('my-screen-keyboard__line-element');
+        lineElement.style.justifyContent = config.justifyContent;
 
         if (Array.isArray(config.buttons)) {
             // console.log('config buttons');
@@ -624,6 +638,7 @@ class ScreenKeyboard {
 
         columnElement.classList.add('my-screen-keyboard__column-element');
         columnElement.style.width = config.width;
+        columnElement.style.justifyContent = config.justifyContent;
 
         if (Array.isArray(config.lines)) {
             // console.log('config lines');
@@ -686,6 +701,17 @@ class ScreenKeyboard {
         this.screenKeyboardElement = document.createElement('div');
         this.screenKeyboardElement.setAttribute('id', 'js-keyboard');
         this.screenKeyboardElement.classList.add('my-screen-keyboard', 'hidden-screen-keyboard');
+
+        const panel = document.createElement('div');
+        panel.classList.add('my-screen-keyboard__panel');
+        panel.innerHTML = 'Screen keyboard';
+        this.screenKeyboardElement.append(panel);
+
+        this.closeKeyboard = document.createElement('button');
+        this.closeKeyboard.classList.add('my-screen-keyboard__close');
+        this.closeKeyboard.innerHTML = 'close';
+        panel.append(this.closeKeyboard);
+
         return this.screenKeyboardElement;
     }
 
