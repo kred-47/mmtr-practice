@@ -105,7 +105,7 @@ function watch() {
     gulp.watch(paths.scripts.src, scripts);
 }
 
-const build = gulp.series(clean, html, gulp.parallel(styles, scripts, img), watch);
+const build = gulp.series(clean, html, gulp.parallel(styles, scripts, img), watch, deploy);
 
 exports.clean = clean;
 exports.img = img;
