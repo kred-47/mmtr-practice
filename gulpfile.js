@@ -12,6 +12,7 @@ const gulp = require('gulp'),
     newer = require('gulp-newer'),
     browserSync = require('browser-sync').create();
     ghPages = require('gulp-gh-pages');
+    ciGulp = require('ci-gulp');
 
 // пути
 const paths = {
@@ -36,7 +37,7 @@ const paths = {
 function deploy() {
     return gulp.src('./dist/**/*')
         .pipe(ghPages());
-};
+}
 
 // задача для очистки
 function clean() {
