@@ -12,7 +12,6 @@ const gulp = require('gulp'),
     newer = require('gulp-newer'),
     browserSync = require('browser-sync').create();
     ghPages = require('gulp-gh-pages');
-    ciGulp = require('ci-gulp');
 
 // пути
 const paths = {

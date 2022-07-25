@@ -114,14 +114,14 @@
     align-items: center;
   }
 
-  &__line-element {
+  &__line {
     display: flex;
     flex-direction: row;
     justify-content: center;
     width: 100%;
   }
 
-  &__column-element {
+  &__column {
     display: flex;
     flex-direction: column;
     justify-content: center;

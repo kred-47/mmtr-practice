@@ -597,7 +597,7 @@ class ScreenKeyboard {
 
         const lineElement = document.createElement('div');
 
-        lineElement.classList.add('my-screen-keyboard__line-element');
+        lineElement.classList.add('my-screen-keyboard__line');
         lineElement.style.justifyContent = config.justifyContent;
 
         if (Array.isArray(config.buttons)) {
@@ -636,7 +636,7 @@ class ScreenKeyboard {
 
         const columnElement = document.createElement('div');
 
-        columnElement.classList.add('my-screen-keyboard__column-element');
+        columnElement.classList.add('my-screen-keyboard__column');
         columnElement.style.width = config.width;
         columnElement.style.justifyContent = config.justifyContent;
 
