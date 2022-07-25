@@ -1,7 +1,6 @@
 const gulp = require('gulp'),
     sass = require('gulp-sass')(require('sass')),
     del = require('del'),
-    rename = require('gulp-rename'),
     cleanCSS = require('gulp-clean-css'),
     babel = require('gulp-babel'),
     uglify = require('gulp-uglify-es').default,
@@ -12,6 +11,7 @@ const gulp = require('gulp'),
     htmlmin = require('gulp-htmlmin'),
     newer = require('gulp-newer'),
     browserSync = require('browser-sync').create();
+    ghPages = require('gulp-gh-pages');
 
 // пути
 const paths = {
@@ -32,6 +32,11 @@ const paths = {
         dest: 'dist/img'
     }
 }
+
+function deploy() {
+    return gulp.src('./dist/**/*')
+        .pipe(ghPages());
+};
 
 // задача для очистки
 function clean() {
@@ -108,5 +113,6 @@ exports.html = html;
 exports.styles = styles;
 exports.scripts = scripts;
 exports.watch = watch;
+exports.deploy = deploy;
 exports.build = build;
 exports.default = build;

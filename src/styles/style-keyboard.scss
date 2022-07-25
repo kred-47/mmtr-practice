@@ -88,7 +88,6 @@
   width: 1040px;
   height: 345px;
   border: 1px solid slategray;
-  //padding-top: 40px;
   background-color: black;
   position: absolute;
   top: 60px;
@@ -134,7 +133,6 @@
     background-color: #343434;
     width: 40px;
     height: 40px;
-    //border: 1px solid slategrey;
     margin: 3px;
     padding: 4px;
     text-align: center;
@@ -149,12 +147,6 @@
     cursor: pointer;
   }
 }
-
-//.line-element {
-//  display: flex;
-//  flex-direction: row;
-//  width: 100%;
-//}
 
 .hidden-screen-keyboard {
   display: none;

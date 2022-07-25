@@ -24,10 +24,7 @@
     "sass": "^1.53.0"
   },
   "dependencies": {
+    "gulp-gh-pages": "^0.5.4",
     "gulp-uglify-es": "^3.0.0"
-  },
-  "scripts": {
-    "predeploy": "npm run build",
-    "deploy": "gh-pages -d build"
   }
 }
