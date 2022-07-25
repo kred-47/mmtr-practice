@@ -19,7 +19,7 @@ jobs:
       - name: Install
         run: |
           npm ci
-          npm run build
+          gulp build
 
       - name: Deploy
         uses: JamesIves/github-pages-deploy-action@v4
