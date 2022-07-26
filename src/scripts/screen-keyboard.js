@@ -651,11 +651,24 @@ class ScreenKeyboard {
                     this.buttons.filter(item => item.localeData[this.language] === 'Alt').forEach(item => item.toggleActive());
                     break;
                 }
+                case 'Caps': {
+                    this.buttons.filter(item => item.localeData[this.language] === 'Caps').forEach(item => item.toggleActive());
+                    break;
+                }
+                case 'Fn': {
+                    this.buttons.filter(item => item.localeData[this.language] === 'Fn').forEach(item => item.toggleActive());
+                    break;
+                }
+                case 'Ctrl': {
+                    this.buttons.filter(item => item.localeData[this.language] === 'Ctrl').forEach(item => item.toggleActive());
+                    break;
+                }
                 default:
                     console.log('undefined button');
             }
 
             this.onChangeLayoutKeyboard();
+            this.onChangeRegister();
 
             return;
         }
@@ -680,6 +693,33 @@ class ScreenKeyboard {
         return this.screenKeyboardElement;
     }
 
+    onChangeRegister() {  // почему-то изменяется регистр только у нажатой кнопки
+        if (
+            this.buttons.find(item => item.localeData[this.language] === 'Caps' && !item.active ) &&
+            this.buttons.find(item => item.localeData[this.language] === 'Shift' && !item.active)
+        ) {
+            console.log('если шифт И капс не активны')
+            this.buttons.forEach(item => {
+                if (item.classList !== 'letter-button') {
+                    console.log('OnChangeRegister goes letter')
+                    item.toggleRegister(this.language);
+                }
+            });
+            return;
+        }
+
+        if (
+            this.buttons.find(item => item.localeData[this.language] === 'Caps' && item.active ) ||
+            this.buttons.find(item => item.localeData[this.language] === 'Shift' && item.active)
+        ) {
+            console.log('если шифт ИЛИ капс активен')
+            this.buttons.forEach(item => {
+                if (item.classList !== 'letter-button') {
+                    item.toggleRegister(this.language, item.active); // сюда нужно передать активность кнопки нажатой
+                }
+            });
+        }
+    }
 
     onChangeLayoutKeyboard() {
         if (
@@ -756,6 +796,19 @@ class Button {
         }
     }
 
+    toggleRegister(locale, active) {
+        console.log(this.keyElement.innerHTML)
+        console.log('changeRegister toUpperCase')
+        if (!active) { // почему-то изменяется только активная кнопка, а не вся клавиатура
+            this.keyElement.innerHTML = this.localeData[locale];
+
+            return;
+        }
+
+        this.keyElement.innerHTML = this.localeData[locale].toUpperCase();
+        console.log(this.keyElement.innerHTML)
+    }
+
     changeLanguage(locale) {
         this.keyElement.innerHTML = this.localeData[locale];
     }
@@ -776,7 +829,10 @@ class Button {
         this.keyElement = document.createElement('div');
         this.keyElement.setAttribute('id', this.id);
         this.keyElement.innerHTML = this.localeData[this.currentLanguage];
-        this.keyElement.classList.add('my-screen-keyboard__key', `${this.type}`, `${(this.isFunc ? 'letter-button' : null)}` );
+        this.keyElement.classList.add('my-screen-keyboard__key', `${this.type}`);
+        if (this.isFunc) {
+            this.keyElement.classList.add('letter-button');
+        }
         this.keyElement.addEventListener('click', this.handleClick.bind(this));
     }
 
