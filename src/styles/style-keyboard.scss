@@ -1,5 +1,4 @@
-.task2 {
-
+.second-task {
   display: flex;
   flex-direction: column;
   position: relative;
@@ -38,10 +37,6 @@
 
 .screen-keyboard {
 
-  //background-color: black;
-  //position: absolute;
-  //right: 200px;
-
   &__exit {
     position: absolute;
     right: 3px;
@@ -60,24 +55,24 @@
     display: flex;
     flex-direction: row;
     width: 100%;
-  }
 
-  &__line-button {
-    background-color: dimgrey;
-    width: 40px;
-    height: 40px;
-    border: 1px solid slategrey;
-    border-radius: 0px;
-    margin: 3px;
-    padding: 4px;
-    text-align: center;
-    text-transform: uppercase;
-  }
+    &-button {
+      background-color: dimgrey;
+      width: 40px;
+      height: 40px;
+      border: 1px solid slategrey;
+      border-radius: 0px;
+      margin: 3px;
+      padding: 4px;
+      text-align: center;
+      text-transform: uppercase;
 
-  &__line-button:hover {
-    color: whitesmoke;
-    background: slategrey;
-    cursor: pointer;
+      &:hover {
+        color: black;
+        background: whitesmoke;
+        cursor: pointer;
+      }
+    }
   }
 }
 
@@ -112,6 +107,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    cursor: pointer;
   }
 
   &__line {
@@ -139,13 +135,14 @@
     text-transform: uppercase;
     font-family: Calibri;
     cursor: pointer;
+
+    &:hover {
+      color: black;
+      background: whitesmoke;
+      cursor: pointer;
+    }
   }
 
-  &__key:hover {
-    color: black;
-    background: whitesmoke;
-    cursor: pointer;
-  }
 }
 
 .hidden-screen-keyboard {
@@ -186,10 +183,6 @@
   align-items: center;
 }
 
-//.img-win {
-//  width: 70%;
-//}
-
 .space {
   width: 300px;
 }
@@ -204,19 +197,9 @@
   height: 40px;
   width: 44px;
   background-color: #343434;
-  //border: 1px solid white;
-
 }
 
 ._active {
   background-color: cornflowerblue;
 }
-
-.button:hover {
-  color: whitesmoke;
-  background: slategrey;
-  cursor: pointer;
-}
-
-
 

@@ -13,7 +13,6 @@ const gulp = require('gulp'),
     browserSync = require('browser-sync').create();
     ghPages = require('gulp-gh-pages');
 
-// пути
 const paths = {
     html: {
         src: 'src/*.html',
@@ -38,7 +37,6 @@ function deploy() {
         .pipe(ghPages());
 }
 
-// задача для очистки
 function clean() {
     return del(['dist/*', '!dist/img']);
 }
@@ -50,7 +48,6 @@ function html() {
         .pipe(browserSync.stream());
 }
 
-// задача для обработки стилей
 function styles() {
     return gulp.src(paths.styles.src)
         .pipe(sourcemaps.init())
@@ -61,17 +58,12 @@ function styles() {
         .pipe(cleanCSS({
             level: 2
         }))
-        // .pipe(rename({
-        //     basename: 'main',
-        //     suffix: '.min'
-        // }))
         .pipe(concat('main.min.css'))
         .pipe(sourcemaps.write('.'))
         .pipe(gulp.dest(paths.styles.dest))
         .pipe(browserSync.stream());
 }
 
-// задача для обработки скриптов
 function scripts() {
    return gulp.src(paths.scripts.src)
        .pipe(sourcemaps.init())
@@ -105,7 +97,7 @@ function watch() {
     gulp.watch(paths.scripts.src, scripts);
 }
 
-const build = gulp.series(clean, html, gulp.parallel(styles, scripts, img), watch, deploy);
+const build = gulp.series(clean, html, gulp.parallel(styles, scripts, img), watch);
 
 exports.clean = clean;
 exports.img = img;
