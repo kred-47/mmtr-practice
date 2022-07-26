@@ -1,28 +1,28 @@
-#name: Build and Deploy
-#on:
-#  push:
-#    branches:
-#      - keyboard
-#jobs:
-#  build-and-deploy:
-#    runs-on: windows-2019
-#    concurrency: ci-${{github.ref}}
-#    steps:
-#      - name: Checkout
-#        uses: actions/checkout@v2
-#
-#      - name: Configure Node
-#        uses: actions/setup-node@v1
-#        with:
-#          node-version: '16.13.0'
-#
-#      - name: Install
-#        run: |
-#          npm ci
-#          gulp build
-#
-#      - name: Deploy
-#        uses: JamesIves/github-pages-deploy-action@v4
-#        with:
-#          folder: build
-#          branch: gh-pages
+name: Build and Deploy
+on:
+  push:
+    branches:
+      - keyboard
+jobs:
+  build-and-deploy:
+    runs-on: windows-2019
+    concurrency: ci-${{github.ref}}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Configure Node
+        uses: actions/setup-node@v1
+        with:
+          node-version: '16.13.0'
+
+      - name: Install
+        run: |
+          npm ci
+          gulp build
+
+      - name: Deploy
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          folder: build
+          branch: gh-pages
