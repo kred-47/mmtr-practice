@@ -734,27 +734,39 @@ class ScreenKeyboard {
         const button = this.buttons.find(item => item.id === id);
 
         if (button?.isFunc) {
+            console.log(button)
             switch (button.localeData[this.language]) {
                 case 'Shift': {
+                    console.log('BUTTON SHIFT')
                     this.buttons.filter(item => item.localeData[this.language] === 'Shift').forEach(item => item.toggleActive());
                     break;
                 }
                 case 'Alt': {
+                    console.log('BUTTON ALT')
                     this.buttons.filter(item => item.localeData[this.language] === 'Alt').forEach(item => item.toggleActive());
                     break;
                 }
                 case 'Caps': {
+                    console.log('BUTTON CAPS')
                     this.buttons.filter(item => item.localeData[this.language] === 'Caps').forEach(item => item.toggleActive());
                     break;
                 }
                 case 'Fn': {
+                    console.log('BUTTON FN')
                     this.buttons.filter(item => item.localeData[this.language] === 'Fn').forEach(item => item.toggleActive());
                     break;
                 }
                 case 'Ctrl': {
+                    console.log('BUTTON CTRL')
                     this.buttons.filter(item => item.localeData[this.language] === 'Ctrl').forEach(item => item.toggleActive());
                     break;
                 }
+                case 'Win': {
+                    console.log('BUTTON WIN')
+                    this.buttons.filter(item => item.localeData[this.language] === 'Win').forEach(item => item.toggleActive());
+                    break;
+                }
+
                 default:
                     console.log('undefined button');
             }
@@ -853,10 +865,15 @@ class Button {
         this.alt = props?.alt;
 
         this.createButton(props);
+        if (this.icon === 'icon-win8') {
+            console.log(props)
+        }
     }
 
     handleClick = () => {
+        console.log('HANDLE 1')
         if (typeof this.onClick === 'function') {
+            console.log('HANDLE 2')
             this.onClick(this.id);
         }
     }
@@ -906,22 +923,22 @@ class Button {
             return;
         }
 
-        if (this.alt) {
-            console.log('THIS ALT')
-            const altContent = document.createElement('div');
-            altContent.classList.add('alt-content');
-            altContent.innerHTML = this.alt[this.currentLanguage];
-
-            const mainContent = document.createElement('div');
-            mainContent.classList.add('content')
-            mainContent.innerHTML = this.alt[this.currentLanguage];
-
-            this.keyElement.style.display = 'flex';
-            this.keyElement.style.flexDirection = 'column';
-            this.keyElement.style.justifyContent = 'space-evenly';
-
-            return this.keyElement.append(altContent, mainContent);
-        }
+        // if (this.alt) {
+        //     console.log('THIS ALT')
+        //     const altContent = document.createElement('div');
+        //     altContent.classList.add('alt-content');
+        //     altContent.innerHTML = this.alt[this.currentLanguage];
+        //
+        //     const mainContent = document.createElement('div');
+        //     mainContent.classList.add('content')
+        //     mainContent.innerHTML = this.alt[this.currentLanguage];
+        //
+        //     this.keyElement.style.display = 'flex';
+        //     this.keyElement.style.flexDirection = 'column';
+        //     this.keyElement.style.justifyContent = 'space-evenly';
+        //
+        //     this.keyElement.append(altContent, mainContent);
+        // }
 
         this.keyElement.innerHTML = this.localeData[this.currentLanguage];
 
