@@ -10,7 +10,7 @@ const gulp = require('gulp'),
     imagemin = require('gulp-imagemin'),
     htmlmin = require('gulp-htmlmin'),
     newer = require('gulp-newer'),
-    browserSync = require('browser-sync').create();
+    browserSync = require('browser-sync').create(),
     ghPages = require('gulp-gh-pages');
 
 const paths = {
@@ -29,6 +29,10 @@ const paths = {
     images: {
         src: 'src/img/**',
         dest: 'dist/img'
+    },
+    fonts: {
+        src: 'src/fonts/**',
+        dest: 'dist/fonts'
     }
 }
 
@@ -86,6 +90,12 @@ function img() {
         .pipe(gulp.dest(paths.images.dest));
 }
 
+function fonts() {
+    return gulp.src(paths.fonts.src)
+        .pipe(newer(paths.fonts.dest))
+        .pipe(gulp.dest(paths.fonts.dest))
+}
+
 function watch() {
     browserSync.init({
         server: {
@@ -97,9 +107,10 @@ function watch() {
     gulp.watch(paths.scripts.src, scripts);
 }
 
-const build = gulp.series(clean, html, gulp.parallel(styles, scripts, img), watch);
+const build = gulp.series(clean, html, gulp.parallel(styles, scripts, img, fonts), watch);
 
 exports.clean = clean;
+exports.fonts = fonts;
 exports.img = img;
 exports.html = html;
 exports.styles = styles;

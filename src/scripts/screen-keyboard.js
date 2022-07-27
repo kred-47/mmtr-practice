@@ -27,85 +27,138 @@ class ScreenKeyboard {
                                             isFunc: false,
                                             localeData: {en: '`', ru: 'ё'},
                                             type: 'base',
-                                            active: false
+                                            active: false,
+                                            alt: {
+                                                en: '~',
+                                                ru: 'ё'
+                                            }
                                         },
                                         {
                                             isFunc: false,
                                             localeData: {en: '1', ru: '1'},
                                             type: 'base',
-                                            active: false
+                                            active: false,
+                                            alt: {
+                                                en: '!',
+                                                ru: '!'
+                                            }
                                         },
                                         {
                                             isFunc: false,
                                             localeData: {en: '2', ru: '2'},
                                             type: 'base',
-                                            active: false
+                                            active: false,
+                                            alt: {
+                                                en: '@',
+                                                ru: '"'
+                                            }
                                         },
                                         {
                                             isFunc: false,
                                             localeData: {en: '3', ru: '3'},
                                             type: 'base',
-                                            active: false
+                                            active: false,
+                                            alt: {
+                                                en: '#',
+                                                ru: '№'
+                                            }
                                         },
                                         {
                                             isFunc: false,
                                             localeData: {en: '4', ru: '4'},
                                             type: 'base',
-                                            active: false
+                                            active: false,
+                                            alt: {
+                                                en: '$',
+                                                ru: ';'
+                                            }
                                         },
                                         {
                                             isFunc: false,
                                             localeData: {en: '5', ru: '5'},
                                             type: 'base',
-                                            active: false
+                                            active: false,
+                                            alt: {
+                                                en: '%',
+                                                ru: '%'
+                                            }
                                         },
                                         {
                                             isFunc: false,
                                             localeData: {en: '6', ru: '6'},
                                             type: 'base',
-                                            active: false
+                                            active: false,
+                                            alt: {
+                                                en: '^',
+                                                ru: ':'
+                                            }
                                         },
                                         {
                                             isFunc: false,
                                             localeData: {en: '7', ru: '7'},
                                             type: 'base',
-                                            active: false
+                                            active: false,
+                                            alt: {
+                                                en: '&',
+                                                ru: '?'
+                                            }
                                         },
                                         {
                                             isFunc: false,
                                             localeData: {en: '8', ru: '8'},
                                             type: 'base',
-                                            active: false
+                                            active: false,
+                                            alt: {
+                                                en: '*',
+                                                ru: '*'
+                                            }
                                         },
                                         {
                                             isFunc: false,
                                             localeData: {en: '9', ru: '9'},
                                             type: 'base',
-                                            active: false
+                                            active: false,
+                                            alt: {
+                                                en: '(',
+                                                ru: '('
+                                            }
                                         },
                                         {
                                             isFunc: false,
                                             localeData: {en: '0', ru: '0'},
                                             type: 'base',
-                                            active: false
+                                            active: false,
+                                            alt: {
+                                                en: ')',
+                                                ru: ')'
+                                            }
                                         },
                                         {
                                             isFunc: false,
                                             localeData: {en: '-', ru: '-'},
                                             type: 'base',
-                                            active: false
+                                            active: false,
+                                            alt: {
+                                                en: '_',
+                                                ru: '_'
+                                            }
                                         },
                                         {
                                             isFunc: false,
                                             localeData: {en: '=', ru: '='},
                                             type: 'base',
-                                            active: false
+                                            active: false,
+                                            alt: {
+                                                en: '+',
+                                                ru: '+'
+                                            }
                                         },
                                         {
                                             isFunc: true,
                                             localeData: {en: 'Backspace', ru: 'Backspace'},
                                             type: 'backspace',
-                                            active: false
+                                            active: false,
+                                            icon: 'icon-cancel-alt'
                                         },
                                     ]
                                 },
@@ -116,7 +169,8 @@ class ScreenKeyboard {
                                             isFunc: true,
                                             localeData: {en: 'Tab', ru: 'Tab'},
                                             type: 'tab',
-                                            active: false
+                                            active: false,
+                                            icon: 'icon-exchange'
                                         },
                                         {
                                             isFunc: false,
@@ -182,19 +236,31 @@ class ScreenKeyboard {
                                             isFunc: false,
                                             localeData: {en: '[', ru: 'х'},
                                             type: 'base',
-                                            active: false
+                                            active: false,
+                                            alt: {
+                                                en: '{',
+                                                ru: 'х'
+                                            }
                                         },
                                         {
                                             isFunc: false,
                                             localeData: {en: ']', ru: 'ъ'},
                                             type: 'base',
-                                            active: false
+                                            active: false,
+                                            alt: {
+                                                en: '}',
+                                                ru: 'ъ'
+                                            }
                                         },
                                         {
                                             isFunc: false,
                                             localeData: {en: '\\', ru: '\\'},
                                             type: 'base',
-                                            active: false
+                                            active: false,
+                                            alt: {
+                                                en: '|',
+                                                ru: '/'
+                                            }
                                         },
                                         {
                                             isFunc: true,
@@ -271,13 +337,21 @@ class ScreenKeyboard {
                                             isFunc: false,
                                             localeData: {en: ';', ru: 'ж'},
                                             type: 'base',
-                                            active: false
+                                            active: false,
+                                            alt: {
+                                                en: ':',
+                                                ru: 'ж'
+                                            }
                                         },
                                         {
                                             isFunc: false,
                                             localeData: {en: "'", ru: 'э'},
                                             type: 'base',
-                                            active: false
+                                            active: false,
+                                            alt: {
+                                                en: '"',
+                                                ru: 'э'
+                                            }
                                         },
                                         {
                                             isFunc: true,
@@ -342,25 +416,38 @@ class ScreenKeyboard {
                                             isFunc: false,
                                             localeData: {en: ',', ru: 'б'},
                                             type: 'base',
-                                            active: false
+                                            active: false,
+                                            alt: {
+                                                en: '<',
+                                                ru: 'б'
+                                            }
                                         },
                                         {
                                             isFunc: false,
                                             localeData: {en: '.', ru: 'ю'},
                                             type: 'base',
-                                            active: false
+                                            active: false,
+                                            alt: {
+                                                en: '>',
+                                                ru: 'ю'
+                                            }
                                         },
                                         {
                                             isFunc: false,
                                             localeData: {en: '/', ru: '.'},
                                             type: 'base',
-                                            active: false
+                                            active: false,
+                                            alt: {
+                                                en: '?',
+                                                ru: ','
+                                            }
                                         },
                                         {
                                             isFunc: true,
                                             localeData: {en: 'Up', ru: 'Up'},
                                             type: 'base',
-                                            active: false
+                                            active: false,
+                                            icon: 'icon-up-open'
                                         },
                                         {
                                             isFunc: true,
@@ -389,7 +476,8 @@ class ScreenKeyboard {
                                             isFunc: true,
                                             localeData: {en: 'Win', ru: 'Win'},
                                             type: 'button-win',
-                                            active: false
+                                            active: false,
+                                            icon: 'icon-win8'
                                         },
                                         {
                                             isFunc: true,
@@ -419,25 +507,29 @@ class ScreenKeyboard {
                                             isFunc: true,
                                             localeData: {en: 'Left', ru: 'Left'},
                                             type: 'base',
-                                            active: false
+                                            active: false,
+                                            icon: 'icon-left-open'
                                         },
                                         {
                                             isFunc: true,
                                             localeData: {en: 'Down', ru: 'Down'},
                                             type: 'base',
-                                            active: false
+                                            active: false,
+                                            icon: 'icon-down-open'
                                         },
                                         {
                                             isFunc: true,
                                             localeData: {en: 'Right', ru: 'Right'},
                                             type: 'base',
-                                            active: false
+                                            active: false,
+                                            icon: 'icon-right-open'
                                         },
                                         {
                                             isFunc: true,
                                             localeData: {en: 'Menu', ru: 'Menu'},
                                             type: 'base',
-                                            active: false
+                                            active: false,
+                                            icon: 'icon-doc-text'
                                         },
                                     ]
                                 }
@@ -668,7 +760,6 @@ class ScreenKeyboard {
             }
 
             this.onChangeLayoutKeyboard();
-            this.onChangeRegister();
 
             return;
         }
@@ -691,34 +782,6 @@ class ScreenKeyboard {
         panel.append(this.closeKeyboard);
 
         return this.screenKeyboardElement;
-    }
-
-    onChangeRegister() {  // почему-то изменяется регистр только у нажатой кнопки
-        if (
-            this.buttons.find(item => item.localeData[this.language] === 'Caps' && !item.active ) &&
-            this.buttons.find(item => item.localeData[this.language] === 'Shift' && !item.active)
-        ) {
-            console.log('если шифт И капс не активны')
-            this.buttons.forEach(item => {
-                if (item.classList !== 'letter-button') {
-                    console.log('OnChangeRegister goes letter')
-                    item.toggleRegister(this.language);
-                }
-            });
-            return;
-        }
-
-        if (
-            this.buttons.find(item => item.localeData[this.language] === 'Caps' && item.active ) ||
-            this.buttons.find(item => item.localeData[this.language] === 'Shift' && item.active)
-        ) {
-            console.log('если шифт ИЛИ капс активен')
-            this.buttons.forEach(item => {
-                if (item.classList !== 'letter-button') {
-                    item.toggleRegister(this.language, item.active); // сюда нужно передать активность кнопки нажатой
-                }
-            });
-        }
     }
 
     onChangeLayoutKeyboard() {
@@ -786,6 +849,8 @@ class Button {
         this.onClick = props?.onClick;
         this.onToggle = props?.onToggle;
         this.currentLanguage = props?.currentLanguage;
+        this.icon = props?.icon;
+        this.alt = props?.alt;
 
         this.createButton(props);
     }
@@ -796,21 +861,10 @@ class Button {
         }
     }
 
-    toggleRegister(locale, active) {
-        console.log(this.keyElement.innerHTML)
-        console.log('changeRegister toUpperCase')
-        if (!active) { // почему-то изменяется только активная кнопка, а не вся клавиатура
-            this.keyElement.innerHTML = this.localeData[locale];
-
-            return;
-        }
-
-        this.keyElement.innerHTML = this.localeData[locale].toUpperCase();
-        console.log(this.keyElement.innerHTML)
-    }
-
     changeLanguage(locale) {
-        this.keyElement.innerHTML = this.localeData[locale];
+        if (!this.icon) {
+            this.keyElement.innerHTML = this.localeData[locale];
+        }
     }
 
     toggleActive() {
@@ -825,14 +879,52 @@ class Button {
         this.keyElement.classList.remove('_active');
     }
 
+    /*
+    'isFunc': if key have 'true' => the 'letter-button' class is added to the button
+
+    'localeData': key have a text, that is displayed on the button
+
+    'type': key defines class, that set the shape of the button
+
+    'active': key allows you to set button 'pressed' state
+
+    'icon': if the button have this key, the text in the button is not written. The button have only an icon
+     */
     createButton() {
         this.keyElement = document.createElement('div');
         this.keyElement.setAttribute('id', this.id);
-        this.keyElement.innerHTML = this.localeData[this.currentLanguage];
+
         this.keyElement.classList.add('my-screen-keyboard__key', `${this.type}`);
+
         if (this.isFunc) {
             this.keyElement.classList.add('letter-button');
         }
+
+        if (this.icon) {
+            this.keyElement.classList.add(`${this.icon}`)
+
+            return;
+        }
+
+        if (this.alt) {
+            console.log('THIS ALT')
+            const altContent = document.createElement('div');
+            altContent.classList.add('alt-content');
+            altContent.innerHTML = this.alt[this.currentLanguage];
+
+            const mainContent = document.createElement('div');
+            mainContent.classList.add('content')
+            mainContent.innerHTML = this.alt[this.currentLanguage];
+
+            this.keyElement.style.display = 'flex';
+            this.keyElement.style.flexDirection = 'column';
+            this.keyElement.style.justifyContent = 'space-evenly';
+
+            return this.keyElement.append(altContent, mainContent);
+        }
+
+        this.keyElement.innerHTML = this.localeData[this.currentLanguage];
+
         this.keyElement.addEventListener('click', this.handleClick.bind(this));
     }
 
