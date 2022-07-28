@@ -527,7 +527,7 @@ class ScreenKeyboard {
                                         {
                                             isFunc: true,
                                             localeData: {en: 'Menu', ru: 'Menu'},
-                                            type: 'base',
+                                            type: 'button-menu',
                                             active: false,
                                             icon: 'icon-doc-text'
                                         },
@@ -734,48 +734,43 @@ class ScreenKeyboard {
         const button = this.buttons.find(item => item.id === id);
 
         if (button?.isFunc) {
-            console.log(button)
-            switch (button.localeData[this.language]) {
-                case 'Shift': {
-                    console.log('BUTTON SHIFT')
-                    this.buttons.filter(item => item.localeData[this.language] === 'Shift').forEach(item => item.toggleActive());
-                    break;
-                }
-                case 'Alt': {
-                    console.log('BUTTON ALT')
-                    this.buttons.filter(item => item.localeData[this.language] === 'Alt').forEach(item => item.toggleActive());
-                    break;
-                }
-                case 'Caps': {
-                    console.log('BUTTON CAPS')
-                    this.buttons.filter(item => item.localeData[this.language] === 'Caps').forEach(item => item.toggleActive());
-                    break;
-                }
-                case 'Fn': {
-                    console.log('BUTTON FN')
-                    this.buttons.filter(item => item.localeData[this.language] === 'Fn').forEach(item => item.toggleActive());
-                    break;
-                }
-                case 'Ctrl': {
-                    console.log('BUTTON CTRL')
-                    this.buttons.filter(item => item.localeData[this.language] === 'Ctrl').forEach(item => item.toggleActive());
-                    break;
-                }
-                case 'Win': {
-                    console.log('BUTTON WIN')
-                    this.buttons.filter(item => item.localeData[this.language] === 'Win').forEach(item => item.toggleActive());
-                    break;
-                }
+            // switch (button.contentButton) {
+            //     case 'Shift': {
+            //         this.buttons.filter(item => item.contentButton === 'Shift').forEach(item => item.toggleActive());
+            //         break;
+            //     }
+            //     case 'Alt': {
+            //         this.buttons.filter(item => item.contentButton === 'Alt').forEach(item => item.toggleActive());
+            //         break;
+            //     }
+            //     case 'Caps': {
+            //         this.buttons.filter(item => item.contentButton === 'Caps').forEach(item => item.toggleActive());
+            //         break;
+            //     }
+            //     case 'Fn': {
+            //         this.buttons.filter(item => item.contentButton === 'Fn').forEach(item => item.toggleActive());
+            //         break;
+            //     }
+            //     case 'Ctrl': {
+            //         this.buttons.filter(item => item.contentButton === 'Ctrl').forEach(item => item.toggleActive());
+            //         break;
+            //     }
+            //     case 'Win': {
+            //         this.buttons.filter(item => item.contentButton === 'Win').forEach(item => item.toggleActive());
+            //         break;
+            //     }
+            //
+            //     default:
+            //         console.log('undefined button');
+            // }
 
-                default:
-                    console.log('undefined button');
-            }
+            this.buttons.filter(item => item.content === button.content).forEach(item => item.toggleActive());
 
             this.onChangeLayoutKeyboard();
 
             return;
         }
-        console.log(`${button.localeData[this.language]} is not 'func'`);
+        console.log(`${button.content} is not 'func'`);
     }
 
     createKeyboard() {
@@ -798,12 +793,12 @@ class ScreenKeyboard {
 
     onChangeLayoutKeyboard() {
         if (
-            this.buttons.find(item => item.localeData[this.language] === 'Shift' && item.active) &&
-            this.buttons.find(item => item.localeData[this.language] === 'Alt' && item.active)
+            this.buttons.find(item => item.content === 'Shift' && item.active) &&
+            this.buttons.find(item => item.content === 'Alt' && item.active)
         ) {
             this.changeLanguage();
             this.buttons.forEach(item => {
-                if (['Shift', 'Alt'].includes(item.localeData[this.language])) {
+                if (['Shift', 'Alt'].includes(item.content)) {
                     item.toggleActive();
                 }
                 item.changeLanguage(this.language);
@@ -843,6 +838,7 @@ class ScreenKeyboard {
     onShowKeyboard() {
         if (this.screenKeyboardElement.classList.value === 'my-screen-keyboard hidden-screen-keyboard') {
             this.screenKeyboardElement.classList.remove('hidden-screen-keyboard');
+
             return;
         }
         if (this.screenKeyboardElement.classList.value === 'my-screen-keyboard') {
@@ -868,6 +864,10 @@ class Button {
         if (this.icon === 'icon-win8') {
             console.log(props)
         }
+    }
+
+    get content() {
+        return this.localeData[this.currentLanguage];
     }
 
     handleClick = () => {
@@ -907,6 +907,32 @@ class Button {
 
     'icon': if the button have this key, the text in the button is not written. The button have only an icon
      */
+
+    get altContent() {
+        console.log(this.alt[this.currentLanguage])
+        const altContent = document.createElement('div');
+        altContent.classList.add('alt-content');
+        altContent.innerHTML = this?.alt[this.currentLanguage];
+
+        if (this.alt) {
+            return altContent;
+        }
+    }
+
+    get mainContent() {
+        const mainContent = document.createElement('div');
+        mainContent.innerHTML = this.content;
+        if (this.alt && this.alt.ru !== this.content) {
+            mainContent.classList.add('content');
+
+            return mainContent;
+        }
+
+        mainContent.classList.add('one-content')
+
+        return mainContent;
+    }
+
     createButton() {
         this.keyElement = document.createElement('div');
         this.keyElement.setAttribute('id', this.id);
@@ -914,17 +940,22 @@ class Button {
         this.keyElement.classList.add('my-screen-keyboard__key', `${this.type}`);
 
         if (this.isFunc) {
-            this.keyElement.classList.add('letter-button');
+            this.keyElement.innerHTML.length > 6
+                ? this.keyElement.classList.add('letter-button--small')  // додумать добавление класса к длинным словам в кнопке
+                : this.keyElement.classList.add('letter-button');
         }
 
-        if (this.icon) {
-            this.keyElement.classList.add(`${this.icon}`)
+        if (!this.icon) {
+            const altContent = this.alt ? this.altContent : null;
+            const mainContent = this.mainContent;
+            const array = [];
 
-            return;
+            this.alt && this.alt.ru !== this.content ? array.push(altContent, mainContent) : array.push(mainContent);
+
+            this.keyElement.append(...array);
         }
 
         // if (this.alt) {
-        //     console.log('THIS ALT')
         //     const altContent = document.createElement('div');
         //     altContent.classList.add('alt-content');
         //     altContent.innerHTML = this.alt[this.currentLanguage];
@@ -940,7 +971,9 @@ class Button {
         //     this.keyElement.append(altContent, mainContent);
         // }
 
-        this.keyElement.innerHTML = this.localeData[this.currentLanguage];
+        if (this.icon) {
+            this.keyElement.classList.add(`${this.icon}`)
+        }
 
         this.keyElement.addEventListener('click', this.handleClick.bind(this));
     }

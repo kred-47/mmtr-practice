@@ -135,6 +135,7 @@
     font-weight: lighter;
     font-family: Calibri;
     cursor: pointer;
+    position: relative;
 
     &:hover {
       color: black;
@@ -145,8 +146,25 @@
 
 }
 
-alt-content {
+.alt-content {
+  position: absolute;
+  top: 0;
   color: darkgrey;
+  font-size: 1.3rem;
+}
+
+.content {
+  position: absolute;
+  top: 11px;
+  right: 5px;
+}
+
+.one-content {
+  position: absolute;
+  left: 3px;
+  top: 0;
+  display: flex;
+  flex-wrap: wrap;
 }
 
 .hidden-screen-keyboard {
@@ -187,6 +205,12 @@ alt-content {
   width: 102px;
 }
 
+.button-menu {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .button-win {
   display: flex;
   justify-content: center;
@@ -198,9 +222,13 @@ alt-content {
 }
 
 .letter-button {
-  font-size: 12px;
+  font-size: 20px;
   text-transform: capitalize;
   word-wrap: break-word;
+
+  &&--small {
+    font-size: 10px;
+  }
 }
 
 ._active {
