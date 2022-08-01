@@ -733,44 +733,11 @@ class ScreenKeyboard {
     onClick(id) {
         const button = this.buttons.find(item => item.id === id);
 
-        if (button?.isFunc) {
-            // switch (button.contentButton) {
-            //     case 'Shift': {
-            //         this.buttons.filter(item => item.contentButton === 'Shift').forEach(item => item.toggleActive());
-            //         break;
-            //     }
-            //     case 'Alt': {
-            //         this.buttons.filter(item => item.contentButton === 'Alt').forEach(item => item.toggleActive());
-            //         break;
-            //     }
-            //     case 'Caps': {
-            //         this.buttons.filter(item => item.contentButton === 'Caps').forEach(item => item.toggleActive());
-            //         break;
-            //     }
-            //     case 'Fn': {
-            //         this.buttons.filter(item => item.contentButton === 'Fn').forEach(item => item.toggleActive());
-            //         break;
-            //     }
-            //     case 'Ctrl': {
-            //         this.buttons.filter(item => item.contentButton === 'Ctrl').forEach(item => item.toggleActive());
-            //         break;
-            //     }
-            //     case 'Win': {
-            //         this.buttons.filter(item => item.contentButton === 'Win').forEach(item => item.toggleActive());
-            //         break;
-            //     }
-            //
-            //     default:
-            //         console.log('undefined button');
-            // }
-
+        if (button?.isFunc && ['Shift', 'Alt', 'Caps', 'Fn', 'Ctrl', 'Win'].includes(button.content)) {
             this.buttons.filter(item => item.content === button.content).forEach(item => item.toggleActive());
 
             this.onChangeLayoutKeyboard();
-
-            return;
         }
-        console.log(`${button.content} is not 'func'`);
     }
 
     createKeyboard() {
@@ -781,11 +748,13 @@ class ScreenKeyboard {
         const panel = document.createElement('div');
         panel.classList.add('my-screen-keyboard__panel');
         panel.innerHTML = 'Screen keyboard';
+
         this.screenKeyboardElement.append(panel);
 
         this.closeKeyboard = document.createElement('button');
         this.closeKeyboard.classList.add('my-screen-keyboard__close');
         this.closeKeyboard.innerHTML = 'close';
+
         panel.append(this.closeKeyboard);
 
         return this.screenKeyboardElement;
@@ -802,6 +771,7 @@ class ScreenKeyboard {
                     item.toggleActive();
                 }
                 item.changeLanguage(this.language);
+                item.renderContent();
             });
         }
     }
@@ -841,6 +811,7 @@ class ScreenKeyboard {
 
             return;
         }
+
         if (this.screenKeyboardElement.classList.value === 'my-screen-keyboard') {
             this.screenKeyboardElement.classList.add('hidden-screen-keyboard');
         }
@@ -861,9 +832,6 @@ class Button {
         this.alt = props?.alt;
 
         this.createButton(props);
-        if (this.icon === 'icon-win8') {
-            console.log(props)
-        }
     }
 
     get content() {
@@ -871,29 +839,14 @@ class Button {
     }
 
     handleClick = () => {
-        console.log('HANDLE 1')
         if (typeof this.onClick === 'function') {
-            console.log('HANDLE 2')
+
             this.onClick(this.id);
         }
     }
 
     changeLanguage(locale) {
-        // if (!this.icon) {
-        //     this.keyElement.innerHTML = this.localeData[locale];
-        // }
-
-        // if (!this.icon) {
-        //     const altContent = this.alt ? this.altContent : null;
-        //     const mainContent = this.mainContent;
-        //     const array = [];
-        //
-        //     this.alt && this.alt[this.currentLanguage] !== this.content
-        //         ? array.push(altContent, mainContent)
-        //         : array.push(mainContent);
-        //
-        //     this.keyElement.append(...array);
-        // }
+        this.currentLanguage = locale;
     }
 
     toggleActive() {
@@ -918,10 +871,13 @@ class Button {
     'active': key allows you to set button 'pressed' state
 
     'icon': if the button have this key, the text in the button is not written. The button have only an icon
+
+    'alt': alternative button's content, for holding "shift"
      */
 
     get altContent() {
         const altContent = document.createElement('div');
+
         altContent.classList.add('alt-content');
         altContent.innerHTML = this?.alt[this.currentLanguage];
 
@@ -932,44 +888,60 @@ class Button {
 
     get mainContent() {
         const mainContent = document.createElement('div');
+
         mainContent.innerHTML = this.content;
+
         if (this.alt && this.alt[this.currentLanguage] !== this.content) {
             mainContent.classList.add('content');
 
             return mainContent;
         }
 
-        mainContent.classList.add('one-content')
+        mainContent.classList.add('one-content');
 
         return mainContent;
     }
 
-    createButton() {
-        this.keyElement = document.createElement('div');
-        this.keyElement.setAttribute('id', this.id);
-
-        this.keyElement.classList.add('my-screen-keyboard__key', `${this.type}`);
-
+    renderContent() {
         if (!this.icon) {
             const altContent = this.alt ? this.altContent : null;
             const mainContent = this.mainContent;
             const array = [];
 
-            this.alt && this.alt[this.currentLanguage] !== this.content
-                ? array.push(altContent, mainContent)
-                : array.push(mainContent);
+            if (this.alt && this.alt[this.currentLanguage] !== this.content) {
+                array.push(altContent, mainContent)
+            } else {
+                array.push(mainContent);
+            }
+
+            while (this.keyElement.firstChild) {
+                this.keyElement.removeChild(this.keyElement.firstChild);
+            }
 
             this.keyElement.append(...array);
         }
 
         if (this.isFunc) {
-            this.keyElement.innerText.length > 6
-                ? this.keyElement.classList.add('letter-button--small')  // додумать добавление класса к длинным словам в кнопке
-                : this.keyElement.classList.add('letter-button');
+            if (this.keyElement.innerText.length > 6) {
+                this.keyElement.classList.add('letter-button--small');
+
+                return;
+            }
+
+            this.keyElement.classList.remove('letter-button--small');
+            this.keyElement.classList.add('letter-button');
         }
+    }
+
+    createButton() {
+        this.keyElement = document.createElement('div');
+        this.keyElement.setAttribute('id', this.id);
+        this.keyElement.classList.add('my-screen-keyboard__key', `${this.type}`);
+
+        this.renderContent();
 
         if (this.icon) {
-            this.keyElement.classList.add(`${this.icon}`)
+            this.keyElement.classList.add(`${this.icon}`);
         }
 
         this.keyElement.addEventListener('click', this.handleClick.bind(this));
