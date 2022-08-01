@@ -879,9 +879,21 @@ class Button {
     }
 
     changeLanguage(locale) {
-        if (!this.icon) {
-            this.keyElement.innerHTML = this.localeData[locale];
-        }
+        // if (!this.icon) {
+        //     this.keyElement.innerHTML = this.localeData[locale];
+        // }
+
+        // if (!this.icon) {
+        //     const altContent = this.alt ? this.altContent : null;
+        //     const mainContent = this.mainContent;
+        //     const array = [];
+        //
+        //     this.alt && this.alt[this.currentLanguage] !== this.content
+        //         ? array.push(altContent, mainContent)
+        //         : array.push(mainContent);
+        //
+        //     this.keyElement.append(...array);
+        // }
     }
 
     toggleActive() {
@@ -909,7 +921,6 @@ class Button {
      */
 
     get altContent() {
-        console.log(this.alt[this.currentLanguage])
         const altContent = document.createElement('div');
         altContent.classList.add('alt-content');
         altContent.innerHTML = this?.alt[this.currentLanguage];
@@ -922,7 +933,7 @@ class Button {
     get mainContent() {
         const mainContent = document.createElement('div');
         mainContent.innerHTML = this.content;
-        if (this.alt && this.alt.ru !== this.content) {
+        if (this.alt && this.alt[this.currentLanguage] !== this.content) {
             mainContent.classList.add('content');
 
             return mainContent;
@@ -939,37 +950,23 @@ class Button {
 
         this.keyElement.classList.add('my-screen-keyboard__key', `${this.type}`);
 
-        if (this.isFunc) {
-            this.keyElement.innerHTML.length > 6
-                ? this.keyElement.classList.add('letter-button--small')  // додумать добавление класса к длинным словам в кнопке
-                : this.keyElement.classList.add('letter-button');
-        }
-
         if (!this.icon) {
             const altContent = this.alt ? this.altContent : null;
             const mainContent = this.mainContent;
             const array = [];
 
-            this.alt && this.alt.ru !== this.content ? array.push(altContent, mainContent) : array.push(mainContent);
+            this.alt && this.alt[this.currentLanguage] !== this.content
+                ? array.push(altContent, mainContent)
+                : array.push(mainContent);
 
             this.keyElement.append(...array);
         }
 
-        // if (this.alt) {
-        //     const altContent = document.createElement('div');
-        //     altContent.classList.add('alt-content');
-        //     altContent.innerHTML = this.alt[this.currentLanguage];
-        //
-        //     const mainContent = document.createElement('div');
-        //     mainContent.classList.add('content')
-        //     mainContent.innerHTML = this.alt[this.currentLanguage];
-        //
-        //     this.keyElement.style.display = 'flex';
-        //     this.keyElement.style.flexDirection = 'column';
-        //     this.keyElement.style.justifyContent = 'space-evenly';
-        //
-        //     this.keyElement.append(altContent, mainContent);
-        // }
+        if (this.isFunc) {
+            this.keyElement.innerText.length > 6
+                ? this.keyElement.classList.add('letter-button--small')  // додумать добавление класса к длинным словам в кнопке
+                : this.keyElement.classList.add('letter-button');
+        }
 
         if (this.icon) {
             this.keyElement.classList.add(`${this.icon}`)

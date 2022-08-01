@@ -222,11 +222,11 @@
 }
 
 .letter-button {
-  font-size: 20px;
+  font-size: 18px;
   text-transform: capitalize;
   word-wrap: break-word;
 
-  &&--small {
+  &--small {
     font-size: 10px;
   }
 }
