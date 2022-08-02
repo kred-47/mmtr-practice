@@ -5,11 +5,11 @@
 
   &__turn-on-keyboard {
     margin: 5px;
-    width: 50px;
-    height: 50px;
+    width: 59px;
+    height: 51px;
     background-color: cornflowerblue;
     border: 1px solid darkcyan;
-    border-radius: 50%;
+    border-radius: 10px;
     position: relative;
     display: flex;
     justify-content: center;
@@ -17,62 +17,10 @@
     cursor: pointer;
   }
 
-  &__screen-keyboard {
-    width: 1040px;
-    height: 345px;
-    border: 1px solid slategray;
-    padding-top: 0;
-    background-color: black;
-    position: absolute;
-    bottom: 50px;
-    right: 40px;
-  }
-
   &__img-keyboard {
     position: absolute;
     width: 35px;
     height: auto;
-  }
-}
-
-.screen-keyboard {
-
-  &__exit {
-    position: absolute;
-    right: 3px;
-    width: 35px;
-    height: 20px;
-  }
-
-  &__panel {
-    background-color: whitesmoke;
-    width: 1034px;
-    height: 20px;
-    padding: 3px;
-  }
-
-  &__line {
-    display: flex;
-    flex-direction: row;
-    width: 100%;
-
-    &-button {
-      background-color: dimgrey;
-      width: 40px;
-      height: 40px;
-      border: 1px solid slategrey;
-      border-radius: 0px;
-      margin: 3px;
-      padding: 4px;
-      text-align: center;
-      text-transform: uppercase;
-
-      &:hover {
-        color: black;
-        background: whitesmoke;
-        cursor: pointer;
-      }
-    }
   }
 }
 
@@ -137,10 +85,15 @@
     cursor: pointer;
     position: relative;
 
+
     &:hover {
       color: black;
       background: whitesmoke;
       cursor: pointer;
+    }
+
+    &:active {
+      background-color: cornflowerblue;
     }
   }
 
@@ -155,11 +108,12 @@
 
 .content {
   position: absolute;
-  top: 13px;
+  top: 12px;
   right: 12px;
 }
 
 .one-content {
+  //text-transform: lowercase;
   position: absolute;
   left: 3px;
   top: 0;
@@ -177,8 +131,12 @@
 
 .base {
   height: 40px;
-  width: 44px;
+  width: 40px;
   background-color: #343434;
+}
+
+.right-keys {
+  width: 53px;
 }
 
 .backspace {
@@ -202,10 +160,11 @@
 }
 
 .r-shift {
-  width: 98px;
+  width: 102px;
 }
 
 .button-menu {
+  width: 49px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -218,16 +177,22 @@
 }
 
 .space {
-  width: 300px;
+  width: 290px;
 }
 
-.letter-button {
-  font-size: 18px;
-  text-transform: capitalize;
-  word-wrap: break-word;
+.del {
+  width: 50px;
+}
 
-  &--small {
-    font-size: 10px;
+
+
+.letter-button {
+  font-size: 20px;
+  text-transform: capitalize;
+  word-wrap: anywhere;
+
+  &--s {
+    font-size: 12px;
   }
 }
 
