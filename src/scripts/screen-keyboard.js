@@ -523,16 +523,17 @@ class ScreenKeyboard {
         };
 
         this.init();
-        this.render();
-
-        this.toggleKeyboardElement.addEventListener('click', this.handleToggleKeyboard.bind(this));
-        this.closeKeyboard.addEventListener('click', this.handleToggleKeyboard.bind(this));
     }
 
     init() {
         const element = this.createKeyboard();
 
         this.screenKeyboardBlock?.appendChild(element);
+
+        this.render();
+
+        this.toggleKeyboardElement.addEventListener('click', this.handleToggleKeyboard.bind(this));
+        this.closeKeyboard.addEventListener('click', this.handleToggleKeyboard.bind(this));
     }
 
     render() {
@@ -609,7 +610,7 @@ class ScreenKeyboard {
                 }
             });
 
-            this.onChangeLayoutKeyboard();
+            this.changeLayout();
         }
     }
 
@@ -633,7 +634,7 @@ class ScreenKeyboard {
         return this.screenKeyboardElement;
     }
 
-    onChangeLayoutKeyboard() {
+    changeLayout() {
         if (
             this.buttons.find(item => item.content === 'Shift' && item.active) &&
             this.buttons.find(item => item.content === 'Alt' && item.active)
@@ -645,28 +646,33 @@ class ScreenKeyboard {
                 }
                 item.changeLanguage(this.language);
                 item.renderContent();
+                item.reduceLongWord();
             });
         }
     }
 
     changeLanguage() {
-        if (this.language === 'ru') {
-            this.language = 'en';
+
+        const russian = 'ru',
+              english = 'en';
+
+        if (this.language === russian) {
+            this.language = english;
 
             return;
         }
 
-        if (this.language === 'en') {
-            this.language = 'ru';
+        if (this.language === english) {
+            this.language = russian;
         }
     }
 
     handleToggleKeyboard() {
         this.onShowKeyboard();
-        this.onChangeToggleKeyboard();
+        this.onToggleKeyboard();
     }
 
-    onChangeToggleKeyboard() {
+    onToggleKeyboard() {
         if (this.toggleKeyboardElement.innerHTML.includes('Go print')) {
             this.toggleKeyboardElement.innerHTML = 'Hide keyboard';
 
@@ -747,7 +753,9 @@ class Button {
      */
 
     get altContent() {
-        if (!this.alt) return;
+        if (!this.alt) {
+            return;
+        }
 
         const altContent = document.createElement('div');
 
@@ -792,8 +800,9 @@ class Button {
 
             this.keyElement.append(...array);
         }
+    }
 
-
+    reduceLongWord() {
         if (this.isFunc) {
             if (this.keyElement.innerText.length > 6) {
                 this.keyElement.classList.add('letter-button--s');
@@ -804,7 +813,6 @@ class Button {
             this.keyElement.classList.remove('letter-button--s');
             this.keyElement.classList.add('letter-button');
         }
-
     }
 
     createButton() {
@@ -813,6 +821,7 @@ class Button {
         this.keyElement.classList.add('my-screen-keyboard__key', `${this.type}`);
 
         this.renderContent();
+        this.reduceLongWord();
 
         if (this.icon) {
             this.keyElement.classList.add(`${this.icon}`);
