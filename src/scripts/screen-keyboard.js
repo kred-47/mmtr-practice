@@ -11,11 +11,15 @@ class ScreenKeyboard {
                 {
                     columns: [ // columns that can have only lines
                         {
-                            justifyContent: 'end',
-                            width: '80%',
+                            style: {
+                                width: '80%',
+                                justifyContent: 'end'
+                            },
                             lines: [ // lines that can have buttons or columns
                                 {
-                                    justifyContent: 'start',
+                                    style: {
+                                        justifyContent: 'start'
+                                    },
                                     buttons: [ // buttons that can be only in line
                                         {
                                             isFunc: true,
@@ -134,7 +138,9 @@ class ScreenKeyboard {
                                     ]
                                 },
                                 {
-                                    justifyContent: 'start',
+                                    style: {
+                                        justifyContent: 'start'
+                                    },
                                     buttons: [
                                         {
                                             isFunc: true,
@@ -214,7 +220,9 @@ class ScreenKeyboard {
                                     ]
                                 },
                                 {
-                                    justifyContent: 'start',
+                                    style: {
+                                        justifyContent: 'start'
+                                    },
                                     buttons: [
                                         {
                                             isFunc: true,
@@ -281,7 +289,9 @@ class ScreenKeyboard {
                                     ]
                                 },
                                 {
-                                    justifyContent: 'start',
+                                    style: {
+                                        justifyContent: 'start'
+                                    },
                                     buttons: [
                                         {
                                             isFunc: true,
@@ -353,7 +363,9 @@ class ScreenKeyboard {
                                     ]
                                 },
                                 {
-                                    justifyContent: 'start',
+                                    style: {
+                                        justifyContent: 'start'
+                                    },
                                     buttons: [
                                         {
                                             isFunc: true,
@@ -412,11 +424,15 @@ class ScreenKeyboard {
                             ]
                         },
                         {
-                            justifyContent: 'end',
-                            width: '20%',
+                            style: {
+                                width: '20%',
+                                justifyContent: 'end'
+                            },
                             lines: [
                                 {
-                                    justifyContent: 'end',
+                                    style: {
+                                        justifyContent: 'end'
+                                    },
                                     buttons: [
                                         {
                                             isFunc: true,
@@ -436,7 +452,9 @@ class ScreenKeyboard {
                                     ]
                                 },
                                 {
-                                    justifyContent: 'end',
+                                    style: {
+                                        justifyContent: 'end'
+                                    },
                                     buttons: [
                                         {
                                             isFunc: true,
@@ -456,7 +474,9 @@ class ScreenKeyboard {
                                     ]
                                 },
                                 {
-                                    justifyContent: 'end',
+                                    style: {
+                                        justifyContent: 'end'
+                                    },
                                     buttons: [
                                         {
                                             isFunc: true,
@@ -476,7 +496,9 @@ class ScreenKeyboard {
                                     ]
                                 },
                                 {
-                                    justifyContent: 'end',
+                                    style: {
+                                        justifyContent: 'end'
+                                    },
                                     buttons: [
                                         {
                                             isFunc: true,
@@ -496,7 +518,9 @@ class ScreenKeyboard {
                                     ]
                                 },
                                 {
-                                    justifyContent: 'end',
+                                    style: {
+                                        justifyContent: 'end'
+                                    },
                                     buttons: [
                                         {
                                             isFunc: true,
@@ -552,7 +576,6 @@ class ScreenKeyboard {
         const lineElement = document.createElement('div');
 
         lineElement.classList.add('my-screen-keyboard__line');
-        lineElement.style.justifyContent = config.justifyContent;
 
         if (Array.isArray(config.buttons)) {
             config.buttons.forEach(item => {
@@ -573,8 +596,7 @@ class ScreenKeyboard {
         const columnElement = document.createElement('div');
 
         columnElement.classList.add('my-screen-keyboard__column');
-        columnElement.style.width = config.width;
-        columnElement.style.justifyContent = config.justifyContent;
+        columnElement.style.width = config.style.width;
 
         if (Array.isArray(config.lines)) {
             config.lines.forEach(item => {
@@ -598,10 +620,13 @@ class ScreenKeyboard {
     }
 
     onClick(id) {
-        if (!id) return;
+        if (!id) {
+            return;
+        }
 
         const button = this.buttons.find(item => item.id === id);
         const pressedButtons = ['Shift', 'Alt', 'Caps', 'Fn', 'Ctrl', 'Win'];
+        const shiftAlt = this.buttons.filter(item => ['Shift', 'Alt'].includes(item.content) && item.active);
 
         if (button?.isFunc && pressedButtons.includes(button.content)) {
             this.buttons.forEach(item => {
@@ -610,7 +635,9 @@ class ScreenKeyboard {
                 }
             });
 
-            this.changeLayout();
+            if (shiftAlt.length === 4 && button.content === 'Shift') {
+                this.changeLayout('Shift', 'Alt');
+            }
         }
     }
 
@@ -634,27 +661,24 @@ class ScreenKeyboard {
         return this.screenKeyboardElement;
     }
 
-    changeLayout() {
-        if (
-            this.buttons.find(item => item.content === 'Shift' && item.active) &&
-            this.buttons.find(item => item.content === 'Alt' && item.active)
-        ) {
-            this.changeLanguage();
-            this.buttons.forEach(item => {
-                if (['Shift', 'Alt'].includes(item.content)) {
-                    item.toggleActive();
-                }
-                item.changeLanguage(this.language);
-                item.renderContent();
-                item.reduceLongWord();
-            });
-        }
+    changeLayout(first, second) {
+
+        this.changeLanguage();
+        this.buttons.forEach(item => {
+            if (second === item.content) {
+                item.toggleActive();
+            }
+            item.changeLanguage(this.language);
+            item.renderContent();
+            item.reduceLongWord();
+        });
+
     }
 
     changeLanguage() {
 
-        const russian = 'ru',
-              english = 'en';
+        const russian = 'ru';
+        const english = 'en';
 
         if (this.language === russian) {
             this.language = english;
