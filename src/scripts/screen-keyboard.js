@@ -596,7 +596,7 @@ class ScreenKeyboard {
         const columnElement = document.createElement('div');
 
         columnElement.classList.add('my-screen-keyboard__column');
-        columnElement.style.width = config.style.width;
+        columnElement.style.width = config.style?.width;
 
         if (Array.isArray(config.lines)) {
             config.lines.forEach(item => {
@@ -662,8 +662,8 @@ class ScreenKeyboard {
     }
 
     changeLayout(first, second) {
-
         this.changeLanguage();
+
         this.buttons.forEach(item => {
             if (second === item.content) {
                 item.toggleActive();
@@ -676,7 +676,6 @@ class ScreenKeyboard {
     }
 
     changeLanguage() {
-
         const russian = 'ru';
         const english = 'en';
 
