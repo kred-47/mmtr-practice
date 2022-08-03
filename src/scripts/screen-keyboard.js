@@ -626,7 +626,8 @@ class ScreenKeyboard {
 
         const button = this.buttons.find(item => item.id === id);
         const pressedButtons = ['Shift', 'Alt', 'Caps', 'Fn', 'Ctrl', 'Win'];
-        const shiftAlt = this.buttons.filter(item => ['Shift', 'Alt'].includes(item.content) && item.active);
+
+        this.toggleShiftAlt(button);
 
         if (button?.isFunc && pressedButtons.includes(button.content)) {
             this.buttons.forEach(item => {
@@ -634,10 +635,16 @@ class ScreenKeyboard {
                     item.toggleActive();
                 }
             });
+        }
+    }
 
-            if (shiftAlt.length === 4 && button.content === 'Shift') {
-                this.changeLayout('Shift', 'Alt');
-            }
+    toggleShiftAlt(button) {
+        const btnShiftAlt = this.buttons.filter(item => ['Shift', 'Alt'].includes(item.content) && item.active);
+        const dataShiftAlt = btnShiftAlt.map(item => item.localeData);
+        const arrShiftAlt = [...new Set(dataShiftAlt)];
+
+        if (arrShiftAlt.length === 2 && button.content === 'Shift') {
+            this.changeLayout('Shift', 'Alt');
         }
     }
 
@@ -662,6 +669,13 @@ class ScreenKeyboard {
     }
 
     changeLayout(first, second) {
+        if (
+            this.buttons.find(item => item.content === 'Win' && item.active) ||
+            this.buttons.find(item => item.content === 'Ctrl' && item.active)
+        ) {
+            return;
+        }
+
         this.changeLanguage();
 
         this.buttons.forEach(item => {
@@ -672,21 +686,18 @@ class ScreenKeyboard {
             item.renderContent();
             item.reduceLongWord();
         });
-
     }
 
     changeLanguage() {
-        const russian = 'ru';
-        const english = 'en';
 
-        if (this.language === russian) {
-            this.language = english;
+        if (this.language === Languages.RU) {
+            this.language = Languages.EN;
 
             return;
         }
 
-        if (this.language === english) {
-            this.language = russian;
+        if (this.language === Languages.EN) {
+            this.language = Languages.RU;
         }
     }
 
