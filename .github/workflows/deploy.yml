@@ -9,7 +9,7 @@ on:
 # Specify the tasks to run when this script gets triggered
 jobs:
   build:
-    runs-on: windows-2019
+    runs-on: windows-latest
 
     # Download our master branch
     steps:
