@@ -1,28 +1,20 @@
-#name: Build and Deploy
-#on:
-#  push:
-#    branches:
-#      - keyboard
-#jobs:
-#  build-and-deploy:
-#    runs-on: windows-2019
-#    concurrency: ci-${{github.ref}}
-#    steps:
-#      - name: Checkout
-#        uses: actions/checkout@v2
-#
-#      - name: Configure Node
-#        uses: actions/setup-node@v1
-#        with:
-#          node-version: '16.13.0'
-#
-#      - name: Install
-#        run: |
-#          npm ci
-#          gulp build
-#
-#      - name: Deploy
-#        uses: JamesIves/github-pages-deploy-action@v4
-#        with:
-#          folder: build
-#          branch: gh-pages
+# This script deploys your website automatically
+name: CI
+
+# Only trigger this script when you push to the desired branch
+on:
+  push:
+    branches: [ keyboard ]
+
+# Specify the tasks to run when this script gets triggered
+jobs:
+  build:
+    runs-on: windows-2019
+
+    # Download our master branch
+    steps:
+      - uses: actions/checkout@v2
+
+      # Run our deployment command
+      - name: Deploying the static website to gh-pages
+        run: gulp deploy
