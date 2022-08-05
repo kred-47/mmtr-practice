@@ -1,0 +1,198 @@
+.second-task {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+
+  &__turn-on-keyboard {
+    margin: 5px;
+    width: 59px;
+    height: 51px;
+    background-color: darkcyan;
+    border: 1px solid darkcyan;
+    border-radius: 10px;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+  }
+
+  &__img-keyboard {
+    position: absolute;
+    width: 35px;
+    height: auto;
+  }
+}
+
+.my-screen-keyboard {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  width: 1040px;
+  height: 345px;
+  border: 1px solid slategray;
+  background-color: black;
+  position: absolute;
+  top: 60px;
+  left: 8px;
+
+  &__panel {
+    background-color: whitesmoke;
+    color: black;
+    font-family: Calibri;
+    width: 100%;
+    height: 25px;
+    padding: 3px;
+    position: relative;
+  }
+
+  &__close {
+    position: absolute;
+    right: 3px;
+    top: 2px;
+    width: 40px;
+    height: 25px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+  }
+
+  &__line {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    width: 100%;
+  }
+
+  &__column {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  &__key {
+    color: whitesmoke;
+    background-color: #343434;
+    width: 40px;
+    height: 40px;
+    margin: 3px;
+    padding: 4px;
+    font-size: 30px;
+    font-weight: lighter;
+    font-family: Calibri;
+    cursor: pointer;
+    position: relative;
+
+
+    &:hover {
+      color: black;
+      background: whitesmoke;
+      cursor: pointer;
+    }
+
+    &:active {
+      background-color: cornflowerblue;
+    }
+  }
+
+}
+
+.alt-content {
+  position: absolute;
+  top: 0;
+  color: darkgrey;
+  font-size: 1.2rem;
+}
+
+.content {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+}
+
+.one-content {
+  position: absolute;
+  left: 3px;
+  top: 0;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.hidden-screen-keyboard {
+  display: none;
+}
+
+.first-line {
+  padding-top: 35px;
+}
+
+.base {
+  height: 40px;
+  width: 40px;
+  background-color: #343434;
+}
+
+.right-keys {
+  width: 53px;
+}
+
+.backspace {
+  width: 72px;
+}
+
+.tab {
+  width: 72px;
+}
+
+.caps {
+  width: 104px;
+}
+
+.enter {
+  width: 120px;
+}
+
+.l-shift {
+  width: 120px;
+}
+
+.r-shift {
+  width: 102px;
+}
+
+.button-menu {
+  width: 49px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.button-win {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.space {
+  width: 290px;
+}
+
+.del {
+  width: 50px;
+}
+
+.letter-button {
+  font-size: 20px;
+  text-transform: capitalize;
+  word-wrap: anywhere;
+
+  &--s {
+    font-size: 12px;
+  }
+}
+
+._active {
+  background-color: cornflowerblue;
+}

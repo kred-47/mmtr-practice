@@ -1,3 +1,5 @@
+
+
 .block {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -49,8 +51,4 @@ table {
     padding: 3px;
     text-align: center;
   }
-}
-
-.stat {
-  font-size: large;
 }

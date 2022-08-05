@@ -1,19 +1,18 @@
-const gulp = require('gulp'),
-    sass = require('gulp-sass')(require('sass')),
-    del = require('del'),
-    rename = require('gulp-rename'),
-    cleanCSS = require('gulp-clean-css'),
-    babel = require('gulp-babel'),
-    uglify = require('gulp-uglify-es').default,
-    concat = require('gulp-concat'),
-    sourcemaps = require('gulp-sourcemaps'),
-    autoprefixer = require('gulp-autoprefixer'),
-    imagemin = require('gulp-imagemin'),
-    htmlmin = require('gulp-htmlmin'),
-    newer = require('gulp-newer'),
-    browserSync = require('browser-sync').create()
+const gulp = require('gulp');
+const sass = require('gulp-sass')(require('sass'));
+const del = require('del');
+const cleanCSS = require('gulp-clean-css');
+const babel = require('gulp-babel');
+const uglify = require('gulp-uglify-es').default;
+const concat = require('gulp-concat');
+const sourcemaps = require('gulp-sourcemaps');
+const autoprefixer = require('gulp-autoprefixer');
+const imagemin = require('gulp-imagemin');
+const htmlmin = require('gulp-htmlmin');
+const newer = require('gulp-newer');
+const browserSync = require('browser-sync').create();
+const ghPages = require('gulp-gh-pages');
 
-// пути
 const paths = {
     html: {
         src: 'src/*.html',
@@ -28,12 +27,20 @@ const paths = {
         dest: 'dist/js/'
     },
     images: {
-        src: 'src/img/*',
+        src: 'src/img/**',
         dest: 'dist/img'
+    },
+    fonts: {
+        src: 'src/fonts/**',
+        dest: 'dist/fonts'
     }
 }
 
-// задача для очистки
+function deploy() {
+    return gulp.src('./dist/**/*')
+        .pipe(ghPages());
+}
+
 function clean() {
     return del(['dist/*', '!dist/img']);
 }
@@ -45,7 +52,6 @@ function html() {
         .pipe(browserSync.stream());
 }
 
-// задача для обработки стилей
 function styles() {
     return gulp.src(paths.styles.src)
         .pipe(sourcemaps.init())
@@ -56,16 +62,12 @@ function styles() {
         .pipe(cleanCSS({
             level: 2
         }))
-        .pipe(rename({
-            basename: 'main',
-            suffix: '.min'
-        }))
+        .pipe(concat('main.min.css'))
         .pipe(sourcemaps.write('.'))
         .pipe(gulp.dest(paths.styles.dest))
         .pipe(browserSync.stream());
 }
 
-// задача для обработки скриптов
 function scripts() {
    return gulp.src(paths.scripts.src)
        .pipe(sourcemaps.init())
@@ -88,6 +90,12 @@ function img() {
         .pipe(gulp.dest(paths.images.dest));
 }
 
+function fonts() {
+    return gulp.src(paths.fonts.src)
+        .pipe(newer(paths.fonts.dest))
+        .pipe(gulp.dest(paths.fonts.dest))
+}
+
 function watch() {
     browserSync.init({
         server: {
@@ -99,13 +107,18 @@ function watch() {
     gulp.watch(paths.scripts.src, scripts);
 }
 
-const build = gulp.series(clean, html, gulp.parallel(styles, scripts, img), watch);
+const dist = gulp.series(clean, html, gulp.parallel(styles, scripts, img, fonts));
+
+const build = gulp.series(clean, html, gulp.parallel(styles, scripts, img, fonts), watch);
 
 exports.clean = clean;
+exports.fonts = fonts;
 exports.img = img;
 exports.html = html;
 exports.styles = styles;
 exports.scripts = scripts;
 exports.watch = watch;
+exports.deploy = deploy;
 exports.build = build;
 exports.default = build;
+exports.dist = dist

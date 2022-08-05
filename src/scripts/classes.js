@@ -1,63 +1,45 @@
+const textAreaData = document.getElementById('text-area');
+const lengthData = document.getElementById("length");
+const wordsData = document.getElementById('number_of_words');
+const withoutSpacesData = document.getElementById('without_spaces')
+const tableData = document.getElementById('table-percent')
+
 class TextArea {
     constructor() {
-        this.textAreaField = document.getElementById('text-area');
-        this.numberOfSymbols = document.getElementById('length');
-        this.numberOfWords = document.getElementById('number_of_words');
-        this.withoutSpacesNumberOfSymbols = document.getElementById('without_spaces');
-        this.tableOccurences = document.getElementById('table-percent');
-
-        this.statisticFunction();
-        this.textAreaField.addEventListener( 'keyup', this.onKeyUp.bind(this));
+        textAreaData.addEventListener("keyup", this.onKeyUp);
     }
 
     onKeyUp() {
-        this.statisticFunction();
-    }
+        lengthData.value = textAreaData.value.length;
+        wordsData.value = textAreaData.value === '' ? 0 : textAreaData.value.trim().split(' ').length;
+        withoutSpacesData.value = textAreaData.value.trim().split(' ').join('').length;
 
-    calcNumberOfWords() {
-        this.numberOfWords.value = this.textAreaField.value.split(' ').filter(element => !!element).length;
-    }
+        while (tableData.firstChild && tableData.removeChild(tableData.firstChild));
 
-    calcNumberOfSymbols() {
-        this.numberOfSymbols.value = this.textAreaField.value.length;
-    }
+        const tableDataObj = [...textAreaData.value].reduce((a, e) => {
+            a[e] = a[e] ? a[e] + 1 : 1;
+            return a}, {});
 
-    calcSymbolsWithoutSpaces() {
-        this.withoutSpacesNumberOfSymbols.value = this.textAreaField.value.trim().split(' ').join('').length;
-    }
-
-    createToTableOccurences() {
-        while (this.tableOccurences.firstChild) {
-            this.tableOccurences.removeChild(this.tableOccurences.firstChild);
-        }
-
-        const tableDataObj = [...this.textAreaField.value].reduce((accumulator, element) => {
-            accumulator[element] = accumulator[element] ? accumulator[element] + 1 : 1;
-            return accumulator;
-        }, {});
-        const arrForTable = Object.entries(tableDataObj).map(element => {
-            return [...element[0], element[1] = Math.round(element[1] / this.numberOfSymbols.value * 100) + '%'];
-        });
-        const arrWithHeaders = [['Символ', 'Процент'], ...arrForTable];
-
-        arrWithHeaders.forEach(key => {
-            const tr = document.createElement('tr');
-
-            key.forEach(keyValue => {
-                const td = document.createElement('td');
-                td.innerHTML = keyValue; // keyValue
-                tr.appendChild(td);
-            })
-            this.tableOccurences.appendChild(tr);
+        const arrForTable = Object.entries(tableDataObj);
+        const array = arrForTable.map(el => {
+            const p = [...el[0], el[1] = Math.round(el[1] / lengthData.value * 100) + '%'];
         })
-    }
+        const arrWithHeaders = [['Символ', 'Процент'], ...arrForTable]
 
-    statisticFunction() {
-        this.calcNumberOfWords();
-        this.calcNumberOfSymbols();
-        this.calcSymbolsWithoutSpaces();
-        this.createToTableOccurences();
+        fillTable(tableData, arrWithHeaders)
+
+        function fillTable(table, arr) {
+            for (let i = 0; i < arr.length; i++) {
+                const tr = document.createElement('tr');
+
+                for (let j = 0; j < arr[i].length; j++) {
+                    const td =document.createElement('td');
+                    td.innerHTML = arr[i][j];
+
+                    tr.appendChild(td)
+                }
+                table.appendChild(tr)
+            }
+        }
     }
 }
-
-// export default TextArea;
