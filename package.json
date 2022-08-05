@@ -28,15 +28,5 @@
   "dependencies": {
     "gulp-gh-pages": "^0.5.4",
     "gulp-uglify-es": "^3.0.0"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "gulp build"
-    }
-  },
-  "scripts": {
-    "prod": "echo \"Add your build command here\"",
-    "postinstall": "node ./node_modules/husky/lib/installer/bin install",
-    "deploy": "git push origin `git subtree split --prefix dist keyboard`:gh-pages --force"
   }
 }
