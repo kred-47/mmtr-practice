@@ -107,6 +107,8 @@ function watch() {
     gulp.watch(paths.scripts.src, scripts);
 }
 
+const dist = gulp.series(clean, html, gulp.parallel(styles, scripts, img, fonts));
+
 const build = gulp.series(clean, html, gulp.parallel(styles, scripts, img, fonts), watch);
 
 exports.clean = clean;
@@ -119,3 +121,4 @@ exports.watch = watch;
 exports.deploy = deploy;
 exports.build = build;
 exports.default = build;
+exports.dist = dist
