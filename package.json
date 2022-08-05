@@ -31,7 +31,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "gulp build"
+      "pre-commit": "gulp dist"
     }
   },
   "scripts": {
