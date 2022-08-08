@@ -1,9 +1,10 @@
 class ScreenKeyboard {
-    constructor() {
+    constructor(props) {
         this.screenKeyboardBlock = document.getElementById('js-keyboard-block');
         this.toggleKeyboardElement = document.getElementById('toggle-keyboard');
-        this.textAreaElement = document.getElementById('text-area');
+        this.textAreaElement = document.getElementById('js-input');
         this.language = window.navigator.language.split('-')[0];
+        this.inputArea = document.querySelector(props?.inputSelector);
 
         this.buttons = [];
         this.configKeyboard = {
@@ -636,6 +637,40 @@ class ScreenKeyboard {
                 }
             });
         }
+
+        this.actionButton(button);
+    }
+
+    actionButton(button) {
+        const shiftActive = this.buttons.filter(item => 'Shift' === item.content && item.active);
+
+        if (!button.isFunc) {
+            if (shiftActive) {
+                if (button.alt) {
+                    this.inputArea.setRangeText(button.alt[this.language], this.inputArea.selectionStart,
+                        this.inputArea.selectionEnd, 'end');
+                    this.inputArea.focus();
+
+                    return;
+                }
+
+                // здесь напишу что кнопки с буквами будут апперкейс
+            }
+
+            this.inputArea.setRangeText(button.content, this.inputArea.selectionStart,
+                this.inputArea.selectionEnd, 'end');
+            this.inputArea.focus();
+        }
+
+        if (button.content === 'Backspace') {
+            this.inputArea.setRangeText('', this.inputArea.selectionStart - 1,
+                this.inputArea.selectionStart, 'end');
+        }
+
+        if (button.content === 'Del') {
+            this.inputArea.setRangeText('', this.inputArea.selectionStart,
+                this.inputArea.selectionStart + 1, 'end');
+        }
     }
 
     toggleShiftAlt(button) {
@@ -757,7 +792,6 @@ class Button {
 
     handleClick = () => {
         if (typeof this.onClick === 'function') {
-
             this.onClick(this.id);
         }
     }
@@ -816,7 +850,6 @@ class Button {
     }
 
     renderContent() {
-
         if (!this.icon) {
             const altContent = this.alt ? this.altContent : null;
             const mainContent = this.mainContent;

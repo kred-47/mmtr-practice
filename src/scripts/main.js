@@ -1,4 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
     new TextArea();
-    new ScreenKeyboard();
+    new ScreenKeyboard({
+        inputSelector: '#js-input'
+    });
 });

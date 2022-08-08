@@ -1,4 +1,4 @@
-const textAreaData = document.getElementById('text-area');
+const textAreaData = document.getElementById('js-input');
 const lengthData = document.getElementById("length");
 const wordsData = document.getElementById('number_of_words');
 const withoutSpacesData = document.getElementById('without_spaces')
@@ -21,12 +21,9 @@ class TextArea {
             return a}, {});
 
         const arrForTable = Object.entries(tableDataObj);
-        const array = arrForTable.map(el => {
-            const p = [...el[0], el[1] = Math.round(el[1] / lengthData.value * 100) + '%'];
-        })
         const arrWithHeaders = [['Символ', 'Процент'], ...arrForTable]
 
-        fillTable(tableData, arrWithHeaders)
+        fillTable(tableData, arrWithHeaders);
 
         function fillTable(table, arr) {
             for (let i = 0; i < arr.length; i++) {
