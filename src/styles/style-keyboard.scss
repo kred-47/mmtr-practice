@@ -104,12 +104,27 @@
   top: 0;
   color: darkgrey;
   font-size: 1.2rem;
+
+  &--a {
+    position: absolute;
+    top: 0;
+    color: whitesmoke;
+    font-size: 28px;
+  }
 }
 
 .content {
   position: absolute;
   top: 12px;
   right: 12px;
+
+  &--b {
+    position: absolute;
+    top: 24px;
+    right: 10px;
+    color: darkgrey;
+    font-size: 1.2rem;
+  }
 }
 
 .one-content {

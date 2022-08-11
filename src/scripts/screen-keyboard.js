@@ -1,5 +1,6 @@
 class ScreenKeyboard {
     constructor(props) {
+        this.field = document.getElementById('js-field');
         this.screenKeyboardBlock = document.getElementById('js-keyboard-block');
         this.toggleKeyboardElement = document.getElementById('toggle-keyboard');
         this.textAreaElement = document.getElementById('js-input');
@@ -32,7 +33,8 @@ class ScreenKeyboard {
                                             alt: {
                                                 en: '~',
                                                 ru: 'ё'
-                                            }
+                                            },
+                                            isActive: false,
                                         },
                                         {
                                             isFunc: false,
@@ -40,7 +42,8 @@ class ScreenKeyboard {
                                             alt: {
                                                 en: '!',
                                                 ru: '!'
-                                            }
+                                            },
+                                            isActive: false,
                                         },
                                         {
                                             isFunc: false,
@@ -48,7 +51,8 @@ class ScreenKeyboard {
                                             alt: {
                                                 en: '@',
                                                 ru: '"'
-                                            }
+                                            },
+                                            isActive: false,
                                         },
                                         {
                                             isFunc: false,
@@ -56,7 +60,8 @@ class ScreenKeyboard {
                                             alt: {
                                                 en: '#',
                                                 ru: '№'
-                                            }
+                                            },
+                                            isActive: false,
                                         },
                                         {
                                             isFunc: false,
@@ -64,7 +69,8 @@ class ScreenKeyboard {
                                             alt: {
                                                 en: '$',
                                                 ru: ';'
-                                            }
+                                            },
+                                            isActive: false,
                                         },
                                         {
                                             isFunc: false,
@@ -72,7 +78,8 @@ class ScreenKeyboard {
                                             alt: {
                                                 en: '%',
                                                 ru: '%'
-                                            }
+                                            },
+                                            isActive: false,
                                         },
                                         {
                                             isFunc: false,
@@ -80,7 +87,8 @@ class ScreenKeyboard {
                                             alt: {
                                                 en: '^',
                                                 ru: ':'
-                                            }
+                                            },
+                                            isActive: false,
                                         },
                                         {
                                             isFunc: false,
@@ -88,7 +96,8 @@ class ScreenKeyboard {
                                             alt: {
                                                 en: '&',
                                                 ru: '?'
-                                            }
+                                            },
+                                            isActive: false,
                                         },
                                         {
                                             isFunc: false,
@@ -96,7 +105,8 @@ class ScreenKeyboard {
                                             alt: {
                                                 en: '*',
                                                 ru: '*'
-                                            }
+                                            },
+                                            isActive: false,
                                         },
                                         {
                                             isFunc: false,
@@ -104,7 +114,8 @@ class ScreenKeyboard {
                                             alt: {
                                                 en: '(',
                                                 ru: '('
-                                            }
+                                            },
+                                            isActive: false,
                                         },
                                         {
                                             isFunc: false,
@@ -112,7 +123,8 @@ class ScreenKeyboard {
                                             alt: {
                                                 en: ')',
                                                 ru: ')'
-                                            }
+                                            },
+                                            isActive: false,
                                         },
                                         {
                                             isFunc: false,
@@ -120,7 +132,8 @@ class ScreenKeyboard {
                                             alt: {
                                                 en: '_',
                                                 ru: '_'
-                                            }
+                                            },
+                                            isActive: false,
                                         },
                                         {
                                             isFunc: false,
@@ -128,13 +141,14 @@ class ScreenKeyboard {
                                             alt: {
                                                 en: '+',
                                                 ru: '+'
-                                            }
+                                            },
+                                            isActive: false,
                                         },
                                         {
                                             isFunc: true,
                                             localeData: 'Backspace',
                                             type: 'backspace',
-                                            icon: 'icon-cancel-alt'
+                                            icon: 'icon-cancel-alt',
                                         },
                                     ]
                                 },
@@ -147,47 +161,57 @@ class ScreenKeyboard {
                                             isFunc: true,
                                             localeData: 'Tab',
                                             type: 'tab',
-                                            icon: 'icon-exchange'
+                                            icon: 'icon-exchange',
                                         },
                                         {
                                             isFunc: false,
                                             localeData: {en: 'q', ru: 'й'},
+                                            isActive: false,
                                         },
                                         {
                                             isFunc: false,
                                             localeData: {en: 'w', ru: 'ц'},
+                                            isActive: false,
                                         },
                                         {
                                             isFunc: false,
                                             localeData: {en: 'e', ru: 'у'},
+                                            isActive: false,
                                         },
                                         {
                                             isFunc: false,
                                             localeData: {en: 'r', ru: 'к'},
+                                            isActive: false,
                                         },
                                         {
                                             isFunc: false,
                                             localeData: {en: 't', ru: 'е'},
+                                            isActive: false,
                                         },
                                         {
                                             isFunc: false,
                                             localeData: {en: 'y', ru: 'н'},
+                                            isActive: false,
                                         },
                                         {
                                             isFunc: false,
                                             localeData: {en: 'u', ru: 'г'},
+                                            isActive: false,
                                         },
                                         {
                                             isFunc: false,
                                             localeData: {en: 'i', ru: 'ш'},
+                                            isActive: false,
                                         },
                                         {
                                             isFunc: false,
                                             localeData: {en: 'o', ru: 'щ'},
+                                            isActive: false,
                                         },
                                         {
                                             isFunc: false,
                                             localeData: {en: 'p', ru: 'з'},
+                                            isActive: false,
                                         },
                                         {
                                             isFunc: false,
@@ -195,7 +219,8 @@ class ScreenKeyboard {
                                             alt: {
                                                 en: '{',
                                                 ru: 'х'
-                                            }
+                                            },
+                                            isActive: false,
                                         },
                                         {
                                             isFunc: false,
@@ -203,7 +228,8 @@ class ScreenKeyboard {
                                             alt: {
                                                 en: '}',
                                                 ru: 'ъ'
-                                            }
+                                            },
+                                            isActive: false,
                                         },
                                         {
                                             isFunc: false,
@@ -211,12 +237,13 @@ class ScreenKeyboard {
                                             alt: {
                                                 en: '|',
                                                 ru: '/'
-                                            }
+                                            },
+                                            isActive: false,
                                         },
                                         {
                                             isFunc: true,
                                             localeData: 'Del',
-                                            type: 'del'
+                                            type: 'del',
                                         },
                                     ]
                                 },
@@ -233,38 +260,47 @@ class ScreenKeyboard {
                                         {
                                             isFunc: false,
                                             localeData: {en: 'a', ru: 'ф'},
+                                            isActive: false,
                                         },
                                         {
                                             isFunc: false,
                                             localeData: {en: 's', ru: 'ы'},
+                                            isActive: false,
                                         },
                                         {
                                             isFunc: false,
                                             localeData: {en: 'd', ru: 'в'},
+                                            isActive: false,
                                         },
                                         {
                                             isFunc: false,
                                             localeData: {en: 'f', ru: 'а'},
+                                            isActive: false,
                                         },
                                         {
                                             isFunc: false,
                                             localeData: {en: 'g', ru: 'п'},
+                                            isActive: false,
                                         },
                                         {
                                             isFunc: false,
                                             localeData: {en: 'h', ru: 'р'},
+                                            isActive: false,
                                         },
                                         {
                                             isFunc: false,
                                             localeData: {en: 'j', ru: 'о'},
+                                            isActive: false,
                                         },
                                         {
                                             isFunc: false,
                                             localeData: {en: 'k', ru: 'л'},
+                                            isActive: false,
                                         },
                                         {
                                             isFunc: false,
                                             localeData: {en: 'l', ru: 'д'},
+                                            isActive: false,
                                         },
                                         {
                                             isFunc: false,
@@ -272,7 +308,8 @@ class ScreenKeyboard {
                                             alt: {
                                                 en: ':',
                                                 ru: 'ж'
-                                            }
+                                            },
+                                            isActive: false,
                                         },
                                         {
                                             isFunc: false,
@@ -280,7 +317,8 @@ class ScreenKeyboard {
                                             alt: {
                                                 en: '"',
                                                 ru: 'э'
-                                            }
+                                            },
+                                            isActive: false,
                                         },
                                         {
                                             isFunc: true,
@@ -302,30 +340,37 @@ class ScreenKeyboard {
                                         {
                                             isFunc: false,
                                             localeData: {en: 'z', ru: 'я'},
+                                            isActive: false,
                                         },
                                         {
                                             isFunc: false,
                                             localeData: {en: 'x', ru: 'ч'},
+                                            isActive: false,
                                         },
                                         {
                                             isFunc: false,
                                             localeData: {en: 'c', ru: 'с'},
+                                            isActive: false,
                                         },
                                         {
                                             isFunc: false,
                                             localeData: {en: 'v', ru: 'м'},
+                                            isActive: false,
                                         },
                                         {
                                             isFunc: false,
                                             localeData: {en: 'b', ru: 'и'},
+                                            isActive: false,
                                         },
                                         {
                                             isFunc: false,
                                             localeData: {en: 'n', ru: 'т'},
+                                            isActive: false,
                                         },
                                         {
                                             isFunc: false,
                                             localeData: {en: 'm', ru: 'ь'},
+                                            isActive: false,
                                         },
                                         {
                                             isFunc: false,
@@ -333,7 +378,8 @@ class ScreenKeyboard {
                                             alt: {
                                                 en: '<',
                                                 ru: 'б'
-                                            }
+                                            },
+                                            isActive: false,
                                         },
                                         {
                                             isFunc: false,
@@ -341,7 +387,8 @@ class ScreenKeyboard {
                                             alt: {
                                                 en: '>',
                                                 ru: 'ю'
-                                            }
+                                            },
+                                            isActive: false,
                                         },
                                         {
                                             isFunc: false,
@@ -349,12 +396,13 @@ class ScreenKeyboard {
                                             alt: {
                                                 en: '?',
                                                 ru: ','
-                                            }
+                                            },
+                                            isActive: false,
                                         },
                                         {
                                             isFunc: true,
                                             localeData: 'Up',
-                                            icon: 'icon-up-open'
+                                            icon: 'icon-up-open',
                                         },
                                         {
                                             isFunc: true,
@@ -380,7 +428,7 @@ class ScreenKeyboard {
                                             isFunc: true,
                                             localeData: 'Win',
                                             type: 'button-win',
-                                            icon: 'icon-win8'
+                                            icon: 'icon-win8',
                                         },
                                         {
                                             isFunc: true,
@@ -402,23 +450,23 @@ class ScreenKeyboard {
                                         {
                                             isFunc: true,
                                             localeData: 'Left',
-                                            icon: 'icon-left-open'
+                                            icon: 'icon-left-open',
                                         },
                                         {
                                             isFunc: true,
                                             localeData: 'Down',
-                                            icon: 'icon-down-open'
+                                            icon: 'icon-down-open',
                                         },
                                         {
                                             isFunc: true,
                                             localeData: 'Right',
-                                            icon: 'icon-right-open'
+                                            icon: 'icon-right-open',
                                         },
                                         {
                                             isFunc: true,
                                             localeData: 'Menu',
                                             type: 'button-menu',
-                                            icon: 'icon-doc-text'
+                                            icon: 'icon-doc-text',
                                         },
                                     ]
                                 }
@@ -559,6 +607,7 @@ class ScreenKeyboard {
 
         this.toggleKeyboardElement.addEventListener('click', this.handleToggleKeyboard.bind(this));
         this.closeKeyboard.addEventListener('click', this.handleToggleKeyboard.bind(this));
+        this.iconKeyboard.addEventListener('click', this.handleToggleKeyboard.bind(this));
     }
 
     render() {
@@ -643,23 +692,29 @@ class ScreenKeyboard {
 
     actionButton(button) {
         const shiftActive = this.buttons.filter(item => 'Shift' === item.content && item.active);
+        const content = !button.isFunc && button.isActive ? button.content.toUpperCase() : button.content;
+        const altContent = !button.isFunc && button.isActive && button.alt ? button.alternative.toUpperCase() : button.alternative; // ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
         if (!button.isFunc) {
-            if (shiftActive) {
-                if (button.alt) {
-                    this.inputArea.setRangeText(button.alt[this.language], this.inputArea.selectionStart,
-                        this.inputArea.selectionEnd, 'end');
-                    this.inputArea.focus();
+            if (shiftActive && button.alt) {
+                this.inputArea.setRangeText(altContent, this.inputArea.selectionStart,
+                    this.inputArea.selectionEnd, 'end');
+                this.inputArea.focus();
 
-                    return;
-                }
+                return;
 
-                // здесь напишу что кнопки с буквами будут апперкейс
             }
 
-            this.inputArea.setRangeText(button.content, this.inputArea.selectionStart,
+            this.inputArea.setRangeText(content, this.inputArea.selectionStart,
                 this.inputArea.selectionEnd, 'end');
             this.inputArea.focus();
+        }
+
+        if (button.content === 'Shift' || button.content === 'Caps') {
+            this.buttons.forEach(item => {
+                item.isActive === false ? item.isActive = true : item.isActive = false;
+                item.renderContent()
+            });
         }
 
         if (button.content === 'Backspace') {
@@ -671,6 +726,7 @@ class ScreenKeyboard {
             this.inputArea.setRangeText('', this.inputArea.selectionStart,
                 this.inputArea.selectionStart + 1, 'end');
         }
+
     }
 
     toggleShiftAlt(button) {
@@ -699,6 +755,7 @@ class ScreenKeyboard {
         this.closeKeyboard.innerHTML = 'close';
 
         panel.append(this.closeKeyboard);
+        this.createIcon();
 
         return this.screenKeyboardElement;
     }
@@ -724,7 +781,6 @@ class ScreenKeyboard {
     }
 
     changeLanguage() {
-
         if (this.language === Languages.RU) {
             this.language = Languages.EN;
 
@@ -764,12 +820,21 @@ class ScreenKeyboard {
             this.screenKeyboardElement.classList.add('hidden-screen-keyboard');
         }
     }
+
+    createIcon() {
+        this.iconKeyboard = document.createElement('div');
+        this.iconKeyboard.classList.add('icon-keyboard');
+        console.log(this.iconKeyboard)
+        console.log(this.field)
+        this.field.appendChild(this.iconKeyboard);
+    }
 }
 
 class Button {
     constructor(props) {
         this.id = props?.id || generateId();
         this.isFunc = Boolean(props?.isFunc);
+        this.isActive = Boolean(props?.isActive);
         this.localeData = props?.localeData;
         this.type = props?.type || 'base';
         this.active = Boolean(props?.active);
@@ -788,6 +853,12 @@ class Button {
         }
 
         return this.localeData;
+    }
+
+    get alternative() {
+        if (this.alt) {
+            return this.alt[this.currentLanguage];
+        }
     }
 
     handleClick = () => {
@@ -827,7 +898,15 @@ class Button {
 
         const altContent = document.createElement('div');
 
-        altContent.classList.add('alt-content');
+        if (!this.isActive) {
+            altContent.classList.remove('alt-content--a')
+            || altContent.classList.add('alt-content');
+        }
+
+        if (this.isActive) {
+            altContent.classList.add('alt-content--a')
+        }
+
         altContent.innerHTML = this?.alt[this.currentLanguage];
 
         return altContent;
@@ -839,9 +918,20 @@ class Button {
         mainContent.innerHTML = this.content;
 
         if (this.alt && this.alt[this.currentLanguage] !== this.content) {
-            mainContent.classList.add('content');
+            if (!this.isActive) {
+                mainContent.classList.remove('content--b')
+                || mainContent.classList.add('content');
+            }
+
+            if (this.isActive) {
+                mainContent.classList.add('content--b')
+            }
 
             return mainContent;
+        }
+
+        if (!this.isFunc && this.isActive) {
+            mainContent.innerHTML = this.content.toUpperCase();
         }
 
         mainContent.classList.add('one-content');
@@ -853,19 +943,19 @@ class Button {
         if (!this.icon) {
             const altContent = this.alt ? this.altContent : null;
             const mainContent = this.mainContent;
-            const array = [];
+            const arrayContent = [];
 
             if (this.alt && this.alt[this.currentLanguage] !== this.content) {
-                array.push(altContent, mainContent)
+                arrayContent.push(altContent, mainContent)
             } else {
-                array.push(mainContent);
+                arrayContent.push(mainContent);
             }
 
             while (this.keyElement.firstChild) {
                 this.keyElement.removeChild(this.keyElement.firstChild);
             }
 
-            this.keyElement.append(...array);
+            this.keyElement.append(...arrayContent);
         }
     }
 
