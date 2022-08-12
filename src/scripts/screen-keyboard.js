@@ -608,6 +608,7 @@ class ScreenKeyboard {
         this.toggleKeyboardElement.addEventListener('click', this.handleToggleKeyboard.bind(this));
         this.closeKeyboard.addEventListener('click', this.handleToggleKeyboard.bind(this));
         this.iconKeyboard.addEventListener('click', this.handleToggleKeyboard.bind(this));
+        this.screenKeyboardElement.addEventListener('mousedown', this.dragAndDrop);
     }
 
     render() {
@@ -742,6 +743,8 @@ class ScreenKeyboard {
     createKeyboard() {
         this.screenKeyboardElement = document.createElement('div');
         this.screenKeyboardElement.classList.add('my-screen-keyboard', 'hidden-screen-keyboard');
+        this.screenKeyboardElement.setAttribute('draggable', 'true');
+        this.screenKeyboardElement.setAttribute('id', 'js-keyboard');
 
         const panel = document.createElement('div');
 
@@ -758,6 +761,80 @@ class ScreenKeyboard {
         this.createIcon();
 
         return this.screenKeyboardElement;
+    }
+
+    // drag() {
+    //     this.screenKeyboardElement.onmousedown = function (event) { // отследить нажатие
+    //
+    //         let shiftX = event.clientX - this.screenKeyboardElement.getBoundingClientRect().left;
+    //         let shiftY = event.clientY - this.screenKeyboardElement.getBoundingClientRect().top;
+    //
+    //         // (2) подготовить к перемещению:
+    //         // разместить поверх остального содержимого и в абсолютных координатах
+    //         console.log(this.screenKeyboardElement);
+    //         this.screenKeyboardElement.style.position = 'absolute';
+    //         this.screenKeyboardElement.style.zIndex = '1000';
+    //         // переместим в body, чтобы клавиатура была точно не внутри position:relative
+    //         document.body.append(this.screenKeyboardElement);
+    //         // и установим абсолютно спозиционированную клавиатуру под курсор
+    //
+    //         moveAt(event.pageX, event.pageY);
+    //
+    //         // передвинуть клавиатуру под координаты курсора
+    //         // и сдвинуть на половину ширины/высоты для центрирования
+    //         function moveAt(pageX, pageY) {
+    //             this.screenKeyboardElement.style.left = pageX - shiftX + 'px';
+    //             this.screenKeyboardElement.style.top = pageY - shiftY + 'px';
+    //         }
+    //
+    //         function onMouseMove(event) {
+    //             moveAt(event.pageX, event.pageY);
+    //         }
+    //
+    //         // (3) перемещать по экрану
+    //         document.addEventListener('mousemove', onMouseMove);
+    //
+    //         // (4) положить клавиатуру, удалить более ненужные обработчики событий
+    //         this.screenKeyboardElement.onmouseup = function() {
+    //             document.removeEventListener('mousemove', onMouseMove);
+    //             this.screenKeyboardElement.onmouseup = null;
+    //         };
+    //     };
+    // }
+
+    dragAndDrop() {
+        const window = document.body;
+        const keyboard = this.screenKeyboardElement;
+
+        const dragStart = function () {
+            setTimeout(() => {
+                this.classList.add('hidden-screen-keyboard');
+            }, 0);
+        };
+        const dragEnd = function () {
+            this.classList.remove('hidden-screen-keyboard');
+        };
+        const dragOver = function (event) {
+            event.preventDefault();
+        };
+        const dragEnter = function () {
+
+        };
+        const dragLeave = function () {
+
+        };
+        const dragDrop = function () {
+            this.append(keyboard);
+        };
+
+        window.addEventListener('dragover', dragOver);
+        window.addEventListener('dragenter', dragEnter);
+        window.addEventListener('dragleave', dragLeave);
+        window.addEventListener('drop', dragDrop);
+
+        keyboard.addEventListener('dragstart', dragStart);
+        keyboard.addEventListener('dragend', dragEnd);
+
     }
 
     changeLayout(first, second) {
