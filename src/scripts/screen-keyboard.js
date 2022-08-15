@@ -608,7 +608,7 @@ class ScreenKeyboard {
         this.toggleKeyboardElement.addEventListener('click', this.handleToggleKeyboard.bind(this));
         this.closeKeyboard.addEventListener('click', this.handleToggleKeyboard.bind(this));
         this.iconKeyboard.addEventListener('click', this.handleToggleKeyboard.bind(this));
-        this.screenKeyboardElement.addEventListener('mousedown', this.dragAndDrop);
+        this.dragAndDrop();
     }
 
     render() {
@@ -802,39 +802,91 @@ class ScreenKeyboard {
     //     };
     // }
 
+    // dragAndDrop() {
+    //     const window = document.body;
+    //     const keyboard = this.screenKeyboardElement;
+    //
+    //     const dragStart = function () {
+    //         setTimeout(() => {
+    //             this.classList.add('hidden-screen-keyboard');
+    //         }, 0);
+    //     };
+    //     const dragEnd = function () {
+    //         this.classList.remove('hidden-screen-keyboard');
+    //     };
+    //     const dragOver = function (event) {
+    //         event.preventDefault();
+    //     };
+    //     const dragEnter = function () {
+    //
+    //     };
+    //     const dragLeave = function () {
+    //
+    //     };
+    //     const dragDrop = function () {
+    //         this.append(keyboard);
+    //     };
+    //
+    //     window.addEventListener('dragover', dragOver);
+    //     window.addEventListener('dragenter', dragEnter);
+    //     window.addEventListener('dragleave', dragLeave);
+    //     window.addEventListener('drop', dragDrop);
+    //
+    //     keyboard.addEventListener('dragstart', dragStart);
+    //     keyboard.addEventListener('dragend', dragEnd);
+    //
+    // }
+
     dragAndDrop() {
-        const window = document.body;
-        const keyboard = this.screenKeyboardElement;
+        const object = document.getElementById('js-keyboard');
+        let initX = 0;
+        let initY = 0;
+        let firstX = 0;
+        let firstY = 0;
 
-        const dragStart = function () {
-            setTimeout(() => {
-                this.classList.add('hidden-screen-keyboard');
-            }, 0);
-        };
-        const dragEnd = function () {
-            this.classList.remove('hidden-screen-keyboard');
-        };
-        const dragOver = function (event) {
-            event.preventDefault();
-        };
-        const dragEnter = function () {
+        object.addEventListener('mousedown', function(e) {
+            e.preventDefault();
+            initX = this.offsetLeft;
+            initY = this.offsetTop;
+            firstX = e.pageX;
+            firstY = e.pageY;
 
-        };
-        const dragLeave = function () {
+            this.addEventListener('mousemove', dragIt, false);
 
-        };
-        const dragDrop = function () {
-            this.append(keyboard);
-        };
+            window.addEventListener('mouseup', function() {
+                object.removeEventListener('mousemove', dragIt, false);
+            }, false);
 
-        window.addEventListener('dragover', dragOver);
-        window.addEventListener('dragenter', dragEnter);
-        window.addEventListener('dragleave', dragLeave);
-        window.addEventListener('drop', dragDrop);
+        }, false);
 
-        keyboard.addEventListener('dragstart', dragStart);
-        keyboard.addEventListener('dragend', dragEnd);
+        object.addEventListener('touchstart', function(e) {
 
+            e.preventDefault();
+            initX = this.offsetLeft;
+            initY = this.offsetTop;
+            const touch = e.touches;
+            firstX = touch[0].pageX;
+            firstY = touch[0].pageY;
+
+            this.addEventListener('touchmove', swipeIt, false);
+
+            window.addEventListener('touchend', function(e) {
+                e.preventDefault();
+                object.removeEventListener('touchmove', swipeIt, false);
+            }, false);
+
+        }, false);
+
+        function dragIt(e) {
+            this.style.left = initX+e.pageX-firstX + 'px';
+            this.style.top = initY+e.pageY-firstY + 'px';
+        }
+
+        function swipeIt(e) {
+            const contact = e.touches;
+            this.style.left = initX+contact[0].pageX-firstX + 'px';
+            this.style.top = initY+contact[0].pageY-firstY + 'px';
+        }
     }
 
     changeLayout(first, second) {
