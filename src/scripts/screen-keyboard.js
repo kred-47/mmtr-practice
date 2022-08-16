@@ -763,6 +763,7 @@ class ScreenKeyboard {
 
     dragAndDrop() {
         const object = document.getElementById(this.screenKeyboardElement.id);
+
         let initX;
         let initY;
         let firstX;
