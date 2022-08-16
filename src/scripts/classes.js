@@ -9,9 +9,6 @@ class TextArea {
         textAreaElement.addEventListener("keyup", this.onKeyUp);
     }
 
-    onClick() {
-    }
-
     onKeyUp() {
         lengthData.value = textAreaElement.value.length;
         wordsData.value = textAreaElement.value === '' ? 0 : textAreaElement.value.trim().split(' ').length;
@@ -42,12 +39,4 @@ class TextArea {
             }
         }
     }
-}
-
-class Text {
-    constructor() {
-
-    }
-
-
 }

@@ -1,6 +1,5 @@
 class ScreenKeyboard {
     constructor(props) {
-        this.field = document.getElementById('js-field');
         this.screenKeyboardBlock = document.getElementById('js-keyboard-block');
         this.toggleKeyboardElement = document.getElementById('toggle-keyboard');
         this.language = window.navigator.language.split('-')[0];
@@ -620,7 +619,7 @@ class ScreenKeyboard {
 
             return;
         }
-        console.log('"lines" not found')
+        console.log('"lines" not found');
     }
 
     renderLine(config) {
@@ -695,11 +694,9 @@ class ScreenKeyboard {
         const shiftActive = this.buttons.filter(item => 'Shift' === item.content && item.active);
         const content = !button.isFunc && button.isActive ? button.content.toUpperCase() : button.content;
         const altContent = !button.isFunc && button.isActive && button.alt ? button.alternative.toUpperCase() : button.alternative;
-        console.log(shiftActive)
 
         if (!button.isFunc) {
             if (shiftActive.length > 0 && button.alt) {
-                console.log('!IS FUNC')
                 this.currentInput.setRangeText(altContent, this.currentInput.selectionStart,
                     this.currentInput.selectionEnd, 'end');
                 this.currentInput.focus();
@@ -715,7 +712,7 @@ class ScreenKeyboard {
         if (button.content === 'Shift' || button.content === 'Caps') {
             this.buttons.forEach(item => {
                 item.isActive === false ? item.isActive = true : item.isActive = false;
-                item.renderContent()
+                item.renderContent();
             });
         }
 
@@ -728,7 +725,6 @@ class ScreenKeyboard {
             this.currentInput.setRangeText('', this.currentInput.selectionStart,
                 this.currentInput.selectionStart + 1, 'end');
         }
-
     }
 
     toggleShiftAlt(button) {
@@ -759,6 +755,7 @@ class ScreenKeyboard {
         this.closeKeyboard.innerHTML = 'close';
 
         panel.append(this.closeKeyboard);
+
         this.createIcon(this.blockInput);
 
         return this.screenKeyboardElement;
@@ -855,7 +852,7 @@ class ScreenKeyboard {
     createIcon(parent) {
         this.iconKeyboard = document.createElement('div');
         this.iconKeyboard.classList.add('icon-keyboard');
-        console.log(parent)
+
         parent.appendChild(this.iconKeyboard);
     }
 }
@@ -929,12 +926,11 @@ class Button {
         const altContent = document.createElement('div');
 
         if (!this.isActive) {
-            altContent.classList.remove('alt-content--a')
-            || altContent.classList.add('alt-content');
+            altContent.classList.remove('alt-content--a') || altContent.classList.add('alt-content');
         }
 
         if (this.isActive) {
-            altContent.classList.add('alt-content--a')
+            altContent.classList.add('alt-content--a');
         }
 
         altContent.innerHTML = this?.alt[this.currentLanguage];
@@ -949,12 +945,11 @@ class Button {
 
         if (this.alt && this.alt[this.currentLanguage] !== this.content) {
             if (!this.isActive) {
-                mainContent.classList.remove('content--b')
-                || mainContent.classList.add('content');
+                mainContent.classList.remove('content--b') || mainContent.classList.add('content');
             }
 
             if (this.isActive) {
-                mainContent.classList.add('content--b')
+                mainContent.classList.add('content--b');
             }
 
             return mainContent;
@@ -976,7 +971,7 @@ class Button {
             const arrayContent = [];
 
             if (this.alt && this.alt[this.currentLanguage] !== this.content) {
-                arrayContent.push(altContent, mainContent)
+                arrayContent.push(altContent, mainContent);
             } else {
                 arrayContent.push(mainContent);
             }
