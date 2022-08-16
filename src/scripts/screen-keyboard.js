@@ -3,9 +3,9 @@ class ScreenKeyboard {
         this.field = document.getElementById('js-field');
         this.screenKeyboardBlock = document.getElementById('js-keyboard-block');
         this.toggleKeyboardElement = document.getElementById('toggle-keyboard');
-        this.textAreaElement = document.getElementById('js-input');
         this.language = window.navigator.language.split('-')[0];
-        this.inputArea = document.querySelector(props?.inputSelector);
+        this.currentInput = document.querySelector(props?.inputSelector);
+        this.blockInput = document.querySelector(props?.blockSelector)
 
         this.buttons = [];
         this.configKeyboard = {
@@ -694,21 +694,22 @@ class ScreenKeyboard {
     actionButton(button) {
         const shiftActive = this.buttons.filter(item => 'Shift' === item.content && item.active);
         const content = !button.isFunc && button.isActive ? button.content.toUpperCase() : button.content;
-        const altContent = !button.isFunc && button.isActive && button.alt ? button.alternative.toUpperCase() : button.alternative; // ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+        const altContent = !button.isFunc && button.isActive && button.alt ? button.alternative.toUpperCase() : button.alternative;
+        console.log(shiftActive)
 
         if (!button.isFunc) {
-            if (shiftActive && button.alt) {
-                this.inputArea.setRangeText(altContent, this.inputArea.selectionStart,
-                    this.inputArea.selectionEnd, 'end');
-                this.inputArea.focus();
+            if (shiftActive.length > 0 && button.alt) {
+                console.log('!IS FUNC')
+                this.currentInput.setRangeText(altContent, this.currentInput.selectionStart,
+                    this.currentInput.selectionEnd, 'end');
+                this.currentInput.focus();
 
                 return;
-
             }
 
-            this.inputArea.setRangeText(content, this.inputArea.selectionStart,
-                this.inputArea.selectionEnd, 'end');
-            this.inputArea.focus();
+            this.currentInput.setRangeText(content, this.currentInput.selectionStart,
+                this.currentInput.selectionEnd, 'end');
+            this.currentInput.focus();
         }
 
         if (button.content === 'Shift' || button.content === 'Caps') {
@@ -719,13 +720,13 @@ class ScreenKeyboard {
         }
 
         if (button.content === 'Backspace') {
-            this.inputArea.setRangeText('', this.inputArea.selectionStart - 1,
-                this.inputArea.selectionStart, 'end');
+            this.currentInput.setRangeText('', this.currentInput.selectionStart - 1,
+                this.currentInput.selectionStart, 'end');
         }
 
         if (button.content === 'Del') {
-            this.inputArea.setRangeText('', this.inputArea.selectionStart,
-                this.inputArea.selectionStart + 1, 'end');
+            this.currentInput.setRangeText('', this.currentInput.selectionStart,
+                this.currentInput.selectionStart + 1, 'end');
         }
 
     }
@@ -744,7 +745,7 @@ class ScreenKeyboard {
         this.screenKeyboardElement = document.createElement('div');
         this.screenKeyboardElement.classList.add('my-screen-keyboard', 'hidden-screen-keyboard');
         this.screenKeyboardElement.setAttribute('draggable', 'true');
-        this.screenKeyboardElement.setAttribute('id', 'js-keyboard');
+        this.screenKeyboardElement.setAttribute('id', generateId('keyboard'));
 
         const panel = document.createElement('div');
 
@@ -758,134 +759,35 @@ class ScreenKeyboard {
         this.closeKeyboard.innerHTML = 'close';
 
         panel.append(this.closeKeyboard);
-        this.createIcon();
+        this.createIcon(this.blockInput);
 
         return this.screenKeyboardElement;
     }
 
-    // drag() {
-    //     this.screenKeyboardElement.onmousedown = function (event) { // отследить нажатие
-    //
-    //         let shiftX = event.clientX - this.screenKeyboardElement.getBoundingClientRect().left;
-    //         let shiftY = event.clientY - this.screenKeyboardElement.getBoundingClientRect().top;
-    //
-    //         // (2) подготовить к перемещению:
-    //         // разместить поверх остального содержимого и в абсолютных координатах
-    //         console.log(this.screenKeyboardElement);
-    //         this.screenKeyboardElement.style.position = 'absolute';
-    //         this.screenKeyboardElement.style.zIndex = '1000';
-    //         // переместим в body, чтобы клавиатура была точно не внутри position:relative
-    //         document.body.append(this.screenKeyboardElement);
-    //         // и установим абсолютно спозиционированную клавиатуру под курсор
-    //
-    //         moveAt(event.pageX, event.pageY);
-    //
-    //         // передвинуть клавиатуру под координаты курсора
-    //         // и сдвинуть на половину ширины/высоты для центрирования
-    //         function moveAt(pageX, pageY) {
-    //             this.screenKeyboardElement.style.left = pageX - shiftX + 'px';
-    //             this.screenKeyboardElement.style.top = pageY - shiftY + 'px';
-    //         }
-    //
-    //         function onMouseMove(event) {
-    //             moveAt(event.pageX, event.pageY);
-    //         }
-    //
-    //         // (3) перемещать по экрану
-    //         document.addEventListener('mousemove', onMouseMove);
-    //
-    //         // (4) положить клавиатуру, удалить более ненужные обработчики событий
-    //         this.screenKeyboardElement.onmouseup = function() {
-    //             document.removeEventListener('mousemove', onMouseMove);
-    //             this.screenKeyboardElement.onmouseup = null;
-    //         };
-    //     };
-    // }
-
-    // dragAndDrop() {
-    //     const window = document.body;
-    //     const keyboard = this.screenKeyboardElement;
-    //
-    //     const dragStart = function () {
-    //         setTimeout(() => {
-    //             this.classList.add('hidden-screen-keyboard');
-    //         }, 0);
-    //     };
-    //     const dragEnd = function () {
-    //         this.classList.remove('hidden-screen-keyboard');
-    //     };
-    //     const dragOver = function (event) {
-    //         event.preventDefault();
-    //     };
-    //     const dragEnter = function () {
-    //
-    //     };
-    //     const dragLeave = function () {
-    //
-    //     };
-    //     const dragDrop = function () {
-    //         this.append(keyboard);
-    //     };
-    //
-    //     window.addEventListener('dragover', dragOver);
-    //     window.addEventListener('dragenter', dragEnter);
-    //     window.addEventListener('dragleave', dragLeave);
-    //     window.addEventListener('drop', dragDrop);
-    //
-    //     keyboard.addEventListener('dragstart', dragStart);
-    //     keyboard.addEventListener('dragend', dragEnd);
-    //
-    // }
-
     dragAndDrop() {
-        const object = document.getElementById('js-keyboard');
-        let initX = 0;
-        let initY = 0;
-        let firstX = 0;
-        let firstY = 0;
+        const object = document.getElementById(this.screenKeyboardElement.id);
+        let initX;
+        let initY;
+        let firstX;
+        let firstY;
 
-        object.addEventListener('mousedown', function(e) {
-            e.preventDefault();
+        object.addEventListener('mousedown', function(event) {
+            event.preventDefault();
             initX = this.offsetLeft;
             initY = this.offsetTop;
-            firstX = e.pageX;
-            firstY = e.pageY;
+            firstX = event.pageX;
+            firstY = event.pageY;
 
             this.addEventListener('mousemove', dragIt, false);
 
             window.addEventListener('mouseup', function() {
                 object.removeEventListener('mousemove', dragIt, false);
             }, false);
-
         }, false);
 
-        object.addEventListener('touchstart', function(e) {
-
-            e.preventDefault();
-            initX = this.offsetLeft;
-            initY = this.offsetTop;
-            const touch = e.touches;
-            firstX = touch[0].pageX;
-            firstY = touch[0].pageY;
-
-            this.addEventListener('touchmove', swipeIt, false);
-
-            window.addEventListener('touchend', function(e) {
-                e.preventDefault();
-                object.removeEventListener('touchmove', swipeIt, false);
-            }, false);
-
-        }, false);
-
-        function dragIt(e) {
-            this.style.left = initX+e.pageX-firstX + 'px';
-            this.style.top = initY+e.pageY-firstY + 'px';
-        }
-
-        function swipeIt(e) {
-            const contact = e.touches;
-            this.style.left = initX+contact[0].pageX-firstX + 'px';
-            this.style.top = initY+contact[0].pageY-firstY + 'px';
+        function dragIt(event) {
+            this.style.left = initX+event.pageX-firstX + 'px';
+            this.style.top = initY+event.pageY-firstY + 'px';
         }
     }
 
@@ -950,18 +852,17 @@ class ScreenKeyboard {
         }
     }
 
-    createIcon() {
+    createIcon(parent) {
         this.iconKeyboard = document.createElement('div');
         this.iconKeyboard.classList.add('icon-keyboard');
-        console.log(this.iconKeyboard)
-        console.log(this.field)
-        this.field.appendChild(this.iconKeyboard);
+        console.log(parent)
+        parent.appendChild(this.iconKeyboard);
     }
 }
 
 class Button {
     constructor(props) {
-        this.id = props?.id || generateId();
+        this.id = props?.id || generateId('button');
         this.isFunc = Boolean(props?.isFunc);
         this.isActive = Boolean(props?.isActive);
         this.localeData = props?.localeData;

@@ -1,4 +1,5 @@
-function generateId() {
+function generateId(object) {
     const now = Date.now();
-    return `button-${now}-${Math.round(Math.random() * now)}`;
+
+    return `${object}-${now}-${Math.round(Math.random() * now)}`
 }

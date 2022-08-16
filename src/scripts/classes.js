@@ -10,7 +10,6 @@ class TextArea {
     }
 
     onClick() {
-
     }
 
     onKeyUp() {
@@ -39,9 +38,16 @@ class TextArea {
 
                     tr.appendChild(td);
                 }
-
                 table.appendChild(tr);
             }
         }
     }
+}
+
+class Text {
+    constructor() {
+
+    }
+
+
 }
