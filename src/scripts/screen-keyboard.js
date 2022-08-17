@@ -717,13 +717,26 @@ class ScreenKeyboard {
         }
 
         if (button.content === 'Backspace') {
-            this.currentInput.setRangeText('', this.currentInput.selectionStart - 1,
-                this.currentInput.selectionStart, 'end');
+            if (this.currentInput.selectionStart === this.currentInput.selectionEnd) {
+                return this.currentInput.setRangeText('', this.currentInput.selectionStart - 1,
+                    this.currentInput.selectionStart, 'end');
+            }
+
+            this.currentInput.setRangeText(
+                '', this.currentInput.selectionStart, this.currentInput.selectionEnd, 'end'
+            );
+
         }
 
         if (button.content === 'Del') {
-            this.currentInput.setRangeText('', this.currentInput.selectionStart,
-                this.currentInput.selectionStart + 1, 'end');
+            if (this.currentInput.selectionStart === this.currentInput.selectionEnd) {
+                return this.currentInput.setRangeText('', this.currentInput.selectionStart,
+                    this.currentInput.selectionStart + 1, 'end');
+            }
+
+            this.currentInput.setRangeText(
+                '', this.currentInput.selectionStart, this.currentInput.selectionEnd, 'end'
+            );
         }
     }
 
@@ -771,6 +784,7 @@ class ScreenKeyboard {
 
         object.addEventListener('mousedown', function(event) {
             event.preventDefault();
+
             initX = this.offsetLeft;
             initY = this.offsetTop;
             firstX = event.pageX;
