@@ -1,12 +1,13 @@
 class ScreenKeyboard {
     constructor(props) {
+        this.buttons = [];
+
         this.screenKeyboardBlock = document.getElementById('js-keyboard-block');
         this.toggleKeyboardElement = document.getElementById('toggle-keyboard');
         this.language = window.navigator.language.split('-')[0];
         this.currentInput = document.querySelector(props?.inputSelector);
         this.blockInput = document.querySelector(props?.blockSelector)
 
-        this.buttons = [];
         this.configKeyboard = {
             lines: [ // the whole keyboard - line
                 {
@@ -607,7 +608,9 @@ class ScreenKeyboard {
         this.toggleKeyboardElement.addEventListener('click', this.handleToggleKeyboard.bind(this));
         this.closeKeyboard.addEventListener('click', this.handleToggleKeyboard.bind(this));
         this.iconKeyboard.addEventListener('click', this.handleToggleKeyboard.bind(this));
+
         this.dragAndDrop();
+        this.responsiveKey();
     }
 
     render() {
@@ -775,14 +778,14 @@ class ScreenKeyboard {
     }
 
     dragAndDrop() {
-        const object = document.getElementById(this.screenKeyboardElement.id);
+        const keyboard = document.getElementById(this.screenKeyboardElement.id);
 
         let initX;
         let initY;
         let firstX;
         let firstY;
 
-        object.addEventListener('mousedown', function(event) {
+        keyboard.addEventListener('mousedown', function(event) {
             event.preventDefault();
 
             initX = this.offsetLeft;
@@ -793,7 +796,7 @@ class ScreenKeyboard {
             this.addEventListener('mousemove', dragIt, false);
 
             window.addEventListener('mouseup', function() {
-                object.removeEventListener('mousemove', dragIt, false);
+                keyboard.removeEventListener('mousemove', dragIt, false);
             }, false);
         }, false);
 
@@ -801,6 +804,34 @@ class ScreenKeyboard {
             this.style.left = initX+event.pageX-firstX + 'px';
             this.style.top = initY+event.pageY-firstY + 'px';
         }
+    }
+
+    responsiveKey(id) {
+        console.log(this.buttons)
+        // const button = this.buttons.find(item => item.id === id);
+        const arr = this.buttons;
+        // console.log(arr)
+
+        window.addEventListener('keydown', function (event) {
+            console.log('Нажата клавиша', event.key)
+            arr.forEach(item => {
+                if (item.content.toLowerCase() === event.key.toLowerCase()) {
+                    item.onActive();
+                }
+            })
+
+            // if (button.content.toLowerCase() === event.key.toLowerCase()) {
+            //     button.toggleActive();
+            // }
+        })
+
+        window.addEventListener('keyup', function (event) {
+            arr.forEach(item => {
+                if (item.content.toLowerCase() === event.key.toLowerCase()) {
+                    item.offActive();
+                }
+            })
+        })
     }
 
     changeLayout(first, second) {
@@ -916,7 +947,22 @@ class Button {
     toggleActive() {
         this.active = !this.active;
 
-        this.keyElement.classList.toggle('_active');
+        if (this.active) {
+            this.onActive()
+
+            return;
+        }
+
+        this.offActive();
+        // this.keyElement.classList.toggle('_active');
+    }
+
+    onActive() {
+        this.keyElement.classList.add('_active');
+    }
+
+    offActive() {
+        this.keyElement.classList.remove('_active')
     }
 
     /*
