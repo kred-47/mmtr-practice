@@ -6,7 +6,7 @@ class ScreenKeyboard {
         this.toggleKeyboardElement = document.getElementById('toggle-keyboard');
         this.language = window.navigator.language.split('-')[0];
         this.currentInput = document.querySelector(props?.inputSelector);
-        this.blockInput = document.querySelector(props?.blockSelector)
+        this.blockInput = document.querySelector(props?.blockSelector);
 
         this.configKeyboard = {
             lines: [ // the whole keyboard - line
@@ -26,6 +26,7 @@ class ScreenKeyboard {
                                         {
                                             isFunc: true,
                                             localeData: 'Esc',
+                                            key: 'Escape',
                                         },
                                         {
                                             isFunc: false,
@@ -244,6 +245,7 @@ class ScreenKeyboard {
                                             isFunc: true,
                                             localeData: 'Del',
                                             type: 'del',
+                                            key: 'Delete'
                                         },
                                     ]
                                 },
@@ -256,6 +258,7 @@ class ScreenKeyboard {
                                             isFunc: true,
                                             localeData: 'Caps',
                                             type: 'caps',
+                                            key: 'CapsLock',
                                         },
                                         {
                                             isFunc: false,
@@ -403,6 +406,7 @@ class ScreenKeyboard {
                                             isFunc: true,
                                             localeData: 'Up',
                                             icon: 'icon-up-open',
+                                            key: 'ArrowUp',
                                         },
                                         {
                                             isFunc: true,
@@ -423,12 +427,14 @@ class ScreenKeyboard {
                                         {
                                             isFunc: true,
                                             localeData: 'Ctrl',
+                                            key: 'Control',
                                         },
                                         {
                                             isFunc: true,
                                             localeData: 'Win',
                                             type: 'button-win',
                                             icon: 'icon-win8',
+                                            key: 'Meta',
                                         },
                                         {
                                             isFunc: true,
@@ -446,21 +452,26 @@ class ScreenKeyboard {
                                         {
                                             isFunc: true,
                                             localeData: 'Ctrl',
+                                            key: 'Control',
                                         },
                                         {
                                             isFunc: true,
                                             localeData: 'Left',
                                             icon: 'icon-left-open',
+                                            key: 'ArrowLeft',
                                         },
                                         {
                                             isFunc: true,
                                             localeData: 'Down',
                                             icon: 'icon-down-open',
+                                            key: 'ArrowDown',
                                         },
                                         {
                                             isFunc: true,
                                             localeData: 'Right',
                                             icon: 'icon-right-open',
+
+                                            key: 'ArrowRight',
                                         },
                                         {
                                             isFunc: true,
@@ -491,7 +502,8 @@ class ScreenKeyboard {
                                         {
                                             isFunc: true,
                                             localeData: 'PgUp',
-                                            type: 'right-keys'
+                                            type: 'right-keys',
+                                            key: 'PageUp',
                                         },
                                         {
                                             isFunc: true,
@@ -513,7 +525,8 @@ class ScreenKeyboard {
                                         {
                                             isFunc: true,
                                             localeData: 'PgDn',
-                                            type: 'right-keys'
+                                            type: 'right-keys',
+                                            key: 'PageDown',
                                         },
                                         {
                                             isFunc: true,
@@ -806,24 +819,31 @@ class ScreenKeyboard {
         }
     }
 
-    responsiveKey(id) {
-        console.log(this.buttons)
-        // const button = this.buttons.find(item => item.id === id);
+    responsiveKey() {
         const arr = this.buttons;
-        // console.log(arr)
 
-        window.addEventListener('keydown', function (event) {
-            console.log('Нажата клавиша', event.key)
+        window.addEventListener('keydown',  ((event) => {
             arr.forEach(item => {
-                if (item.content.toLowerCase() === event.key.toLowerCase()) {
+                if (item.key?.toLowerCase() === event.key.toLowerCase()
+                    || item.content.toLowerCase() === event.key.toLowerCase()) {
                     item.onActive();
                 }
             })
 
+            if ('shift' === event.key.toLowerCase() && event.altKey === true
+                || 'alt' === event.key.toLowerCase() && event.shiftKey === true) {
+                this.changeLanguage();
+                this.buttons.forEach(item => {
+                    item.changeLanguage(this.language);
+                    item.renderContent();
+                    item.reduceLongWord();
+                });
+            }
+
             // if (button.content.toLowerCase() === event.key.toLowerCase()) {
             //     button.toggleActive();
             // }
-        })
+        }))
 
         window.addEventListener('keyup', function (event) {
             arr.forEach(item => {
