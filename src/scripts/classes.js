@@ -1,29 +1,32 @@
-const textAreaElement = document.getElementById('js-input');
+const textAreaData = document.getElementById('text-area');
 const lengthData = document.getElementById("length");
 const wordsData = document.getElementById('number_of_words');
-const withoutSpacesData = document.getElementById('without_spaces');
-const tableData = document.getElementById('table-percent');
+const withoutSpacesData = document.getElementById('without_spaces')
+const tableData = document.getElementById('table-percent')
 
 class TextArea {
     constructor() {
-        textAreaElement.addEventListener("keyup", this.onKeyUp);
+        textAreaData.addEventListener("keyup", this.onKeyUp);
     }
 
     onKeyUp() {
-        lengthData.value = textAreaElement.value.length;
-        wordsData.value = textAreaElement.value === '' ? 0 : textAreaElement.value.trim().split(' ').length;
-        withoutSpacesData.value = textAreaElement.value.trim().split(' ').join('').length;
+        lengthData.value = textAreaData.value.length;
+        wordsData.value = textAreaData.value === '' ? 0 : textAreaData.value.trim().split(' ').length;
+        withoutSpacesData.value = textAreaData.value.trim().split(' ').join('').length;
 
         while (tableData.firstChild && tableData.removeChild(tableData.firstChild));
 
-        const tableDataObj = [...textAreaElement.value].reduce((a, e) => {
+        const tableDataObj = [...textAreaData.value].reduce((a, e) => {
             a[e] = a[e] ? a[e] + 1 : 1;
             return a}, {});
 
         const arrForTable = Object.entries(tableDataObj);
-        const arrWithHeaders = [['Символ', 'Процент'], ...arrForTable];
+        const array = arrForTable.map(el => {
+            const p = [...el[0], el[1] = Math.round(el[1] / lengthData.value * 100) + '%'];
+        })
+        const arrWithHeaders = [['Символ', 'Процент'], ...arrForTable]
 
-        fillTable(tableData, arrWithHeaders);
+        fillTable(tableData, arrWithHeaders)
 
         function fillTable(table, arr) {
             for (let i = 0; i < arr.length; i++) {
@@ -33,9 +36,9 @@ class TextArea {
                     const td =document.createElement('td');
                     td.innerHTML = arr[i][j];
 
-                    tr.appendChild(td);
+                    tr.appendChild(td)
                 }
-                table.appendChild(tr);
+                table.appendChild(tr)
             }
         }
     }

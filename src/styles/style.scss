@@ -34,11 +34,6 @@
   height: 100px;
 }
 
-.input {
-  height: 30px;
-  margin-left: 30px;
-}
-
 table {
   border-collapse: collapse;
   width: 200px;
@@ -56,39 +51,4 @@ table {
     padding: 3px;
     text-align: center;
   }
-}
-
-.field {
-  position: relative;
-  display: flex;
-}
-
-textarea {
-  border: 2px solid;
-  border-radius: 4px;
-}
-
-.text-area {
-  display: flex;
-  flex-wrap: wrap;
-  position: relative;
-}
-
-input {
-  border: none;
-}
-
-.input {
-  display: flex;
-  border: 2px solid;
-  border-radius: 4px;
-  position: relative;
-}
-
-.icon-keyboard {
-  right: 5px;
-  position: absolute;
-  cursor: pointer;
-  margin: 0;
-  padding: 0;
 }
