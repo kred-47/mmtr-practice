@@ -470,7 +470,6 @@ class ScreenKeyboard {
                                             isFunc: true,
                                             localeData: 'Right',
                                             icon: 'icon-right-open',
-
                                             key: 'ArrowRight',
                                         },
                                         {
@@ -478,6 +477,7 @@ class ScreenKeyboard {
                                             localeData: 'Menu',
                                             type: 'button-menu',
                                             icon: 'icon-doc-text',
+                                            key: 'ArrowRight',
                                         },
                                     ]
                                 }
@@ -565,7 +565,8 @@ class ScreenKeyboard {
                                         {
                                             isFunc: true,
                                             localeData: 'PrtScn',
-                                            type: 'right-keys'
+                                            type: 'right-keys',
+                                            key: 'PrintScreen',
                                         },
                                         {
                                             isFunc: true,
@@ -824,6 +825,7 @@ class ScreenKeyboard {
 
         window.addEventListener('keydown',  ((event) => {
             arr.forEach(item => {
+                console.log(item.key)
                 if (item.key?.toLowerCase() === event.key.toLowerCase()
                     || item.content.toLowerCase() === event.key.toLowerCase()) {
                     item.onActive();
@@ -847,7 +849,8 @@ class ScreenKeyboard {
 
         window.addEventListener('keyup', function (event) {
             arr.forEach(item => {
-                if (item.content.toLowerCase() === event.key.toLowerCase()) {
+                if (item.key?.toLowerCase() === event.key.toLowerCase()
+                    || item.content.toLowerCase() === event.key.toLowerCase()) {
                     item.offActive();
                 }
             })
@@ -936,6 +939,7 @@ class Button {
         this.currentLanguage = props?.currentLanguage;
         this.icon = props?.icon;
         this.alt = props?.alt;
+        this.key = props?.key;
 
         this.createButton(props);
     }
@@ -1007,11 +1011,11 @@ class Button {
         const altContent = document.createElement('div');
 
         if (!this.isActive) {
-            altContent.classList.remove('alt-content--a') || altContent.classList.add('alt-content');
+            altContent.classList.remove('alt-content--main') || altContent.classList.add('alt-content');
         }
 
         if (this.isActive) {
-            altContent.classList.add('alt-content--a');
+            altContent.classList.add('alt-content--main');
         }
 
         altContent.innerHTML = this?.alt[this.currentLanguage];
@@ -1026,11 +1030,11 @@ class Button {
 
         if (this.alt && this.alt[this.currentLanguage] !== this.content) {
             if (!this.isActive) {
-                mainContent.classList.remove('content--b') || mainContent.classList.add('content');
+                mainContent.classList.remove('content--alt') || mainContent.classList.add('content');
             }
 
             if (this.isActive) {
-                mainContent.classList.add('content--b');
+                mainContent.classList.add('content--alt');
             }
 
             return mainContent;
