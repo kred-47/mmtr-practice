@@ -1,5 +1,6 @@
 .second-task {
   display: flex;
+  flex-direction: column;
   position: relative;
 
   &__turn-on-keyboard {
@@ -27,15 +28,13 @@
   display: flex;
   flex-wrap: wrap;
   flex-direction: row;
-  min-width: 600px;
-  max-width: 100%;
   width: 1040px;
   height: 345px;
   border: 1px solid slategray;
   background-color: black;
-  position: relative;
-  top: -80px;
-  left: 0px;
+  position: absolute;
+  top: 60px;
+  left: 8px;
 
   &__panel {
     background-color: whitesmoke;
@@ -97,6 +96,7 @@
       background-color: cornflowerblue;
     }
   }
+
 }
 
 .alt-content {
@@ -104,27 +104,12 @@
   top: 0;
   color: darkgrey;
   font-size: 1.2rem;
-
-  &--a {
-    position: absolute;
-    top: 0;
-    color: whitesmoke;
-    font-size: 28px;
-  }
 }
 
 .content {
   position: absolute;
   top: 12px;
   right: 12px;
-
-  &--b {
-    position: absolute;
-    top: 24px;
-    right: 10px;
-    color: darkgrey;
-    font-size: 1.2rem;
-  }
 }
 
 .one-content {
@@ -205,11 +190,9 @@
 
   &--s {
     font-size: 12px;
-    word-wrap: anywhere;
   }
 }
 
 ._active {
   background-color: cornflowerblue;
 }
-
