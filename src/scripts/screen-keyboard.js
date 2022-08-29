@@ -691,7 +691,12 @@ class ScreenKeyboard {
     }
 
     actionButton(button) {
-        const shiftActive = this.buttons.filter(item => 'Shift' === item.content && item.active);
+        const shift = 'Shift';
+        const caps = 'Caps';
+        const backspace = 'Backspace';
+        const del = 'Del';
+
+        const shiftActive = this.buttons.filter(item => shift === item.content && item.active);
         const content = !button.isFunc && button.isActive ? button.content.toUpperCase() : button.content;
         const altContent = !button.isFunc && button.isActive && button.alt ? button.alternative.toUpperCase() : button.alternative;
 
@@ -709,14 +714,14 @@ class ScreenKeyboard {
             this.currentInput.focus();
         }
 
-        if (button.content === 'Shift' || button.content === 'Caps') {
+        if (button.content === shift || button.content === caps) {
             this.buttons.forEach(item => {
                 item.isActive === false ? item.isActive = true : item.isActive = false;
                 item.renderContent();
             });
         }
 
-        if (button.content === 'Backspace') {
+        if (button.content === backspace) {
             if (this.currentInput.selectionStart === this.currentInput.selectionEnd) {
                 return this.currentInput.setRangeText('', this.currentInput.selectionStart - 1,
                     this.currentInput.selectionStart, 'end');
@@ -728,7 +733,7 @@ class ScreenKeyboard {
 
         }
 
-        if (button.content === 'Del') {
+        if (button.content === del) {
             if (this.currentInput.selectionStart === this.currentInput.selectionEnd) {
                 return this.currentInput.setRangeText('', this.currentInput.selectionStart,
                     this.currentInput.selectionStart + 1, 'end');
@@ -741,12 +746,15 @@ class ScreenKeyboard {
     }
 
     toggleShiftAlt(button) {
-        const btnShiftAlt = this.buttons.filter(item => ['Shift', 'Alt'].includes(item.content) && item.active);
+        const shift = 'Shift';
+        const alt = 'Alt';
+
+        const btnShiftAlt = this.buttons.filter(item => [shift, alt].includes(item.content) && item.active);
         const dataShiftAlt = btnShiftAlt.map(item => item.localeData);
         const arrShiftAlt = [...new Set(dataShiftAlt)];
 
-        if (arrShiftAlt.length === 2 && button.content === 'Shift') {
-            this.changeLayout('Shift', 'Alt');
+        if (arrShiftAlt.length === 2 && button.content === shift) {
+            this.changeLayout(shift, alt);
         }
     }
 
@@ -804,9 +812,12 @@ class ScreenKeyboard {
     }
 
     changeLayout(first, second) {
+        const winKey = 'Win';
+        const ctrlKey= 'Ctrl';
+
         if (
-            this.buttons.find(item => item.content === 'Win' && item.active) ||
-            this.buttons.find(item => item.content === 'Ctrl' && item.active)
+            this.buttons.find(item => item.content === winKey && item.active) ||
+            this.buttons.find(item => item.content === ctrlKey && item.active)
         ) {
             return;
         }
