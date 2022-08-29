@@ -135,6 +135,12 @@
   flex-wrap: wrap;
 }
 
+.fn-content {
+  position: absolute;
+  left: 3px;
+  font-size: 20px;
+}
+
 .hidden-screen-keyboard {
   display: none;
 }

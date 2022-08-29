@@ -45,6 +45,7 @@ class ScreenKeyboard {
                                                 ru: '!'
                                             },
                                             isActive: false,
+                                            fnValue: 'F1',
                                         },
                                         {
                                             isFunc: false,
@@ -54,6 +55,7 @@ class ScreenKeyboard {
                                                 ru: '"'
                                             },
                                             isActive: false,
+                                            fnValue: 'F2',
                                         },
                                         {
                                             isFunc: false,
@@ -63,6 +65,7 @@ class ScreenKeyboard {
                                                 ru: '№'
                                             },
                                             isActive: false,
+                                            fnValue: 'F3',
                                         },
                                         {
                                             isFunc: false,
@@ -72,6 +75,7 @@ class ScreenKeyboard {
                                                 ru: ';'
                                             },
                                             isActive: false,
+                                            fnValue: 'F4',
                                         },
                                         {
                                             isFunc: false,
@@ -81,6 +85,7 @@ class ScreenKeyboard {
                                                 ru: '%'
                                             },
                                             isActive: false,
+                                            fnValue: 'F5',
                                         },
                                         {
                                             isFunc: false,
@@ -90,6 +95,7 @@ class ScreenKeyboard {
                                                 ru: ':'
                                             },
                                             isActive: false,
+                                            fnValue: 'F6',
                                         },
                                         {
                                             isFunc: false,
@@ -99,6 +105,7 @@ class ScreenKeyboard {
                                                 ru: '?'
                                             },
                                             isActive: false,
+                                            fnValue: 'F5',
                                         },
                                         {
                                             isFunc: false,
@@ -108,6 +115,7 @@ class ScreenKeyboard {
                                                 ru: '*'
                                             },
                                             isActive: false,
+                                            fnValue: 'F8',
                                         },
                                         {
                                             isFunc: false,
@@ -117,6 +125,7 @@ class ScreenKeyboard {
                                                 ru: '('
                                             },
                                             isActive: false,
+                                            fnValue: 'F9',
                                         },
                                         {
                                             isFunc: false,
@@ -126,6 +135,7 @@ class ScreenKeyboard {
                                                 ru: ')'
                                             },
                                             isActive: false,
+                                            fnValue: 'F10',
                                         },
                                         {
                                             isFunc: false,
@@ -135,6 +145,7 @@ class ScreenKeyboard {
                                                 ru: '_'
                                             },
                                             isActive: false,
+                                            fnValue: 'F11',
                                         },
                                         {
                                             isFunc: false,
@@ -144,6 +155,7 @@ class ScreenKeyboard {
                                                 ru: '+'
                                             },
                                             isActive: false,
+                                            fnValue: 'F12',
                                         },
                                         {
                                             isFunc: true,
@@ -705,6 +717,7 @@ class ScreenKeyboard {
         }
 
         this.actionButton(button);
+        this.hotkeys(button);
     }
 
     actionButton(button) {
@@ -760,6 +773,25 @@ class ScreenKeyboard {
                 '', this.currentInput.selectionStart, this.currentInput.selectionEnd, 'end'
             );
         }
+    }
+
+    hotkeys(button) {
+        const ctrl = 'Ctrl';
+        const shift = 'Shift';
+        const caps = 'Caps';
+        const fn = 'Fn';
+        const alt = 'Alt';
+        const tab = 'Tab';
+        console.log('HOTKEYS', button.content)
+
+        if (button.content === fn && button.active) {
+            this.buttons.forEach(item => {
+                if (item.fnValue) {
+                    item.toggleFn();
+                }
+            })
+        }
+        console.log(button.content);
     }
 
     toggleShiftAlt(button) {
@@ -833,7 +865,6 @@ class ScreenKeyboard {
 
         window.addEventListener('keydown',  ((event) => {
             arr.forEach(item => {
-                console.log(item.key)
                 if (item.key?.toLowerCase() === event.key.toLowerCase()
                     || item.content.toLowerCase() === event.key.toLowerCase()) {
                     item.onActive();
@@ -951,6 +982,7 @@ class Button {
         this.icon = props?.icon;
         this.alt = props?.alt;
         this.key = props?.key;
+        this.fnValue = props?.fnValue;
 
         this.createButton(props);
     }
@@ -1060,6 +1092,16 @@ class Button {
         return mainContent;
     }
 
+    get fnContent() {
+        const fnContent = document.createElement('div');
+
+        fnContent.innerHTML = this?.fnValue;
+
+        fnContent.classList.add('fn-content');
+
+        return fnContent;
+    }
+
     renderContent() {
         if (!this.icon) {
             const altContent = this.alt ? this.altContent : null;
@@ -1078,6 +1120,23 @@ class Button {
 
             this.keyElement.append(...arrayContent);
         }
+    }
+
+    toggleFn() {
+        const content = this.fnContent;
+        const array = [];
+
+        array.push(content);
+
+        while (this.keyElement.firstChild) {
+            this.keyElement.removeChild(this.keyElement.firstChild);
+        }
+
+        if (this.fnValue) {
+            console.log('LLL')
+            this.keyElement.append(...array);
+        }
+
     }
 
     reduceLongWord() {
