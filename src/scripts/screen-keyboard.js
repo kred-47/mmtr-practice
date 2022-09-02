@@ -556,7 +556,8 @@ class ScreenKeyboard {
                                         {
                                             isFunc: true,
                                             localeData: {en: 'Nav', ru: 'Перейти'},
-                                            type: 'right-keys'
+                                            type: 'right-keys',
+                                            ability: 'navigation',
                                         },
                                     ]
                                 },
@@ -579,7 +580,8 @@ class ScreenKeyboard {
                                         {
                                             isFunc: true,
                                             localeData: {en: 'Mv Up', ru: 'Вверх'},
-                                            type: 'right-keys'
+                                            type: 'right-keys',
+                                            ability: 'climb-up',
                                         },
                                     ]
                                 },
@@ -601,7 +603,8 @@ class ScreenKeyboard {
                                         {
                                             isFunc: true,
                                             localeData: {en: 'Mv Dn', ru: 'Вниз'},
-                                            type: 'right-keys'
+                                            type: 'right-keys',
+                                            ability: 'drop-down',
                                         },
                                     ]
                                 },
@@ -624,7 +627,8 @@ class ScreenKeyboard {
                                         {
                                             isFunc: true,
                                             localeData: {en: 'Dock', ru: 'Закрепить'},
-                                            type: 'right-keys'
+                                            type: 'right-keys',
+                                            ability: 'fix-down',
                                         },
                                     ]
                                 },
@@ -646,7 +650,8 @@ class ScreenKeyboard {
                                         {
                                             isFunc: true,
                                             localeData: {en: 'Fade', ru: 'Исчезание'},
-                                            type: 'right-keys'
+                                            type: 'right-keys',
+                                            ability: 'fade',
                                         },
                                     ]
                                 }
@@ -762,10 +767,20 @@ class ScreenKeyboard {
         const backspace = 'Backspace';
         const del = 'Del';
         const fn = 'Fn';
+        const fade = 'Fade';
+        const disappearance = 'Исчезание';
 
         const shiftActive = this.buttons.filter(item => shift === item.content && item.active);
         const content = !button.isFunc && button.isActive ? button.content.toUpperCase() : button.content;
         const altContent = !button.isFunc && button.isActive && button.alt ? button.alternative.toUpperCase() : button.alternative;
+
+        if ([fade, disappearance].includes(button.content)) {
+            if (this.screenKeyboardElement.style.opacity !== '0.15') {
+                this.screenKeyboardElement.style.opacity = '0.15';
+            } else {
+                this.screenKeyboardElement.style.opacity = '1';
+            }
+        }
 
         if (!button.isFunc) {
             if (shiftActive.length > 0 && button.alt) {
@@ -831,22 +846,32 @@ class ScreenKeyboard {
     }
 
     hotkeys(button) {
-        const ctrl = 'Ctrl';
-        const shift = 'Shift';
-        const caps = 'Caps';
         const alt = 'Alt';
         const tab = 'Tab';
+        const win = 'Win';
+        const menu = 'Menu';
 
-        const fade = 'Fade';
-        const disappearance = 'Исчезание';
+        const drop = 'drop-down';
+        const climb = 'climb-up';
+        const fixDown = 'fix-down';
 
-        if ([fade, disappearance].includes(button.content)) {
-            if (this.screenKeyboardElement.style.opacity !== '0.15') {
-                this.screenKeyboardElement.style.opacity = '0.15';
-            } else {
-                this.screenKeyboardElement.style.opacity = '1';
-            }
+        if (button.ability === drop) {
+            this.screenKeyboardElement.style.top = null;
+            this.screenKeyboardElement.style.position = 'absolute';
+            this.screenKeyboardElement.style.bottom = '0px';
         }
+
+        if (button.ability === climb) {
+            this.screenKeyboardElement.style.top = '-750px';
+        }
+
+        if (button.ability === fixDown) {
+            this.screenKeyboardElement.style.position = 'fixed';
+            this.screenKeyboardElement.style.top = '0px';
+            this.screenKeyboardElement.style.width = '100%';
+        }
+
+
 
     }
 
@@ -1039,6 +1064,7 @@ class Button {
         this.alt = props?.alt;
         this.key = props?.key;
         this.fnValue = props?.fnValue;
+        this.ability = props?.ability;
 
         this.createButton(props);
     }
@@ -1156,7 +1182,6 @@ class Button {
         const fnContent = document.createElement('div');
 
         fnContent.innerHTML = this.fnValue?.value;
-
         fnContent.classList.add('fn-content');
 
         return fnContent;
@@ -1164,28 +1189,22 @@ class Button {
 
     renderContent() {
         if (!this.icon) {
-            console.log('render content')
             const fnContent = this.fnContent;
             const altContent = this.alt ? this.altContent : null;
             const mainContent = this.mainContent;
             const arrayContent = [];
 
             if (this.fnValue?.fn) {
-                console.log('srabotalo fn')
                 arrayContent.push(fnContent);
-                console.log(fnContent)
             } else if (this.alt && this.alt[this.currentLanguage] !== this.content) {
-                console.log('srabotalo ALTcontentMAIN')
                 arrayContent.push(altContent, mainContent);
             } else {
-                console.log('srabotalo MAINcontent')
                 arrayContent.push(mainContent);
             }
 
             while (this.keyElement.firstChild) {
                 this.keyElement.removeChild(this.keyElement.firstChild);
             }
-            console.log(...arrayContent)
             this.keyElement.append(...arrayContent);
         }
     }
