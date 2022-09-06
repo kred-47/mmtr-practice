@@ -745,7 +745,7 @@ class ScreenKeyboard {
         }
 
         const button = this.buttons.find(item => item.id === id);
-        const pressedButtons = ['Shift', 'Alt', 'Caps', 'Fn', 'Ctrl', 'Win'];
+        const pressedButtons = ['Shift', 'Alt', 'Caps', 'Fn', 'Ctrl', 'Win', 'fix-down'];
 
         this.toggleShiftAlt(button);
 
@@ -757,24 +757,53 @@ class ScreenKeyboard {
             });
         }
 
+        if (button?.isFunc && pressedButtons.includes(button.ability)) {
+            button.toggleActive();
+        }
+
         this.actionButton(button);
         this.hotkeys(button);
     }
 
     actionButton(button) {
-        const shift = 'Shift';
-        const caps = 'Caps';
-        const backspace = 'Backspace';
-        const del = 'Del';
-        const fn = 'Fn';
-        const fade = 'Fade';
-        const disappearance = 'Исчезание';
+        const shiftContent = 'Shift';
+        const capsContent = 'Caps';
+        const backspaceContent = 'Backspace';
+        const delContent = 'Del';
+        const fnContent = 'Fn';
+        const fadeContent = 'Fade';
+        const disappearanceContent = 'Исчезание';
+        const dropAbility = 'drop-down';
+        const climbAbility = 'climb-up';
+        const fixDownAbility = 'fix-down';
 
-        const shiftActive = this.buttons.filter(item => shift === item.content && item.active);
+        const shiftActive = this.buttons.filter(item => shiftContent === item.content && item.active);
         const content = !button.isFunc && button.isActive ? button.content.toUpperCase() : button.content;
         const altContent = !button.isFunc && button.isActive && button.alt ? button.alternative.toUpperCase() : button.alternative;
 
-        if ([fade, disappearance].includes(button.content)) {
+        if (button.ability === dropAbility) {
+            this.screenKeyboardElement.style.top = null;
+            this.screenKeyboardElement.style.position = 'absolute';
+            this.screenKeyboardElement.style.bottom = '0px';
+        }
+
+        if (button.ability === climbAbility) {
+            this.screenKeyboardElement.style.top = '-750px';
+        }
+
+        if (button.ability === fixDownAbility && button.active) {
+            this.screenKeyboardElement.style.position = 'fixed';
+            this.screenKeyboardElement.style.top = '0px';
+            this.screenKeyboardElement.style.width = '100%';
+        }
+
+        if (button.ability === fixDownAbility && !button.active) {
+            this.screenKeyboardElement.style.position = null;
+            this.screenKeyboardElement.style.top = null;
+            this.screenKeyboardElement.style.width = null;
+        }
+
+        if ([fadeContent, disappearanceContent].includes(button.content)) {
             if (this.screenKeyboardElement.style.opacity !== '0.15') {
                 this.screenKeyboardElement.style.opacity = '0.15';
             } else {
@@ -796,7 +825,7 @@ class ScreenKeyboard {
             this.currentInput.focus();
         }
 
-        if (button.content === fn) {
+        if (button.content === fnContent) {
             this.buttons.forEach(item => {
                 if (item.fnValue) {
                     item.toggleFn();
@@ -805,14 +834,14 @@ class ScreenKeyboard {
             })
         }
 
-        if (button.content === shift) {
+        if (button.content === shiftContent) {
             this.buttons.forEach(item => {
                 item.isActive === false ? item.isActive = true : item.isActive = false;
                 item.renderContent();
             });
         }
 
-        if (button.content === caps) {
+        if (button.content === capsContent) {
             this.buttons.forEach(item => {
                 if (!item.fnValue) {
                     item.isActive === false ? item.isActive = true : item.isActive = false;
@@ -821,7 +850,7 @@ class ScreenKeyboard {
             });
         }
 
-        if (button.content === backspace) {
+        if (button.content === backspaceContent) {
             if (this.currentInput.selectionStart === this.currentInput.selectionEnd) {
                 return this.currentInput.setRangeText('', this.currentInput.selectionStart - 1,
                     this.currentInput.selectionStart, 'end');
@@ -833,7 +862,7 @@ class ScreenKeyboard {
 
         }
 
-        if (button.content === del) {
+        if (button.content === delContent) {
             if (this.currentInput.selectionStart === this.currentInput.selectionEnd) {
                 return this.currentInput.setRangeText('', this.currentInput.selectionStart,
                     this.currentInput.selectionStart + 1, 'end');
@@ -851,25 +880,6 @@ class ScreenKeyboard {
         const win = 'Win';
         const menu = 'Menu';
 
-        const drop = 'drop-down';
-        const climb = 'climb-up';
-        const fixDown = 'fix-down';
-
-        if (button.ability === drop) {
-            this.screenKeyboardElement.style.top = null;
-            this.screenKeyboardElement.style.position = 'absolute';
-            this.screenKeyboardElement.style.bottom = '0px';
-        }
-
-        if (button.ability === climb) {
-            this.screenKeyboardElement.style.top = '-750px';
-        }
-
-        if (button.ability === fixDown) {
-            this.screenKeyboardElement.style.position = 'fixed';
-            this.screenKeyboardElement.style.top = '0px';
-            this.screenKeyboardElement.style.width = '100%';
-        }
 
 
 
@@ -961,10 +971,6 @@ class ScreenKeyboard {
                     item.reduceLongWord();
                 });
             }
-
-            // if (button.content.toLowerCase() === event.key.toLowerCase()) {
-            //     button.toggleActive();
-            // }
         }))
 
         window.addEventListener('keyup', function (event) {
